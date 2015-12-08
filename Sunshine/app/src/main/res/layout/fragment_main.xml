@@ -5,7 +5,7 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,9 +16,10 @@
     tools:context="com.training.tiennguyen.sunshine.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-    <TextView
+
+    <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-
-</RelativeLayout>
+        android:id="@+id/listview_forecast"
+        android:layout_gravity="center" />
+</FrameLayout>
