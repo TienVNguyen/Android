@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DemoDay1</string>
+    <string name="Email">Email</string>
+    <string name="Pass">Password</string>
+    <string name="EmailHint">Enter your Email ...</string>
+    <string name="PassHint">Enter your Pass ...</string>
+    <string name="SignIn">SignIn</string>
+    <string name="Exit">Exit</string>
+</resources>
