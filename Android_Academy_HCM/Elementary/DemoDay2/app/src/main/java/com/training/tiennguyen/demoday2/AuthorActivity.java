@@ -23,9 +23,9 @@ public class AuthorActivity extends AppCompatActivity {
     private ImageView avatar;
     private TextView name;
     private WebView webView;
-    public String AUTHOR_NAME = "NAME";
-    public String AUTHOR_AVATAR = "AVATAR";
-    public String AUTHOR_WEBSITE = "WEBSITE";
+    public static final String AUTHOR_NAME = "NAME";
+    public static final String AUTHOR_AVATAR = "AVATAR";
+    public static final String AUTHOR_WEBSITE = "WEBSITE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

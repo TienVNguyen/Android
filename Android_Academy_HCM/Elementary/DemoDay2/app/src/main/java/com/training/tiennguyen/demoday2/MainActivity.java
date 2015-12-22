@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (linearLayout.getVisibility() == View.GONE) {
                     linearLayout.setVisibility(View.VISIBLE);
-                    //linearLayout.startAnimation(slideToRight);
+                    linearLayout.startAnimation(slideToRight);
                 }
             }
         });
@@ -103,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (linearLayout.getVisibility() == View.VISIBLE) {
-                    linearLayout.setVisibility(View.GONE);
-                    //linearLayout.startAnimation(slideToLeft);
+                    //linearLayout.setVisibility(View.GONE);
+                    linearLayout.startAnimation(slideToLeft);
                 }
             }
         });
@@ -113,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, AuthorActivity.class);
-                intent.putExtra("NAME", studentList.get(position).getName());
-                intent.putExtra("AVATAR", studentList.get(position).getAvatar());
-                intent.putExtra("WEBSITE", studentList.get(position).getWebsite());
+                intent.putExtra(AuthorActivity.AUTHOR_NAME, studentList.get(position).getName());
+                intent.putExtra(AuthorActivity.AUTHOR_AVATAR, studentList.get(position).getAvatar());
+                intent.putExtra(AuthorActivity.AUTHOR_WEBSITE, studentList.get(position).getWebsite());
 
                 startActivity(intent);
             }
