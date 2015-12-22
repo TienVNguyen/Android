@@ -1,0 +1,24 @@
+<!--
+  ~ Copyright (c) 2015. Self Training Systems, Inc - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+  -->
+
+<resources>
+    <string name="app_name">ExampleStudent</string>
+    <string name="txtFormRegister">Hồ sơ đăng Ký sinh viên</string>
+    <string name="txtName">Họ tên:</string>
+    <string name="txtGender">Giới tính:</string>
+    <string name="txtPhone">Số điện thoại:</string>
+    <string name="txtMajor">Chuyên ngành:</string>
+    <string name="txtAvatar">Hình ảnh:</string>
+    <string name="edtNameHint">Nhập họ tên</string>
+    <string name="rdbMale">Nam</string>
+    <string name="rdbFemale">Nữ</string>
+    <string name="edtPhoneHint">1234567890</string>
+    <string name="edtMajorHint">IT</string>
+    <string name="edtAvatarHint">Hình ảnh(Địa chỉ URL)</string>
+    <string name="btnSubmit">Đăng ký</string>
+    <string name="btnList">Danh sách</string>
+</resources>
