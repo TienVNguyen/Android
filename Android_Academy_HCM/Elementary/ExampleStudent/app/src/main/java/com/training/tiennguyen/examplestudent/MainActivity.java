@@ -11,6 +11,9 @@ package com.training.tiennguyen.examplestudent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 
 /**
  * MainActivity
@@ -18,9 +21,16 @@ import android.support.v7.app.AppCompatActivity;
  * @author TienNguyen
  */
 public class MainActivity extends AppCompatActivity {
+    private EditText edtName;
+    private EditText edtPhone;
+    private EditText edtMajor;
+    private EditText edtAvatar;
+    private RadioButton rdbMale;
+    private Button btnSubmit;
+    private Button btnCancel;
 
     /**
-     * onCreate function.
+     * This action will be executed when activity is called
      *
      * @param savedInstanceState savedInstanceState
      */
@@ -34,5 +44,21 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        // Initial detail for main activity
+        initView();
+    }
+
+    /**
+     * Init the element inside of activity
+     */
+    private void initView() {
+        edtName = (EditText) findViewById(R.id.edtName);
+        edtPhone = (EditText) findViewById(R.id.edtPhone);
+        edtMajor = (EditText) findViewById(R.id.edtMajor);
+        edtAvatar = (EditText) findViewById(R.id.edtAvatar);
+        rdbMale = (RadioButton) findViewById(R.id.rdbMale);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnCancel = (Button) findViewById(R.id.btnCancel);
     }
 }

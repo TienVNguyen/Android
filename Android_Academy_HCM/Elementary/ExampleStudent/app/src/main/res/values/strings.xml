@@ -7,18 +7,19 @@
 
 <resources>
     <string name="app_name">ExampleStudent</string>
-    <string name="txtFormRegister">Hồ sơ đăng Ký sinh viên</string>
+    <string name="txtFormRegister">Hồ sơ đăng ký sinh viên</string>
     <string name="txtName">Họ tên:</string>
     <string name="txtGender">Giới tính:</string>
     <string name="txtPhone">Số điện thoại:</string>
-    <string name="txtMajor">Chuyên ngành:</string>
+    <string name="txtMajor">Ngành học:</string>
     <string name="txtAvatar">Hình ảnh:</string>
     <string name="edtNameHint">Nhập họ tên</string>
     <string name="rdbMale">Nam</string>
     <string name="rdbFemale">Nữ</string>
     <string name="edtPhoneHint">1234567890</string>
-    <string name="edtMajorHint">IT</string>
+    <string name="edtMajorHint">Công nghệ thông tin</string>
     <string name="edtAvatarHint">Hình ảnh(Địa chỉ URL)</string>
     <string name="btnSubmit">Đăng ký</string>
     <string name="btnList">Danh sách</string>
+    <string name="txtImageDescription">Hình ảnh</string>
 </resources>
