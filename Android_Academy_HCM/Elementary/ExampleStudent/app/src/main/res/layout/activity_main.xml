@@ -108,7 +108,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/edtNameHint"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:maxLength="30" />
 
             <EditText
                 android:id="@+id/edtEmail"
@@ -118,7 +119,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/edtEmailHint"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:maxLength="30" />
 
             <RadioGroup
                 android:id="@+id/rdgGender"
@@ -151,7 +153,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/edtPhoneHint"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="13" />
 
             <EditText
                 android:id="@+id/edtMajor"
@@ -159,7 +162,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="@string/edtMajorHint"
-                android:inputType="textAutoComplete" />
+                android:inputType="textAutoComplete"
+                android:maxLength="20" />
 
             <EditText
                 android:id="@+id/edtAvatar"
@@ -167,7 +171,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:hint="@string/edtAvatarHint"
-                android:inputType="textUri" />
+                android:inputType="textUri"
+                android:maxLength="200" />
         </LinearLayout>
     </LinearLayout>
 

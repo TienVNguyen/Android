@@ -7,9 +7,11 @@
 
 package com.training.tiennguyen.examplestudent;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
@@ -20,7 +22,11 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.training.tiennguyen.examplestudent.constants.VariableConstants;
+import com.training.tiennguyen.examplestudent.database.SQLiteConnection;
+import com.training.tiennguyen.examplestudent.model.Student;
 import com.training.tiennguyen.examplestudent.supportAPI.EmailAPI;
+import com.training.tiennguyen.examplestudent.supportAPI.ImageAPI;
 
 /**
  * MainActivity
@@ -97,14 +103,70 @@ public class MainActivity extends AppCompatActivity {
                 // Check views' value
                 if (checkInput()) {
                     // Insert a new record to database
-                    if (addStudent()) {
-                        // Move to DetailsActivity
-                        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-                        startActivity(intent);
+                    if (addStudent() == -1) {
+                        // If it inserts successfully, show message and move to DetailsActivity
+                        successAdd();
+                    } else {
+                        // If there is error, the id will be -1, show error message
+                        failedAdd();
                     }
                 }
             }
         });
+    }
+
+    /**
+     * There is error issue with insert record
+     */
+    private void failedAdd() {
+        // Create onClickListener
+        DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+            /**
+             * This method will be invoked when a button in the dialog is clicked.
+             *
+             * @param dialog The dialog that received the click.
+             * @param which  The button that was clicked (e.g.
+             *               {@link DialogInterface#BUTTON1}) or the position
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        break;
+                }
+            }
+        };
+
+        // Build message content
+        StringBuilder dialogMessage = new StringBuilder();
+        dialogMessage.append("Đăng ký sinh viên");
+        dialogMessage.append(edtName.getText().toString());
+        dialogMessage.append("không thành công!");
+
+        // Build dialog and show it
+        AlertDialog.Builder builderDialog = new AlertDialog.Builder(MainActivity.this);
+        builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
+        builderDialog.setTitle(VariableConstants.REGISTER_MESSAGE_FAIL_TITLE);
+        builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_YES, onClickListener);
+        builderDialog.setMessage(dialogMessage.toString());
+        builderDialog.setInverseBackgroundForced(false);
+        builderDialog.show();
+
+        // Set focus to Name
+        edtName.requestFocus();
+    }
+
+    /**
+     * There is no error issue with insert record
+     */
+    private void successAdd() {
+        // Prepare intent
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra(VariableConstants.STUDENT_NAME, edtName.getText().toString());
+        intent.putExtra(VariableConstants.STUDENT_EMAIL, edtEmail.getText().toString());
+
+        // Start activity
+        startActivity(intent);
     }
 
     /**
@@ -117,7 +179,10 @@ public class MainActivity extends AppCompatActivity {
         Editable object = edtName.getText();
         if (object == null || object.toString().isEmpty()) {
             edtName.setError("Tên không được trống!");
-            edtName.setText("");
+            edtName.requestFocus();
+            return false;
+        } else if (object.length() > 30) {
+            edtName.setError("Tên không quá 30 ký tự!");
             edtName.requestFocus();
             return false;
         }
@@ -126,18 +191,21 @@ public class MainActivity extends AppCompatActivity {
         object = edtEmail.getText();
         if (object == null || object.toString().isEmpty()) {
             edtEmail.setError("Email không được trống!");
-            edtEmail.setText("");
             edtEmail.requestFocus();
+            return false;
+        } else if (object.length() > 30) {
+            edtName.setError("Tên không quá 30 ký tự!");
+            edtName.requestFocus();
             return false;
         } else if (!EmailAPI.isEmailValid(object.toString())) {
             edtEmail.setError("Email sai định dạng!");
-            edtEmail.setText("");
             edtEmail.requestFocus();
             return false;
         }
 
         // Gender must not empty
-        if (rdgGender.getCheckedRadioButtonId() == -1 || (!rdbMale.isChecked() && !rdbFemale.isChecked())) {
+        if (rdgGender.getCheckedRadioButtonId() == -1
+                || (!rdbMale.isChecked() && !rdbFemale.isChecked())) {
             rdbMale.setError("Chưa lựa chọn giới tính!");
             rdbMale.setChecked(true);
             rdbMale.requestFocus();
@@ -148,12 +216,14 @@ public class MainActivity extends AppCompatActivity {
         object = edtPhone.getText();
         if (object == null || object.toString().isEmpty()) {
             edtPhone.setError("Điện thoại không được trống!");
-            edtPhone.setText("");
             edtPhone.requestFocus();
+            return false;
+        } else if (object.toString().length() < 6 || object.length() > 13) {
+            edtName.setError("Điện thoại không ít hơn 6 hoặc quá 13 ký tự!");
+            edtName.requestFocus();
             return false;
         } else if (!PhoneNumberUtils.isGlobalPhoneNumber(object.toString())) {
             edtPhone.setError("Điện thoại sai định dạng");
-            edtPhone.setText("");
             edtPhone.requestFocus();
             return false;
         }
@@ -162,21 +232,30 @@ public class MainActivity extends AppCompatActivity {
         object = edtMajor.getText();
         if (object == null || object.toString().isEmpty()) {
             edtMajor.setError("Ngành học không được trống!");
-            edtMajor.setText("");
             edtMajor.requestFocus();
+            return false;
+        } else if (object.length() > 20) {
+            edtName.setError("Ngành học không quá 20 ký tự!");
+            edtName.requestFocus();
             return false;
         }
 
         // Avatar must not empty or wrong format
         object = edtAvatar.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtAvatar.setError("Hình ảnh không được trống!");
-            edtAvatar.setText("");
+            edtAvatar.setError("URL không được trống!");
             edtAvatar.requestFocus();
             return false;
+        } else if (object.length() > 200) {
+            edtName.setError("URL không quá 200 ký tự!");
+            edtName.requestFocus();
+            return false;
         } else if (!URLUtil.isValidUrl(object.toString())) {
-            edtAvatar.setError("URI sai định dạng hay không hợp lệ!");
-            edtAvatar.setText("");
+            edtAvatar.setError("URI không hợp lệ!");
+            edtAvatar.requestFocus();
+            return false;
+        } else if (!ImageAPI.isImageURLValid(object.toString())) {
+            edtAvatar.setError("URI không hợp lệ!");
             edtAvatar.requestFocus();
             return false;
         }
@@ -189,9 +268,19 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This function will insert a new record into database
      *
-     * @return boolean result condition check
+     * @return long result id of new student. If there is error, it will return -1
      */
-    private boolean addStudent() {
-        return true;
+    private long addStudent() {
+        // Prepare object to insert
+        Student student = new Student();
+        student.setName(edtName.getText().toString());
+        student.setEmail(edtEmail.getText().toString());
+        student.setPhone(edtPhone.getText().toString());
+        student.setMajor(edtMajor.getText().toString());
+        student.setAvatar(edtAvatar.getText().toString());
+
+        // Insert function
+        SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
+        return sqLiteConnection.addStudent(student);
     }
 }
