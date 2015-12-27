@@ -28,11 +28,30 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        // Initial view(s) inside of main activity
+        initView();
 
+        // Initial function(s) inside of main activity
+        initFunction();
+    }
+
+    /**
+     * Initial view(s) inside of main activity
+     */
+    private void initView() {
         // Hide Support Action Bar if it is possible
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        // Init for action
+    }
+
+    /**
+     * Initial function(s) inside of main activity
+     */
+    private void initFunction() {
+
     }
 }

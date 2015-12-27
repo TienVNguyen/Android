@@ -55,12 +55,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Hide Support Action Bar if it is possible
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
-
         // Initial view(s) inside of main activity
         initView();
 
@@ -72,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
      * Initial view(s) inside of main activity
      */
     private void initView() {
+        // Hide Support Action Bar if it is possible
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
+        // Init for action
         edtName = (EditText) findViewById(R.id.edtName);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtPhone = (EditText) findViewById(R.id.edtPhone);
@@ -91,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Move to DetailsActivity
-                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                // Move to ListActivity
+                Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
             }
         });
@@ -161,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void successAdd() {
         // Prepare intent
-        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        Intent intent = new Intent(MainActivity.this, ListActivity.class);
         intent.putExtra(VariableConstants.STUDENT_NAME, edtName.getText().toString());
         intent.putExtra(VariableConstants.STUDENT_EMAIL, edtEmail.getText().toString());
 

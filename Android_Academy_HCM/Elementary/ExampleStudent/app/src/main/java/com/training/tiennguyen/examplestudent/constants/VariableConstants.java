@@ -29,6 +29,10 @@ public class VariableConstants {
     // For transfer intent
     public static final String STUDENT_NAME = "STUDENT_NAME";
     public static final String STUDENT_EMAIL = "STUDENT_EMAIL";
+    public static final String STUDENT_GENDER = "STUDENT_GENDER";
+    public static final String STUDENT_PHONE = "STUDENT_PHONE";
+    public static final String STUDENT_MAJOR = "STUDENT_MAJOR";
+    public static final String STUDENT_AVATAR = "STUDENT_AVATAR";
 
     // For messages
     public static final String REGISTER_MESSAGE = "Đăng ký sinh viên";

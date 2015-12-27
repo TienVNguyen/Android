@@ -35,9 +35,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtMajor"
+            android:id="@+id/txtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txtMajor" />
+            android:text="@string/txtEmail" />
     </LinearLayout>
 </LinearLayout>
