@@ -139,15 +139,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Build message content
         StringBuilder dialogMessage = new StringBuilder();
-        dialogMessage.append("Đăng ký sinh viên");
+        dialogMessage.append(VariableConstants.REGISTER_MESSAGE);
         dialogMessage.append(edtName.getText().toString());
-        dialogMessage.append("không thành công!");
+        dialogMessage.append(VariableConstants.REGISTER_MESSAGE_SUCCESS);
 
         // Build dialog and show it
         AlertDialog.Builder builderDialog = new AlertDialog.Builder(MainActivity.this);
         builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
         builderDialog.setTitle(VariableConstants.REGISTER_MESSAGE_FAIL_TITLE);
-        builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_YES, onClickListener);
+        builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
         builderDialog.setMessage(dialogMessage.toString());
         builderDialog.setInverseBackgroundForced(false);
         builderDialog.show();
@@ -178,11 +178,11 @@ public class MainActivity extends AppCompatActivity {
         // Name must not empty
         Editable object = edtName.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtName.setError("Tên không được trống!");
+            edtName.setError(VariableConstants.NAME_ERROR_EMPTY);
             edtName.requestFocus();
             return false;
         } else if (object.length() > 30) {
-            edtName.setError("Tên không quá 30 ký tự!");
+            edtName.setError(VariableConstants.NAME_ERROR_OVER_30_CHARACTERS);
             edtName.requestFocus();
             return false;
         }
@@ -190,15 +190,15 @@ public class MainActivity extends AppCompatActivity {
         // Email must not be empty or wrong format
         object = edtEmail.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtEmail.setError("Email không được trống!");
+            edtEmail.setError(VariableConstants.EMAIL_ERROR_EMPTY);
             edtEmail.requestFocus();
             return false;
         } else if (object.length() > 30) {
-            edtName.setError("Tên không quá 30 ký tự!");
+            edtName.setError(VariableConstants.EMAIL_ERROR_OVER_30_CHARACTERS);
             edtName.requestFocus();
             return false;
         } else if (!EmailAPI.isEmailValid(object.toString())) {
-            edtEmail.setError("Email sai định dạng!");
+            edtEmail.setError(VariableConstants.EMAIL_ERROR_WRONG_FORMAT);
             edtEmail.requestFocus();
             return false;
         }
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         // Gender must not empty
         if (rdgGender.getCheckedRadioButtonId() == -1
                 || (!rdbMale.isChecked() && !rdbFemale.isChecked())) {
-            rdbMale.setError("Chưa lựa chọn giới tính!");
+            rdbMale.setError(VariableConstants.GENDER_ERROR_EMPTY);
             rdbMale.setChecked(true);
             rdbMale.requestFocus();
             return false;
@@ -215,15 +215,15 @@ public class MainActivity extends AppCompatActivity {
         // Phone must not empty or wrong format
         object = edtPhone.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtPhone.setError("Điện thoại không được trống!");
+            edtPhone.setError(VariableConstants.PHONE_ERROR_EMPTY);
             edtPhone.requestFocus();
             return false;
         } else if (object.toString().length() < 6 || object.length() > 13) {
-            edtName.setError("Điện thoại không ít hơn 6 hoặc quá 13 ký tự!");
+            edtName.setError(VariableConstants.PHONE_ERROR_UNDER_6_OVER_30_CHARACTERS);
             edtName.requestFocus();
             return false;
         } else if (!PhoneNumberUtils.isGlobalPhoneNumber(object.toString())) {
-            edtPhone.setError("Điện thoại sai định dạng");
+            edtPhone.setError(VariableConstants.PHONE_ERROR_WRONG_FORMAT);
             edtPhone.requestFocus();
             return false;
         }
@@ -231,11 +231,11 @@ public class MainActivity extends AppCompatActivity {
         // Major must not empty
         object = edtMajor.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtMajor.setError("Ngành học không được trống!");
+            edtMajor.setError(VariableConstants.MAJOR_ERROR_EMPTY);
             edtMajor.requestFocus();
             return false;
         } else if (object.length() > 20) {
-            edtName.setError("Ngành học không quá 20 ký tự!");
+            edtName.setError(VariableConstants.MAJOR_ERROR_OVER_20_CHARACTERS);
             edtName.requestFocus();
             return false;
         }
@@ -243,19 +243,19 @@ public class MainActivity extends AppCompatActivity {
         // Avatar must not empty or wrong format
         object = edtAvatar.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtAvatar.setError("URL không được trống!");
+            edtAvatar.setError(VariableConstants.AVATAR_ERROR_EMPTY);
             edtAvatar.requestFocus();
             return false;
         } else if (object.length() > 200) {
-            edtName.setError("URL không quá 200 ký tự!");
+            edtName.setError(VariableConstants.AVATAR_ERROR_OVER_200_CHARACTERS);
             edtName.requestFocus();
             return false;
         } else if (!URLUtil.isValidUrl(object.toString())) {
-            edtAvatar.setError("URI không hợp lệ!");
+            edtAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
             edtAvatar.requestFocus();
             return false;
         } else if (!ImageAPI.isImageURLValid(object.toString())) {
-            edtAvatar.setError("URI không hợp lệ!");
+            edtAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
             edtAvatar.requestFocus();
             return false;
         }

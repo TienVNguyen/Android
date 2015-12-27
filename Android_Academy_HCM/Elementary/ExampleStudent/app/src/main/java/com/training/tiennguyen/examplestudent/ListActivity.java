@@ -10,6 +10,9 @@ package com.training.tiennguyen.examplestudent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
+
+import com.training.tiennguyen.examplestudent.constants.VariableConstants;
 
 /**
  * DetailsActivity
@@ -33,5 +36,8 @@ public class ListActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        // Show successful message
+        Toast.makeText(ListActivity.this, VariableConstants.REGISTER_MESSAGE_SUCCESS, Toast.LENGTH_SHORT).show();
     }
 }
