@@ -102,7 +102,7 @@ public class StudentAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.adapter_list, parent, false);
 
             // Set structure
-            studentHolder.setIvAvatar((ImageView) convertView.findViewById(R.id.imgStudent));
+            studentHolder.setIvAvatar((ImageView) convertView.findViewById(R.id.imgAvatar));
             studentHolder.setTxtName((TextView) convertView.findViewById(R.id.txtName));
             studentHolder.setTxtEmail((TextView) convertView.findViewById(R.id.txtEmail));
         } else {

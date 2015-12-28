@@ -43,6 +43,14 @@ public class VariableConstants {
     public static final String REGISTER_MESSAGE_SUCCESS = "Thành công!";
     public static final String REGISTER_MESSAGE_FAIL = "không thành công!";
     public static final String REGISTER_MESSAGE_AGAIN = "Thử lại";
+    public static final String SEARCH_MESSAGE_EMPTY = "Danh sách rỗng";
+    public static final String SEARCH_MESSAGE_EMPTY_TITLE = "Thông báo danh sách không tồn tại";
+    public static final String SEARCH_MESSAGE_EMPTY_REGISTER_REQUEST = "Xin đăng ký thêm!";
+
+    // For intent actions
+    public static final String SEARCH_ALL = "SEARCH_ALL";
+    public static final String SEARCH_FILTER = "SEARCH_FILTER";
+    public static final String STUDENT_DETAIL = "STUDENT_DETAIL";
 
     // For error messages in Checking
     public static final String NAME_ERROR_EMPTY = "Tên không được trống!";

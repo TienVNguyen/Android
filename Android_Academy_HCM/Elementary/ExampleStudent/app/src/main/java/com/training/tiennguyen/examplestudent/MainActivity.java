@@ -34,16 +34,16 @@ import com.training.tiennguyen.examplestudent.supportAPI.ImageAPI;
  * @author TienNguyen
  */
 public class MainActivity extends AppCompatActivity {
-    private EditText edtName;
-    private EditText edtEmail;
-    private EditText edtPhone;
-    private EditText edtMajor;
-    private EditText edtAvatar;
-    private RadioButton rdbMale;
-    private RadioButton rdbFemale;
-    private RadioGroup rdgGender;
-    private Button btnSubmit;
-    private Button btnCancel;
+    private EditText studentName;
+    private EditText studentEmail;
+    private EditText studentPhone;
+    private EditText studentMajor;
+    private EditText studentAvatar;
+    private RadioButton studentMale;
+    private RadioButton studentFemale;
+    private RadioGroup studentGender;
+    private Button buttonSubmit;
+    private Button buttonCancel;
 
     /**
      * This action will be executed when activity is called
@@ -73,32 +73,33 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Init for action
-        edtName = (EditText) findViewById(R.id.edtName);
-        edtEmail = (EditText) findViewById(R.id.edtEmail);
-        edtPhone = (EditText) findViewById(R.id.edtPhone);
-        edtMajor = (EditText) findViewById(R.id.edtMajor);
-        edtAvatar = (EditText) findViewById(R.id.edtAvatar);
-        rdbMale = (RadioButton) findViewById(R.id.rdbMale);
-        rdbFemale = (RadioButton) findViewById(R.id.rdbFemale);
-        rdgGender = (RadioGroup) findViewById(R.id.rdgGender);
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnCancel = (Button) findViewById(R.id.btnCancel);
+        studentName = (EditText) findViewById(R.id.edtName);
+        studentEmail = (EditText) findViewById(R.id.edtEmail);
+        studentPhone = (EditText) findViewById(R.id.edtPhone);
+        studentMajor = (EditText) findViewById(R.id.edtMajor);
+        studentAvatar = (EditText) findViewById(R.id.edtAvatar);
+        studentMale = (RadioButton) findViewById(R.id.rdbMale);
+        studentFemale = (RadioButton) findViewById(R.id.rdbFemale);
+        studentGender = (RadioGroup) findViewById(R.id.rdgGender);
+        buttonSubmit = (Button) findViewById(R.id.btnSubmit);
+        buttonCancel = (Button) findViewById(R.id.btnCancel);
     }
 
     /**
      * Initial function(s) inside of main activity
      */
     private void initFunction() {
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Move to ListActivity
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
+                intent.setAction(VariableConstants.SEARCH_ALL);
                 startActivity(intent);
             }
         });
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Check views' value
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         // Build message content
         StringBuilder dialogMessage = new StringBuilder();
         dialogMessage.append(VariableConstants.REGISTER_MESSAGE);
-        dialogMessage.append(edtName.getText().toString());
+        dialogMessage.append(studentName.getText().toString());
         dialogMessage.append(VariableConstants.REGISTER_MESSAGE_SUCCESS);
 
         // Build dialog and show it
@@ -150,11 +151,10 @@ public class MainActivity extends AppCompatActivity {
         builderDialog.setTitle(VariableConstants.REGISTER_MESSAGE_FAIL_TITLE);
         builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
         builderDialog.setMessage(dialogMessage.toString());
-        builderDialog.setInverseBackgroundForced(false);
         builderDialog.show();
 
         // Set focus to Name
-        edtName.requestFocus();
+        studentName.requestFocus();
     }
 
     /**
@@ -163,8 +163,9 @@ public class MainActivity extends AppCompatActivity {
     private void successAdd() {
         // Prepare intent
         Intent intent = new Intent(MainActivity.this, ListActivity.class);
-        intent.putExtra(VariableConstants.STUDENT_NAME, edtName.getText().toString());
-        intent.putExtra(VariableConstants.STUDENT_EMAIL, edtEmail.getText().toString());
+        intent.putExtra(VariableConstants.STUDENT_NAME, studentName.getText().toString());
+        intent.putExtra(VariableConstants.STUDENT_EMAIL, studentEmail.getText().toString());
+        intent.setAction(VariableConstants.SEARCH_FILTER);
 
         // Start activity
         startActivity(intent);
@@ -177,87 +178,87 @@ public class MainActivity extends AppCompatActivity {
      */
     private boolean checkInput() {
         // Name must not empty
-        Editable object = edtName.getText();
+        Editable object = studentName.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtName.setError(VariableConstants.NAME_ERROR_EMPTY);
-            edtName.requestFocus();
+            studentName.setError(VariableConstants.NAME_ERROR_EMPTY);
+            studentName.requestFocus();
             return false;
         } else if (object.length() > 30) {
-            edtName.setError(VariableConstants.NAME_ERROR_OVER_30_CHARACTERS);
-            edtName.requestFocus();
+            studentName.setError(VariableConstants.NAME_ERROR_OVER_30_CHARACTERS);
+            studentName.requestFocus();
             return false;
         }
 
         // Email must not be empty or wrong format
-        object = edtEmail.getText();
+        object = studentEmail.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtEmail.setError(VariableConstants.EMAIL_ERROR_EMPTY);
-            edtEmail.requestFocus();
+            studentEmail.setError(VariableConstants.EMAIL_ERROR_EMPTY);
+            studentEmail.requestFocus();
             return false;
         } else if (object.length() > 30) {
-            edtName.setError(VariableConstants.EMAIL_ERROR_OVER_30_CHARACTERS);
-            edtName.requestFocus();
+            studentEmail.setError(VariableConstants.EMAIL_ERROR_OVER_30_CHARACTERS);
+            studentEmail.requestFocus();
             return false;
         } else if (!EmailAPI.isEmailValid(object.toString())) {
-            edtEmail.setError(VariableConstants.EMAIL_ERROR_WRONG_FORMAT);
-            edtEmail.requestFocus();
+            studentEmail.setError(VariableConstants.EMAIL_ERROR_WRONG_FORMAT);
+            studentEmail.requestFocus();
             return false;
         }
 
         // Gender must not empty
-        if (rdgGender.getCheckedRadioButtonId() == -1
-                || (!rdbMale.isChecked() && !rdbFemale.isChecked())) {
-            rdbMale.setError(VariableConstants.GENDER_ERROR_EMPTY);
-            rdbMale.setChecked(true);
-            rdbMale.requestFocus();
+        if (studentGender.getCheckedRadioButtonId() == -1
+                || (!studentMale.isChecked() && !studentFemale.isChecked())) {
+            studentMale.setError(VariableConstants.GENDER_ERROR_EMPTY);
+            studentMale.setChecked(true);
+            studentMale.requestFocus();
             return false;
         }
 
         // Phone must not empty or wrong format
-        object = edtPhone.getText();
+        object = studentPhone.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtPhone.setError(VariableConstants.PHONE_ERROR_EMPTY);
-            edtPhone.requestFocus();
+            studentPhone.setError(VariableConstants.PHONE_ERROR_EMPTY);
+            studentPhone.requestFocus();
             return false;
         } else if (object.toString().length() < 6 || object.length() > 13) {
-            edtName.setError(VariableConstants.PHONE_ERROR_UNDER_6_OVER_30_CHARACTERS);
-            edtName.requestFocus();
+            studentPhone.setError(VariableConstants.PHONE_ERROR_UNDER_6_OVER_30_CHARACTERS);
+            studentPhone.requestFocus();
             return false;
         } else if (!PhoneNumberUtils.isGlobalPhoneNumber(object.toString())) {
-            edtPhone.setError(VariableConstants.PHONE_ERROR_WRONG_FORMAT);
-            edtPhone.requestFocus();
+            studentPhone.setError(VariableConstants.PHONE_ERROR_WRONG_FORMAT);
+            studentPhone.requestFocus();
             return false;
         }
 
         // Major must not empty
-        object = edtMajor.getText();
+        object = studentMajor.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtMajor.setError(VariableConstants.MAJOR_ERROR_EMPTY);
-            edtMajor.requestFocus();
+            studentMajor.setError(VariableConstants.MAJOR_ERROR_EMPTY);
+            studentMajor.requestFocus();
             return false;
         } else if (object.length() > 20) {
-            edtName.setError(VariableConstants.MAJOR_ERROR_OVER_20_CHARACTERS);
-            edtName.requestFocus();
+            studentMajor.setError(VariableConstants.MAJOR_ERROR_OVER_20_CHARACTERS);
+            studentMajor.requestFocus();
             return false;
         }
 
         // Avatar must not empty or wrong format
-        object = edtAvatar.getText();
+        object = studentAvatar.getText();
         if (object == null || object.toString().isEmpty()) {
-            edtAvatar.setError(VariableConstants.AVATAR_ERROR_EMPTY);
-            edtAvatar.requestFocus();
+            studentAvatar.setError(VariableConstants.AVATAR_ERROR_EMPTY);
+            studentAvatar.requestFocus();
             return false;
         } else if (object.length() > 200) {
-            edtName.setError(VariableConstants.AVATAR_ERROR_OVER_200_CHARACTERS);
-            edtName.requestFocus();
+            studentAvatar.setError(VariableConstants.AVATAR_ERROR_OVER_200_CHARACTERS);
+            studentAvatar.requestFocus();
             return false;
         } else if (!URLUtil.isValidUrl(object.toString())) {
-            edtAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
-            edtAvatar.requestFocus();
+            studentAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
+            studentAvatar.requestFocus();
             return false;
         } else if (!ImageAPI.isImageURLValid(object.toString())) {
-            edtAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
-            edtAvatar.requestFocus();
+            studentAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
+            studentAvatar.requestFocus();
             return false;
         }
 
@@ -274,11 +275,11 @@ public class MainActivity extends AppCompatActivity {
     private long addStudent() {
         // Prepare object to insert
         Student student = new Student();
-        student.setName(edtName.getText().toString());
-        student.setEmail(edtEmail.getText().toString());
-        student.setPhone(edtPhone.getText().toString());
-        student.setMajor(edtMajor.getText().toString());
-        student.setAvatar(edtAvatar.getText().toString());
+        student.setName(studentName.getText().toString());
+        student.setEmail(studentEmail.getText().toString());
+        student.setPhone(studentPhone.getText().toString());
+        student.setMajor(studentMajor.getText().toString());
+        student.setAvatar(studentAvatar.getText().toString());
 
         // Insert function
         SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);

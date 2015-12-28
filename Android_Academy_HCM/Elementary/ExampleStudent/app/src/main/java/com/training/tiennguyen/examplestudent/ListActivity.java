@@ -7,6 +7,8 @@
 
 package com.training.tiennguyen.examplestudent;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -30,7 +32,7 @@ import java.util.List;
  * @author TienNguyen
  */
 public class ListActivity extends AppCompatActivity {
-    private ListView lvStudentsList;
+    private ListView studentsListView;
     List<Student> studentList = new ArrayList<>();
 
     /**
@@ -61,7 +63,7 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // Init for action
-        lvStudentsList = (ListView) findViewById(R.id.lvStudentsList);
+        studentsListView = (ListView) findViewById(R.id.lvStudentsList);
     }
 
     /**
@@ -70,7 +72,7 @@ public class ListActivity extends AppCompatActivity {
     private void initFunction() {
         // Get the intent passed from MainActivity
         Intent intent = getIntent();
-        if (intent != null) {
+        if (intent != null && intent.getAction() == VariableConstants.SEARCH_FILTER) {
             // This will show the list with filter record
             // TODO: This will be supported later
             viewListWithFilter(intent);
@@ -82,22 +84,6 @@ public class ListActivity extends AppCompatActivity {
 
         // TODO: After viewListWithFilter function is implemented, this code will be deleted.
         viewFullList();
-
-        // Set onclick function for each element of listView
-        lvStudentsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Move to ListActivity
-                Intent intent = new Intent(ListActivity.this, DetailsActivity.class);
-                intent.putExtra(VariableConstants.STUDENT_NAME, studentList.get(position).getName());
-                intent.putExtra(VariableConstants.STUDENT_EMAIL, studentList.get(position).getEmail());
-                intent.putExtra(VariableConstants.STUDENT_GENDER, studentList.get(position).isGender());
-                intent.putExtra(VariableConstants.STUDENT_PHONE, studentList.get(position).getPhone());
-                intent.putExtra(VariableConstants.STUDENT_MAJOR, studentList.get(position).getMajor());
-                intent.putExtra(VariableConstants.STUDENT_AVATAR, studentList.get(position).getAvatar());
-                startActivity(intent);
-            }
-        });
     }
 
     private void viewFullList() {
@@ -107,7 +93,54 @@ public class ListActivity extends AppCompatActivity {
         if (studentList != null && !studentList.isEmpty()) {
             // If there are some record(s), it will be set into the listView
             StudentAdapter studentAdapter = new StudentAdapter(this, studentList);
-            lvStudentsList.setAdapter(studentAdapter);
+            studentsListView.setAdapter(studentAdapter);
+
+            // Set onclick function for each element of listView
+            studentsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Move to ListActivity
+                    Intent intent = new Intent(ListActivity.this, DetailsActivity.class);
+                    intent.putExtra(VariableConstants.STUDENT_NAME, studentList.get(position).getName());
+                    intent.putExtra(VariableConstants.STUDENT_EMAIL, studentList.get(position).getEmail());
+                    intent.putExtra(VariableConstants.STUDENT_GENDER, studentList.get(position).isGender());
+                    intent.putExtra(VariableConstants.STUDENT_PHONE, studentList.get(position).getPhone());
+                    intent.putExtra(VariableConstants.STUDENT_MAJOR, studentList.get(position).getMajor());
+                    intent.putExtra(VariableConstants.STUDENT_AVATAR, studentList.get(position).getAvatar());
+                    intent.setAction(VariableConstants.STUDENT_DETAIL);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // Create onClickListener
+            DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+                /**
+                 * This method will be invoked when a button in the dialog is clicked.
+                 *
+                 * @param dialog The dialog that received the click.
+                 * @param which  The button that was clicked (e.g.
+                 *               {@link DialogInterface#BUTTON1}) or the position
+                 */
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            // Back to MainActivity for register
+                            Intent intent = new Intent(ListActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            };
+
+            // If there are no records. A suggestion message will appears
+            AlertDialog.Builder builderDialog = new AlertDialog.Builder(ListActivity.this);
+            builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            builderDialog.setTitle(VariableConstants.SEARCH_MESSAGE_EMPTY_TITLE);
+            builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
+            builderDialog.setMessage(VariableConstants.SEARCH_MESSAGE_EMPTY_REGISTER_REQUEST);
+            builderDialog.setCancelable(false);
+            builderDialog.show();
         }
     }
 

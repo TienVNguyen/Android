@@ -12,7 +12,7 @@
     android:padding="@dimen/activity_horizontal_margin">
 
     <ImageView
-        android:id="@+id/imgStudent"
+        android:id="@+id/imgAvatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center_vertical"
