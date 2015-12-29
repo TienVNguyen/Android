@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class ListActivity extends AppCompatActivity {
     private ListView studentsListView;
-    List<Student> studentList = new ArrayList<>();
+    private List<Student> studentList = new ArrayList<>();
 
     /**
      * onCreate function.
@@ -128,6 +128,7 @@ public class ListActivity extends AppCompatActivity {
                             // Back to MainActivity for register
                             Intent intent = new Intent(ListActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                             break;
                     }
                 }

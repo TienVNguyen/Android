@@ -85,21 +85,28 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Create table query
         StringBuilder queryCreateTable = new StringBuilder();
-        queryCreateTable.append("CREATE TABLE ");
+        queryCreateTable.append(DatabaseConstants.CREATE_TABLE);
         queryCreateTable.append(DatabaseConstants.TABLE_STUDENTS);
-        queryCreateTable.append(" ( ");
+        queryCreateTable.append(DatabaseConstants.OPEN_BRACKETS);
         queryCreateTable.append(DatabaseConstants.KEY_EMAIL);
-        queryCreateTable.append(" PRIMARY KEY, ");
+        queryCreateTable.append(DatabaseConstants.PRIMARY_STRING_KEY);
+        queryCreateTable.append(DatabaseConstants.COMMA);
         queryCreateTable.append(DatabaseConstants.KEY_NAME);
-        queryCreateTable.append(" KEY, ");
+        queryCreateTable.append(DatabaseConstants.STRING_KEY);
+        queryCreateTable.append(DatabaseConstants.COMMA);
         queryCreateTable.append(DatabaseConstants.KEY_GENDER);
-        queryCreateTable.append(" INTEGER KEY, ");
+        queryCreateTable.append(DatabaseConstants.INTEGER_KEY);
+        queryCreateTable.append(DatabaseConstants.COMMA);
         queryCreateTable.append(DatabaseConstants.KEY_PHONE);
-        queryCreateTable.append(" KEY, ");
+        queryCreateTable.append(DatabaseConstants.STRING_KEY);
+        queryCreateTable.append(DatabaseConstants.COMMA);
         queryCreateTable.append(DatabaseConstants.KEY_MAJOR);
-        queryCreateTable.append(" KEY, ");
+        queryCreateTable.append(DatabaseConstants.STRING_KEY);
+        queryCreateTable.append(DatabaseConstants.COMMA);
         queryCreateTable.append(DatabaseConstants.KEY_AVATAR);
-        queryCreateTable.append(" KEY); ");
+        queryCreateTable.append(DatabaseConstants.STRING_KEY);
+        queryCreateTable.append(DatabaseConstants.CLOSE_BRACKETS);
+        queryCreateTable.append(DatabaseConstants.SEMICOLON);
         db.execSQL(queryCreateTable.toString());
     }
 
@@ -127,9 +134,9 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop table query
         StringBuilder queryDropTable = new StringBuilder();
-        queryDropTable.append("DROP TABLE IF EXISTS ");
+        queryDropTable.append(DatabaseConstants.DROP_TABLE_EXISTED);
         queryDropTable.append(DatabaseConstants.TABLE_STUDENTS);
-        queryDropTable.append(";");
+        queryDropTable.append(DatabaseConstants.SEMICOLON);
         db.execSQL(queryDropTable.toString());
 
         // Create table
@@ -145,7 +152,6 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     public long addStudent(Student student) {
         // Get the lock
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
-        sqLiteDatabase.beginTransaction();
 
         // Prepare the value
         ContentValues contentValues = new ContentValues();
@@ -160,7 +166,6 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         long insertFlag = sqLiteDatabase.insert(DatabaseConstants.TABLE_STUDENTS, null, contentValues);
 
         // Close connection
-        sqLiteDatabase.endTransaction();
         sqLiteDatabase.close();
 
         // Return insertFlag for notifying
@@ -170,21 +175,26 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     /**
      * This function will select count(*) of record(s) of table inside of database
      *
-     * @param student the model
      * @return resultCount. If there is no record, it will return -1
      */
-    public int selectCountStudent(Student student) {
+    public int selectCountStudent() {
         // Get the lock
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         // Select table query
         StringBuilder querySelect = new StringBuilder();
-        querySelect.append("SELECT COUNT(*) FROM ");
+        querySelect.append(DatabaseConstants.SELECT_COUNT);
         querySelect.append(DatabaseConstants.TABLE_STUDENTS);
+        querySelect.append(DatabaseConstants.SEMICOLON);
 
         // Get the result
         Cursor cursor = sqLiteDatabase.rawQuery(querySelect.toString(), null);
-        int resultCount = cursor.moveToFirst() ? cursor.getInt(0) : -1;
+        int resultCount = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            resultCount = cursor.getInt(0);
+        } else {
+            resultCount = -1;
+        }
 
         // Close connection
         cursor.close();
@@ -192,6 +202,45 @@ public class SQLiteConnection extends SQLiteOpenHelper {
 
         // Return resultCount for notifying
         return resultCount;
+    }
+
+    /**
+     * This function will check if that student's existed or already registered
+     *
+     * @param student the model
+     * @return existedFlag. If there is a record, it will return true.
+     */
+    public boolean checkStudentExists(Student student) {
+        // Get the lock
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Select table columns
+        String[] columns = new String[]{
+                DatabaseConstants.KEY_EMAIL,
+                DatabaseConstants.KEY_NAME
+        };
+
+        // Generate selection
+        StringBuilder selection = new StringBuilder();
+        selection.append(DatabaseConstants.KEY_EMAIL);
+        selection.append(DatabaseConstants.SELECTION_IS);
+        selection.append(DatabaseConstants.SELECTION_AND);
+        selection.append(DatabaseConstants.KEY_NAME);
+        selection.append(DatabaseConstants.SELECTION_IS);
+
+        // Set value to selection
+        String[] selectionArgs = new String[]{
+                student.getEmail(),
+                student.getName()
+        };
+
+        // Get the result
+        Cursor cursor = db.query(DatabaseConstants.TABLE_STUDENTS, columns, selection.toString(), selectionArgs, null, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -203,27 +252,16 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         // Get the lock
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
-        // Select table query
-        StringBuilder querySelect = new StringBuilder();
-        querySelect.append("SELECT ");
-        querySelect.append(DatabaseConstants.KEY_EMAIL);
-        querySelect.append(",");
-        querySelect.append(DatabaseConstants.KEY_NAME);
-        querySelect.append(",");
-        querySelect.append(DatabaseConstants.KEY_GENDER);
-        querySelect.append(",");
-        querySelect.append(DatabaseConstants.KEY_PHONE);
-        querySelect.append(",");
-        querySelect.append(DatabaseConstants.KEY_MAJOR);
-        querySelect.append(",");
-        querySelect.append(DatabaseConstants.KEY_AVATAR);
-        querySelect.append(" FROM ");
-        querySelect.append(DatabaseConstants.TABLE_STUDENTS);
+        // Select table columns
+        String[] columns = new String[]{
+                DatabaseConstants.KEY_EMAIL, DatabaseConstants.KEY_NAME, DatabaseConstants.KEY_GENDER,
+                DatabaseConstants.KEY_PHONE, DatabaseConstants.KEY_MAJOR, DatabaseConstants.KEY_AVATAR
+        };
 
         // Get the result
-        Cursor cursor = sqLiteDatabase.rawQuery(querySelect.toString(), null);
+        Cursor cursor = sqLiteDatabase.query(DatabaseConstants.TABLE_STUDENTS, columns, null, null, null, null, null);
         List<Student> resultSelect = new ArrayList<>();
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
                 // Assign value
                 Student student = new Student();

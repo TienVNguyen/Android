@@ -13,6 +13,8 @@ package com.training.tiennguyen.examplestudent.constants;
  * @author TienNguyen
  */
 public class VariableConstants {
+    public static final String SPACE = " ";
+
     // For email
     public static final String EMAIL_PATTERN = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
 
@@ -35,6 +37,8 @@ public class VariableConstants {
     public static final String STUDENT_AVATAR = "STUDENT_AVATAR";
 
     // For messages
+    public static final String EXISTED_MESSAGE = "Đã tồn tài";
+    public static final String EXISTED_MESSAGE_TITLE = "Thông báo tồn tại";
     public static final String REGISTER_MESSAGE = "Đăng ký sinh viên";
     public static final String REGISTER_MESSAGE_SUCCESS_TITLE = "Thông báo thành công";
     public static final String REGISTER_MESSAGE_FAIL_TITLE = "Thông báo thất bại";

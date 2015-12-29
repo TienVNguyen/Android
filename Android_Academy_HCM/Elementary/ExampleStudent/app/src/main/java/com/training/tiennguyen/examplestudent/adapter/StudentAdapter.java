@@ -105,6 +105,9 @@ public class StudentAdapter extends BaseAdapter {
             studentHolder.setIvAvatar((ImageView) convertView.findViewById(R.id.imgAvatar));
             studentHolder.setTxtName((TextView) convertView.findViewById(R.id.txtName));
             studentHolder.setTxtEmail((TextView) convertView.findViewById(R.id.txtEmail));
+
+            // Set data
+            convertView.setTag(studentHolder);
         } else {
             // set data back
             studentHolder = (StudentHolder) convertView.getTag();

@@ -104,13 +104,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Check views' value
                 if (checkInput()) {
-                    // Insert a new record to database
-                    if (addStudent() == -1) {
-                        // If it inserts successfully, show message and move to DetailsActivity
-                        successAdd();
+                    // Check existed record
+                    if (!checkExisted()) {
+                        // Insert a new record to database
+                        if (addStudent() != -1) {
+                            // If it inserts successfully, show message and move to DetailsActivity
+                            successAdd();
+                        } else {
+                            // If there is error, the id will be -1, show error message
+                            failedAdd(VariableConstants.REGISTER_MESSAGE_FAIL_TITLE, VariableConstants.REGISTER_MESSAGE_FAIL);
+                        }
                     } else {
-                        // If there is error, the id will be -1, show error message
-                        failedAdd();
+                        failedAdd(VariableConstants.EXISTED_MESSAGE_TITLE, VariableConstants.EXISTED_MESSAGE);
                     }
                 }
             }
@@ -119,8 +124,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * There is error issue with insert record
+     *
+     * @param messageTitle   title of message
+     * @param messageContain contain of message
      */
-    private void failedAdd() {
+    private void failedAdd(String messageTitle, String messageContain) {
         // Create onClickListener
         DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
             /**
@@ -142,13 +150,13 @@ public class MainActivity extends AppCompatActivity {
         // Build message content
         StringBuilder dialogMessage = new StringBuilder();
         dialogMessage.append(VariableConstants.REGISTER_MESSAGE);
-        dialogMessage.append(studentName.getText().toString());
-        dialogMessage.append(VariableConstants.REGISTER_MESSAGE_SUCCESS);
+        dialogMessage.append(VariableConstants.SPACE);
+        dialogMessage.append(messageContain);
 
         // Build dialog and show it
         AlertDialog.Builder builderDialog = new AlertDialog.Builder(MainActivity.this);
         builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
-        builderDialog.setTitle(VariableConstants.REGISTER_MESSAGE_FAIL_TITLE);
+        builderDialog.setTitle(messageTitle);
         builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
         builderDialog.setMessage(dialogMessage.toString());
         builderDialog.show();
@@ -268,6 +276,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
+     * This function will check if that student's existed or already registered
+     *
+     * @return existedFlag. If there is a record, it will return false.
+     */
+    private boolean checkExisted() {
+        // Prepare object to check
+        Student student = new Student();
+        student.setName(studentName.getText().toString());
+        student.setEmail(studentEmail.getText().toString());
+
+        // Check function
+        SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
+        boolean existedFlag = sqLiteConnection.checkStudentExists(student);
+        sqLiteConnection.close();
+
+        // Return flag
+        return existedFlag;
+    }
+
+    /**
      * This function will insert a new record into database
      *
      * @return long result id of new student. If there is error, it will return -1
@@ -277,12 +305,17 @@ public class MainActivity extends AppCompatActivity {
         Student student = new Student();
         student.setName(studentName.getText().toString());
         student.setEmail(studentEmail.getText().toString());
+        student.setGender(studentMale.isChecked());
         student.setPhone(studentPhone.getText().toString());
         student.setMajor(studentMajor.getText().toString());
         student.setAvatar(studentAvatar.getText().toString());
 
         // Insert function
         SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
-        return sqLiteConnection.addStudent(student);
+        long id = sqLiteConnection.addStudent(student);
+        sqLiteConnection.close();
+
+        // Return id
+        return id;
     }
 }
