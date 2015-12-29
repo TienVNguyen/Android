@@ -26,7 +26,6 @@ import com.training.tiennguyen.examplestudent.constants.VariableConstants;
 import com.training.tiennguyen.examplestudent.database.SQLiteConnection;
 import com.training.tiennguyen.examplestudent.model.Student;
 import com.training.tiennguyen.examplestudent.supportAPI.EmailAPI;
-import com.training.tiennguyen.examplestudent.supportAPI.ImageAPI;
 
 /**
  * MainActivity
@@ -169,6 +168,14 @@ public class MainActivity extends AppCompatActivity {
      * There is no error issue with insert record
      */
     private void successAdd() {
+        // Clean all the view
+        studentName.setText("");
+        studentEmail.setText("");
+        studentPhone.setText("");
+        studentMajor.setText("");
+        studentAvatar.setText("");
+        studentMale.setChecked(true);
+
         // Prepare intent
         Intent intent = new Intent(MainActivity.this, ListActivity.class);
         intent.putExtra(VariableConstants.STUDENT_NAME, studentName.getText().toString());
@@ -261,10 +268,6 @@ public class MainActivity extends AppCompatActivity {
             studentAvatar.requestFocus();
             return false;
         } else if (!URLUtil.isValidUrl(object.toString())) {
-            studentAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
-            studentAvatar.requestFocus();
-            return false;
-        } else if (!ImageAPI.isImageURLValid(object.toString())) {
             studentAvatar.setError(VariableConstants.AVATAR_ERROR_WRONG_FORMAT);
             studentAvatar.requestFocus();
             return false;

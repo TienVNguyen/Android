@@ -8,6 +8,8 @@
 package com.training.tiennguyen.examplestudent;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.training.tiennguyen.examplestudent.constants.VariableConstants;
 
 /**
@@ -72,14 +75,33 @@ public class DetailsActivity extends AppCompatActivity {
     private void initFunction() {
         // Get the intent passed from MainActivity
         Intent intent = getIntent();
-        if (intent != null) {
-            Picasso.with(DetailsActivity.this).load(intent.getStringExtra(VariableConstants.STUDENT_AVATAR)).into(studentAvatar);
+        if (intent != null && intent.getAction().equalsIgnoreCase(VariableConstants.STUDENT_DETAIL)) {
             studentName.setText(intent.getStringExtra(VariableConstants.STUDENT_NAME));
             studentEmail.setText(intent.getStringExtra(VariableConstants.STUDENT_EMAIL));
-            boolean gender = intent.getBooleanExtra(VariableConstants.STUDENT_GENDER, true);
-            studentGender.setText(gender == true ? "Nam" : "Nu");
+            studentGender.setText(intent.getBooleanExtra(VariableConstants.STUDENT_GENDER, true) ? "Nam" : "Nu");
             studentPhone.setText(intent.getStringExtra(VariableConstants.STUDENT_PHONE));
             studentMajor.setText(intent.getStringExtra(VariableConstants.STUDENT_MAJOR));
+
+            // Load image through Picasso API
+            Picasso.with(this)
+                    .load(intent.getStringExtra(VariableConstants.STUDENT_AVATAR))
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            // If the image is loaded successfully
+                            studentAvatar.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            // If the image is failed to load, the default image will appear
+                            studentAvatar.setImageResource(R.drawable.android_default_avatar);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    });
         }
     }
 }

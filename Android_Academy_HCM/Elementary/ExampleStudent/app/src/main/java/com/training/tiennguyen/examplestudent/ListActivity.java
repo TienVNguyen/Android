@@ -72,7 +72,7 @@ public class ListActivity extends AppCompatActivity {
     private void initFunction() {
         // Get the intent passed from MainActivity
         Intent intent = getIntent();
-        if (intent != null && intent.getAction() == VariableConstants.SEARCH_FILTER) {
+        if (intent != null && intent.getAction().equalsIgnoreCase(VariableConstants.SEARCH_FILTER)) {
             // This will show the list with filter record
             // TODO: This will be supported later
             viewListWithFilter(intent);

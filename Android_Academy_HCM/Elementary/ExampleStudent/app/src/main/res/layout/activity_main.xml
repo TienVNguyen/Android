@@ -45,7 +45,7 @@
             android:weightSum="6">
 
             <TextView
-                android:id="@+id/txName"
+                android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
@@ -53,7 +53,7 @@
                 android:text="@string/txtName" />
 
             <TextView
-                android:id="@+id/txEmail"
+                android:id="@+id/txtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"

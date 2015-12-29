@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class StudentHolder {
     private ImageView ivAvatar;
     private TextView txtName;
-    private TextView txtEmail;
+    private TextView txtMajor;
 
     public ImageView getIvAvatar() {
         return ivAvatar;
@@ -36,11 +36,11 @@ public class StudentHolder {
         this.txtName = txtName;
     }
 
-    public TextView getTxtEmail() {
-        return txtEmail;
+    public TextView getTxtMajor() {
+        return txtMajor;
     }
 
-    public void setTxtEmail(TextView txtEmail) {
-        this.txtEmail = txtEmail;
+    public void setTxtMajor(TextView txtMajor) {
+        this.txtMajor = txtMajor;
     }
 }

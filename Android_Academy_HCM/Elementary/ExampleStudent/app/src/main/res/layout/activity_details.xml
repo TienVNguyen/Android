@@ -22,14 +22,16 @@
         android:id="@+id/imgAvatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/txtImageDescription" />
 
     <TextView
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="@string/txtName" />
+        android:text="@string/txtName"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtEmail"

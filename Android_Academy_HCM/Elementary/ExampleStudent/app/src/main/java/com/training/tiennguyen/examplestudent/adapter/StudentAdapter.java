@@ -9,6 +9,8 @@ package com.training.tiennguyen.examplestudent.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.training.tiennguyen.examplestudent.R;
 import com.training.tiennguyen.examplestudent.model.Student;
 import com.training.tiennguyen.examplestudent.model.StudentHolder;
@@ -93,7 +96,7 @@ public class StudentAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Create temperate memory
-        StudentHolder studentHolder;
+        final StudentHolder studentHolder;
         if (convertView == null) {
             // Create new Holder
             studentHolder = new StudentHolder();
@@ -104,7 +107,7 @@ public class StudentAdapter extends BaseAdapter {
             // Set structure
             studentHolder.setIvAvatar((ImageView) convertView.findViewById(R.id.imgAvatar));
             studentHolder.setTxtName((TextView) convertView.findViewById(R.id.txtName));
-            studentHolder.setTxtEmail((TextView) convertView.findViewById(R.id.txtEmail));
+            studentHolder.setTxtMajor((TextView) convertView.findViewById(R.id.txtMajor));
 
             // Set data
             convertView.setTag(studentHolder);
@@ -115,8 +118,28 @@ public class StudentAdapter extends BaseAdapter {
 
         // Set values
         studentHolder.getTxtName().setText(studentList.get(position).getName());
-        studentHolder.getTxtEmail().setText(studentList.get(position).getEmail());
-        Picasso.with(this.activity).load(studentList.get(position).getAvatar()).into(studentHolder.getIvAvatar());
+        studentHolder.getTxtMajor().setText(studentList.get(position).getMajor());
+
+        // Load image through Picasso API
+        Picasso.with(this.activity)
+                .load(studentList.get(position).getAvatar())
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        // If the image is loaded successfully
+                        studentHolder.getIvAvatar().setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        // If the image is failed to load, the default image will appear
+                        studentHolder.getIvAvatar().setImageResource(R.drawable.android_default_avatar);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
+                });
 
         // Return view
         return convertView;

@@ -18,7 +18,8 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:contentDescription="@string/txtImageDescription"
-        android:src="@drawable/android_default_image" />
+        android:src="@drawable/android_default_avatar"
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,9 +36,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtEmail"
+            android:id="@+id/txtMajor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/txtEmail" />
+            android:text="@string/txtMajor" />
     </LinearLayout>
 </LinearLayout>
