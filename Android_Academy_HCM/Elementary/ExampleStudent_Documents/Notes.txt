@@ -1,0 +1,13 @@
+Link Source:
+- https://github.com/TienVNguyen/Android/tree/master/Android_Academy_HCM/Elementary/ExampleStudent
+
+
+Development Environment:
+- JDK: 1.7
+- Minimum SDK: API 15 - Android 4.0.3 (IceCream Sandwich)
+- IDE: Android Studio 1.5
+
+
+Contact:
+- Name: Tien
+- Phone: 090 888 1066
