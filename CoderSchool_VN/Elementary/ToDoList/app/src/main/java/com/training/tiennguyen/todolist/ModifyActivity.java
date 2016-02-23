@@ -11,12 +11,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 /**
- * This contain the main activity. <br>
- * Such as: Showing list, Add and Edit buttons, etc.
+ * This contain the modify activity. <br>
+ * Such as: Add and Edit functions.
  *
  * @author TienNguyen
  */
-public class MainActivity extends AppCompatActivity {
+public class ModifyActivity extends AppCompatActivity {
 
     /**
      * Starting point of main activity.
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_modify);
 
         // Remove the Action Bar
         getSupportActionBar().hide();
