@@ -5,17 +5,28 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical">
+
+    <!-- No Items -->
+    <TextView
+        android:id="@+id/noItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerInParent="true"
+        android:text="@string/no_items"
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
 
     <!-- List -->
     <ListView
         android:id="@+id/toDoList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:divider="@color/colorHorizontal"
-        android:dividerHeight="2dip"/>
-</LinearLayout>
+        android:dividerHeight="2dip" />
+</RelativeLayout>

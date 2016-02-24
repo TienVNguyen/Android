@@ -26,6 +26,7 @@ public class DatabaseConstants {
 
     public static final String CREATE_TABLE = " CREATE TABLE ";
     public static final String DROP_TABLE_EXISTED = " DROP TABLE IF EXISTS ";
+    public static final String SELECT_COUNT = " SELECT COUNT(*) FROM ";
 
     public static final String SELECTION_IS = " = ? ";
     public static final String SELECTION_AND = " AND ";

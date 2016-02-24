@@ -6,6 +6,6 @@
   -->
 
 <layoutAnimation xmlns:android="http://schemas.android.com/apk/res/android"
-    android:animation="@animator/slide_right_lv_item"
+    android:animation="@anim/slide_right_lv_item"
     android:animationOrder="reverse"
     android:delay="30%" />

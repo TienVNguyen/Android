@@ -137,7 +137,6 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
     /**
      * This function will check if that element's existed or already registered
      *
@@ -257,6 +256,38 @@ public class SQLiteConnection extends SQLiteOpenHelper {
 
         // Return insertFlag for notifying
         return updateFlag;
+    }
+
+    /**
+     * This function will select count(*) of record(s) of table inside of database
+     *
+     * @return resultCount. If there is no record, it will return -1
+     */
+    public int selectCountToDoObjects() {
+        // Get the lock
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        // Select table query
+        StringBuilder querySelect = new StringBuilder();
+        querySelect.append(DatabaseConstants.SELECT_COUNT);
+        querySelect.append(DatabaseConstants.TABLE_TODOLIST);
+        querySelect.append(DatabaseConstants.SEMICOLON);
+
+        // Get the result
+        Cursor cursor = sqLiteDatabase.rawQuery(querySelect.toString(), null);
+        int resultCount = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            resultCount = cursor.getInt(0);
+        } else {
+            resultCount = -1;
+        }
+
+        // Close connection
+        cursor.close();
+        sqLiteDatabase.close();
+
+        // Return resultCount for notifying
+        return resultCount;
     }
 
     /**

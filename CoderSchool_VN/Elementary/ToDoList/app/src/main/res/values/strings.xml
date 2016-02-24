@@ -23,4 +23,7 @@
     <string name="cancel_icon_hint">Cancel Icon</string>
     <string name="add_icon_hint">Add Icon</string>
     <string name="save_icon_hint">Save Icon</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="no_items">No Items</string>
+    <string name="author_image">Author Image</string>
 </resources>
