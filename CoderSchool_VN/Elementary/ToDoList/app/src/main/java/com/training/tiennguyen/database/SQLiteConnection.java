@@ -246,7 +246,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         whereClause.append(DatabaseConstants.SELECTION_IS);
 
         // Select table columns
-        String[] whereArgs = new String[]{DatabaseConstants.KEY_TITLE};
+        String[] whereArgs = new String[]{toDoObject.getTitle()};
 
         // Execute insert
         int updateFlag = sqLiteDatabase.update(DatabaseConstants.TABLE_TODOLIST, contentValues, whereClause.toString(), whereArgs);

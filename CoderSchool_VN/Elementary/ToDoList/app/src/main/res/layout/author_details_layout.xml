@@ -5,7 +5,7 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/authorDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|left"
         android:contentDescription="@string/author_image"
-        android:gravity="center"
         android:padding="10dp"
         android:src="@drawable/tien_nguyen" />
 
@@ -27,8 +26,8 @@
         android:id="@+id/closeIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
+        android:layout_alignParentRight="true"
         android:contentDescription="@string/close_icon"
-        android:gravity="center"
+        android:padding="10dp"
         android:src="@drawable/ic_close_white_24dp" />
-</LinearLayout>
+</RelativeLayout>

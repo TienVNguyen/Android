@@ -16,8 +16,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.training.tiennguyen.adapter.ToDoListAdapter;
@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView cancelIconObject;
     private ImageView saveIconObject;
     private ImageView closeIconObject;
-    private LinearLayout authorDetailsObject;
+    private ImageView addIconObject;
+    private RelativeLayout authorDetailsObject;
 
     /**
      * Starting point of main activity.
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         cancelIconObject = (ImageView) findViewById(R.id.cancelIcon);
         saveIconObject = (ImageView) findViewById(R.id.saveIcon);
         closeIconObject = (ImageView) findViewById(R.id.closeIcon);
-        authorDetailsObject = (LinearLayout) findViewById(R.id.authorDetails);
+        addIconObject = (ImageView) findViewById(R.id.addIcon);
+        authorDetailsObject = (RelativeLayout) findViewById(R.id.authorDetails);
 
         // Set logo text
         TextView appLogoObject = (TextView) findViewById(R.id.appLogo);
@@ -91,52 +93,21 @@ public class MainActivity extends AppCompatActivity {
      * Initial function(s) inside of main activity
      */
     private void initFunction() {
+        // Set animation for author details
         authorDetailsInit();
 
-        if (checkListExisted() > 0) {
-            // If it's true, list contains some elements
-            // Only toDoList & removeIcon are visible.
-            toDoListObject.setVisibility(View.VISIBLE);
-            removeIconObject.setVisibility(View.VISIBLE);
+        // Set animation for list
+        toDoElementListInit();
 
-            noItemsObject.setVisibility(View.INVISIBLE);
-            cancelIconObject.setVisibility(View.INVISIBLE);
-            saveIconObject.setVisibility(View.INVISIBLE);
-
-            // Init list
-            toDoElementList = new ArrayList<>();
-        } else {
-            // If it's false, it's empty list.
-            // Only noItems is visible.
-            noItemsObject.setVisibility(View.VISIBLE);
-
-            toDoListObject.setVisibility(View.INVISIBLE);
-            removeIconObject.setVisibility(View.INVISIBLE);
-            cancelIconObject.setVisibility(View.INVISIBLE);
-            saveIconObject.setVisibility(View.INVISIBLE);
-
-            // Get list's records from database
-            SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
-            toDoElementList = sqLiteConnection.selectAllToDoObjects();
-            sqLiteConnection.close();
-
-            // Create adapter
-            ToDoListAdapter toDoListAdapter = new ToDoListAdapter(this, toDoElementList);
-
-            // Set adapter to list
-            toDoListObject.setAdapter(toDoListAdapter);
-
-            // If user chooses any elements, move to edit page
-            toDoListObject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                    intent.putExtra(VariableConstants.TITLE, toDoElementList.get(position).getTitle());
-                    intent.putExtra(VariableConstants.DETAILS, toDoElementList.get(position).getDetails());
-                    intent.putExtra(VariableConstants.PRIORITY, toDoElementList.get(position).getPriority());
-                }
-            });
-        }
+        // Set action when clicking Add
+        addIconObject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+                intent.setFlags(VariableConstants.ADD_ELEMENT);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -180,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set action when clicking Logo
         appLogoObject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,11 +162,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Set action when clicking Close
         closeIconObject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (authorDetailsObject.getVisibility() == View.VISIBLE) {
-                    //linearLayout.setVisibility(View.GONE);
                     authorDetailsObject.startAnimation(slideToLeft);
                 }
             }
@@ -203,17 +175,76 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Function to check there is any record inside of list.
-     *
-     * @return resultCount. If there is no record, it will return -1
      */
-    private int checkListExisted() {
+    private void toDoElementListInit() {
         // Check function
         SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
         int resultCount = sqLiteConnection.selectCountToDoObjects();
         sqLiteConnection.close();
 
-        // Return count
-        return resultCount;
+        if (resultCount > 0) {
+            // If it's true, list contains some elements
+            // Only toDoList & removeIcon are visible.
+            toDoListObject.setVisibility(View.VISIBLE);
+            removeIconObject.setVisibility(View.VISIBLE);
+
+            noItemsObject.setVisibility(View.INVISIBLE);
+            cancelIconObject.setVisibility(View.INVISIBLE);
+            saveIconObject.setVisibility(View.INVISIBLE);
+
+            // Get list's records from database
+            sqLiteConnection = new SQLiteConnection(MainActivity.this);
+            toDoElementList = sqLiteConnection.selectAllToDoObjects();
+            sqLiteConnection.close();
+
+            // Create adapter
+            ToDoListAdapter toDoListAdapter = new ToDoListAdapter(this, toDoElementList);
+
+            // Set adapter to list
+            toDoListObject.setAdapter(toDoListAdapter);
+
+            // If user chooses any elements, move to edit page
+            toDoListObject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+                    intent.putExtra(VariableConstants.TITLE, toDoElementList.get(position).getTitle());
+                    intent.putExtra(VariableConstants.DETAILS, toDoElementList.get(position).getDetails());
+                    intent.putExtra(VariableConstants.PRIORITY, toDoElementList.get(position).getPriority());
+                    intent.setFlags(VariableConstants.EDIT_ELEMENT);
+                    startActivity(intent);
+                }
+            });
+
+            // Set action when clicking Remove
+            removeIconObject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeIconObject.setVisibility(View.INVISIBLE);
+                    cancelIconObject.setVisibility(View.VISIBLE);
+                }
+            });
+
+            cancelIconObject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    removeIconObject.setVisibility(View.VISIBLE);
+                    cancelIconObject.setVisibility(View.INVISIBLE);
+                }
+            });
+        } else {
+            // If it's false, it's empty list.
+            // Only noItems is visible.
+            noItemsObject.setVisibility(View.VISIBLE);
+
+            toDoListObject.setVisibility(View.INVISIBLE);
+            removeIconObject.setVisibility(View.INVISIBLE);
+            cancelIconObject.setVisibility(View.INVISIBLE);
+            saveIconObject.setVisibility(View.INVISIBLE);
+
+            // Init list
+            toDoElementList = new ArrayList<>();
+        }
     }
 
     /**
@@ -229,6 +260,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         // Hide author details layout
         authorDetailsObject.setVisibility(View.GONE);
+
+        // Initial view(s) inside of main activity
+        initView();
+
+        // Initial function(s) inside of main activity
+        initFunction();
 
         super.onResume();
     }

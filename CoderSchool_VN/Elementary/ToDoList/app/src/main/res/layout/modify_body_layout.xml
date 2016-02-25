@@ -8,8 +8,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/edt_title_hint"
-                android:maxLength="50" />
+                android:maxLength="15" />
 
             <!-- Details -->
             <EditText
@@ -80,7 +80,7 @@
                 android:ems="10"
                 android:hint="@string/edt_details_hint"
                 android:inputType="textMultiLine"
-                android:maxLength="50" />
+                android:maxLength="200" />
 
             <!-- Priority -->
             <RadioGroup
@@ -89,7 +89,8 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <!-- High Priority -->
                 <RadioButton
@@ -97,21 +98,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/high_priority" />
+                    android:text="@string/high_priority"
+                    android:textColor="@color/colorPriorityHigh" />
 
                 <!-- Medium Priority -->
                 <RadioButton
                     android:id="@+id/rdbMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/medium_priority" />
+                    android:text="@string/medium_priority"
+                    android:textColor="@color/colorPriorityMedium" />
 
                 <!-- Low Priority -->
                 <RadioButton
                     android:id="@+id/rdbLow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/low_priority" />
+                    android:text="@string/low_priority"
+                    android:textColor="@color/colorPriorityLow" />
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>

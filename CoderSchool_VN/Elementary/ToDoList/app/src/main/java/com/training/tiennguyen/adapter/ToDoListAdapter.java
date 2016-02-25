@@ -9,7 +9,6 @@ package com.training.tiennguyen.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,25 +128,25 @@ public class ToDoListAdapter extends BaseAdapter {
 
         // The priority will be print with color
         int priorityColor;
-        int priorityText;
+        String priorityText;
         switch (toDoElementsList.get(position).getPriority()) {
             case 1:
                 // Medium
                 priorityColor = R.color.colorPriorityMedium;
-                priorityText = R.string.medium_priority;
+                priorityText = "Medium";
                 break;
             case 2:
                 // Low
                 priorityColor = R.color.colorPriorityLow;
-                priorityText = R.string.low_priority;
+                priorityText = "Low";
                 break;
             default:
                 // High
                 priorityColor = R.color.colorPriorityHigh;
-                priorityText = R.string.high_priority;
+                priorityText = "High";
                 break;
         }
-        toDoElementHolder.getPriorityElementHolder().setText(Resources.getSystem().getString(priorityText));
+        toDoElementHolder.getPriorityElementHolder().setText(priorityText);
         TextView priorityElementObject = (TextView) convertView.findViewById(R.id.txtPriorityElement);
         priorityElementObject.setTextColor(Color.alpha(priorityColor));
 
