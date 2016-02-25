@@ -163,11 +163,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         // Get the result
         Cursor cursor = db.query(DatabaseConstants.TABLE_TODOLIST, whereArgs, whereClause.toString(),
                 selectionArgs, null, null, null, null);
-        if (cursor != null && cursor.getCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return cursor != null && cursor.getCount() > 0;
     }
 
     /**
@@ -202,12 +198,12 @@ public class SQLiteConnection extends SQLiteOpenHelper {
      * @param toDoObject the model
      * @return deleteFlag int
      */
-    public int removeElement(ToDoElement toDoObject) {
+    public int deleteElement(ToDoElement toDoObject) {
         // Get the lock
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         // Select table columns
-        String[] whereArgs = new String[]{DatabaseConstants.KEY_TITLE};
+        String[] whereArgs = new String[]{toDoObject.getTitle()};
 
         // Generate condition
         StringBuilder whereClause = new StringBuilder();

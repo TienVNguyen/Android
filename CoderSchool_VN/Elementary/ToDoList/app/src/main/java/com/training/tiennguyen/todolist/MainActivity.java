@@ -7,7 +7,10 @@
 
 package com.training.tiennguyen.todolist;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +19,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.training.tiennguyen.adapter.ToDoListAdapter;
 import com.training.tiennguyen.constants.VariableConstants;
@@ -44,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView saveIconObject;
     private ImageView closeIconObject;
     private ImageView addIconObject;
-    private RelativeLayout authorDetailsObject;
+    private LinearLayout authorDetailsObject;
 
     /**
      * Starting point of main activity.
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         saveIconObject = (ImageView) findViewById(R.id.saveIcon);
         closeIconObject = (ImageView) findViewById(R.id.closeIcon);
         addIconObject = (ImageView) findViewById(R.id.addIcon);
-        authorDetailsObject = (RelativeLayout) findViewById(R.id.authorDetails);
+        authorDetailsObject = (LinearLayout) findViewById(R.id.authorDetails);
 
         // Set logo text
         TextView appLogoObject = (TextView) findViewById(R.id.appLogo);
@@ -206,13 +210,41 @@ public class MainActivity extends AppCompatActivity {
             // If user chooses any elements, move to edit page
             toDoListObject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
-                    intent.putExtra(VariableConstants.TITLE, toDoElementList.get(position).getTitle());
-                    intent.putExtra(VariableConstants.DETAILS, toDoElementList.get(position).getDetails());
-                    intent.putExtra(VariableConstants.PRIORITY, toDoElementList.get(position).getPriority());
-                    intent.setFlags(VariableConstants.EDIT_ELEMENT);
-                    startActivity(intent);
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    if (cancelIconObject.getVisibility() == View.VISIBLE) {
+                        // Remove zone
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(VariableConstants.REMOVE_MESSAGE_TITLE)
+                                .setMessage("Do you really want to remove " + toDoElementList.get(position).getTitle() + "?")
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setNegativeButton(android.R.string.no, null)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        ToDoElement element = new ToDoElement();
+                                        element.setTitle(toDoElementList.get(position).getTitle());
+
+                                        SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
+                                        int deleteFlag = sqLiteConnection.deleteElement(element);
+                                        sqLiteConnection.close();
+
+                                        if (deleteFlag > 0) {
+                                            Toast.makeText(MainActivity.this, VariableConstants.REMOVE_MESSAGE_SUCCESS + element.getTitle(), Toast.LENGTH_SHORT).show();
+                                            onResume();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, VariableConstants.REMOVE_MESSAGE_FAILED + element.getTitle(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                                .show();
+                    } else {
+                        // Edit zone
+                        Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+                        intent.putExtra(VariableConstants.TITLE, toDoElementList.get(position).getTitle());
+                        intent.putExtra(VariableConstants.DETAILS, toDoElementList.get(position).getDetails());
+                        intent.putExtra(VariableConstants.PRIORITY, toDoElementList.get(position).getPriority());
+                        intent.setFlags(VariableConstants.EDIT_ELEMENT);
+                        startActivity(intent);
+                    }
                 }
             });
 
@@ -225,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            // Set action when clicking Cancel
             cancelIconObject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -269,4 +302,27 @@ public class MainActivity extends AppCompatActivity {
 
         super.onResume();
     }
+
+    /**
+     * Github 1 onclick action
+     *
+     * @param view view
+     */
+    public void link1OnClick(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://github.com/TienVNguyen"));
+        startActivity(browserIntent);
+    }
+
+    /**
+     * Linkedin onclick action
+     *
+     * @param view view
+     */
+    public void link2OnClick(View view) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://vn.linkedin.com/in/tien-nguyen-88851710b"));
+        startActivity(browserIntent);
+    }
+
 }

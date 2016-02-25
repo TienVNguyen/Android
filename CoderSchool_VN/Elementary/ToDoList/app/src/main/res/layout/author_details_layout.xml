@@ -5,29 +5,63 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/authorDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAuthorDetails"
     android:orientation="vertical"
-    android:visibility="gone">
+    android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/authorImage"
+    <!-- Header -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Image -->
+        <ImageView
+            android:id="@+id/authorImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/author_image"
+            android:src="@drawable/tien_nguyen" />
+
+        <!-- Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/author_name"
+            android:textColor="@color/colorAuthorDetailsName"
+            android:textStyle="bold" />
+
+        <!-- Close Icon -->
+        <ImageView
+            android:id="@+id/closeIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/close_icon"
+            android:src="@drawable/ic_close_white_24dp" />
+    </RelativeLayout>
+
+    <!-- Body -->
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|left"
-        android:contentDescription="@string/author_image"
-        android:padding="10dp"
-        android:src="@drawable/tien_nguyen" />
+        android:onClick="link1OnClick"
+        android:text="@string/author_link_github"
+        android:textColor="@color/colorAuthorDetailsLink" />
 
-    <ImageView
-        android:id="@+id/closeIcon"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/close_icon"
-        android:padding="10dp"
-        android:src="@drawable/ic_close_white_24dp" />
-</RelativeLayout>
+        android:onClick="link2OnClick"
+        android:text="@string/author_link_linkedin"
+        android:textColor="@color/colorAuthorDetailsLink" />
+</LinearLayout>

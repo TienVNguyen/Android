@@ -119,36 +119,39 @@ public class ToDoListAdapter extends BaseAdapter {
         // Set value
         toDoElementHolder.getTitleElementHolder().setText(toDoElementsList.get(position).getTitle());
 
-        // If details are over 50 characters, it will be trimmed.
+        // If details are over 20 characters, it will be trimmed.
         String limitedDetails = toDoElementsList.get(position).getDetails();
-        if (limitedDetails.length() > 50) {
-            limitedDetails = limitedDetails.substring(50) + "...";
+        if (limitedDetails.length() > 20) {
+            limitedDetails = limitedDetails.substring(0, 20) + "...";
+            TextView detailsElementObject = (TextView) convertView.findViewById(R.id.txtDetailsElement);
+
         }
         toDoElementHolder.getDetailsElementHolder().setText(limitedDetails);
 
         // The priority will be print with color
-        int priorityColor;
+        // Temperately use the String directly
+        String priorityColor;
         String priorityText;
         switch (toDoElementsList.get(position).getPriority()) {
             case 1:
                 // Medium
-                priorityColor = R.color.colorPriorityMedium;
+                priorityColor = "#CDFF3F";
                 priorityText = "Medium";
                 break;
             case 2:
                 // Low
-                priorityColor = R.color.colorPriorityLow;
+                priorityColor = "#0000FF";
                 priorityText = "Low";
                 break;
             default:
                 // High
-                priorityColor = R.color.colorPriorityHigh;
+                priorityColor = "#FF0909";
                 priorityText = "High";
                 break;
         }
         toDoElementHolder.getPriorityElementHolder().setText(priorityText);
         TextView priorityElementObject = (TextView) convertView.findViewById(R.id.txtPriorityElement);
-        priorityElementObject.setTextColor(Color.alpha(priorityColor));
+        priorityElementObject.setTextColor(Color.parseColor(priorityColor));
 
         // Return the convertView
         return convertView;

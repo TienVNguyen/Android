@@ -7,15 +7,19 @@
 
 package com.training.tiennguyen.todolist;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.training.tiennguyen.constants.VariableConstants;
 import com.training.tiennguyen.database.SQLiteConnection;
@@ -43,7 +47,7 @@ public class ModifyActivity extends AppCompatActivity {
     /**
      * Starting point of main activity.
      *
-     * @param savedInstanceState
+     * @param savedInstanceState savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +79,7 @@ public class ModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Check input
-                if (edtTitleObject.length() == 0) {
-                    return;
-                } else if (edtDetailsObject.length() == 0) {
+                if (!inputCheck()) {
                     return;
                 }
 
@@ -95,18 +97,111 @@ public class ModifyActivity extends AppCompatActivity {
 
                 SQLiteConnection sqLiteConnection = new SQLiteConnection(ModifyActivity.this);
                 if (flags == 1) {
-                    // Add case
-                    long resultCount = sqLiteConnection.insertElement(toDoElement);
-                    sqLiteConnection.close();
+                    // Check existed before inserting more
+                    if (sqLiteConnection.checkElementExists(toDoElement)) {
+                        failedAdd(VariableConstants.EXISTED_MESSAGE_TITLE, VariableConstants.EXISTED_MESSAGE);
+                    } else {
+                        long insertFlag = sqLiteConnection.insertElement(toDoElement);
+                        sqLiteConnection.close();
+
+                        // Add case
+                        if (insertFlag != -1) {
+                            // If it inserts successfully, show message
+                            Toast.makeText(ModifyActivity.this, VariableConstants.REGISTER_MESSAGE_SUCCESS + toDoElement.getTitle(), Toast.LENGTH_SHORT).show();
+
+                            // Move back to MainActivity
+                            finish();
+                        } else {
+                            // If there is error, the id will be -1, show error message
+                            failedAdd(VariableConstants.REGISTER_MESSAGE_FAILED_TITLE, VariableConstants.REGISTER_MESSAGE_FAILED);
+                        }
+                    }
                 } else {
                     // Edit case
-                    int resultCount = sqLiteConnection.updateElement(toDoElement);
+                    sqLiteConnection.updateElement(toDoElement);
                     sqLiteConnection.close();
-                }
 
-                finish();
+                    // If it updates successfully, show message
+                    Toast.makeText(ModifyActivity.this, VariableConstants.UPDATE_MESSAGE_SUCCESS + toDoElement.getTitle(), Toast.LENGTH_SHORT).show();
+
+                    // Move back to MainActivity
+                    finish();
+                }
             }
         });
+    }
+
+    /**
+     * This function will check the value to see it suitable or not
+     *
+     * @return boolean result condition check
+     */
+    private boolean inputCheck() {
+        // Name must not empty
+        Editable object = edtTitleObject.getText();
+        if (object == null || object.toString().isEmpty()) {
+            edtTitleObject.setError(VariableConstants.TITLE_ERROR_EMPTY);
+            edtTitleObject.requestFocus();
+            return false;
+        } else if (object.length() > 15) {
+            edtTitleObject.setError(VariableConstants.TITLE_ERROR_OVER_15_CHARACTERS);
+            edtTitleObject.requestFocus();
+            return false;
+        }
+
+        object = edtDetailsObject.getText();
+        if (object == null || object.toString().isEmpty()) {
+            edtDetailsObject.setError(VariableConstants.DETAILS_ERROR_EMPTY);
+            edtDetailsObject.requestFocus();
+            return false;
+        } else if (object.length() > 200) {
+            edtDetailsObject.setError(VariableConstants.DETAILS_ERROR_OVER_200_CHARACTERS);
+            edtDetailsObject.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * There is error issue with insert record
+     *
+     * @param messageTitle   title of message
+     * @param messageContain contain of message
+     */
+    private void failedAdd(String messageTitle, String messageContain) {
+        // Create onClickListener
+        DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+            /**
+             * This method will be invoked when a button in the dialog is clicked.
+             *
+             * @param dialog The dialog that received the click.
+             * @param which  The button that was clicked (e.g.
+             *               {@link DialogInterface#BUTTON1}) or the position
+             */
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        break;
+                }
+            }
+        };
+
+        // Build message content
+        StringBuilder dialogMessage = new StringBuilder();
+        dialogMessage.append(messageContain);
+
+        // Build dialog and show it
+        AlertDialog.Builder builderDialog = new AlertDialog.Builder(ModifyActivity.this);
+        builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
+        builderDialog.setTitle(messageTitle);
+        builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
+        builderDialog.setMessage(dialogMessage.toString());
+        builderDialog.show();
+
+        // Set focus to Title
+        edtTitleObject.requestFocus();
     }
 
     /**
