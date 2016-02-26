@@ -126,7 +126,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop table query
-        //  DROP TABLE IF EXISTS TODOLIST;
+        // DROP TABLE IF EXISTS TODOLIST;
         StringBuilder queryDropTable = new StringBuilder();
         queryDropTable.append(DatabaseConstants.DROP_TABLE_EXISTED);
         queryDropTable.append(DatabaseConstants.TABLE_TODOLIST);
@@ -141,16 +141,14 @@ public class SQLiteConnection extends SQLiteOpenHelper {
      * This function will check if that element's existed or already registered
      *
      * @param toDoObject the model
-     * @return existedFlag. If there is a record, it will return true.
+     * @return existedFlag boolean
      */
     public boolean checkElementExists(ToDoElement toDoObject) {
         // Get the lock
         SQLiteDatabase db = this.getReadableDatabase();
 
         // Select table columns
-        String[] whereArgs = new String[]{
-                DatabaseConstants.KEY_TITLE
-        };
+        String[] whereArgs = new String[]{ DatabaseConstants.KEY_TITLE };
 
         // Generate selection
         StringBuilder whereClause = new StringBuilder();
@@ -161,8 +159,9 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         String[] selectionArgs = new String[]{toDoObject.getTitle()};
 
         // Get the result
-        Cursor cursor = db.query(DatabaseConstants.TABLE_TODOLIST, whereArgs, whereClause.toString(),
-                selectionArgs, null, null, null, null);
+        Cursor cursor = db.query(DatabaseConstants.TABLE_TODOLIST, whereArgs, whereClause.toString(), selectionArgs, null, null, null, null);
+
+        // Return existedFlag for notifying
         return cursor != null && cursor.getCount() > 0;
     }
 
@@ -170,7 +169,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
      * This function will insert a new record to a table inside of database
      *
      * @param toDoObject the model
-     * @return insertFlag long
+     * @return insertFlag long. If there is an issue, it will return -1.
      */
     public long insertElement(ToDoElement toDoObject) {
         // Get the lock
@@ -196,7 +195,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
      * This function will delete an old record from a table inside of database
      *
      * @param toDoObject the model
-     * @return deleteFlag int
+     * @return deleteFlag int. If there is an issue, it will return -1.
      */
     public int deleteElement(ToDoElement toDoObject) {
         // Get the lock
@@ -210,13 +209,13 @@ public class SQLiteConnection extends SQLiteOpenHelper {
         whereClause.append(DatabaseConstants.KEY_TITLE);
         whereClause.append(DatabaseConstants.SELECTION_IS);
 
-        // Execute insert
+        // Execute delete
         int deleteFlag = sqLiteDatabase.delete(DatabaseConstants.TABLE_TODOLIST, whereClause.toString(), whereArgs);
 
         // Close connection
         sqLiteDatabase.close();
 
-        // Return insertFlag for notifying
+        // Return deleteFlag for notifying
         return deleteFlag;
     }
 
@@ -224,7 +223,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
      * This function will update an old record from a table inside of database
      *
      * @param toDoObject the model
-     * @return updateFlag int
+     * @return updateFlag int. If there is an issue, it will return -1.
      */
     public int updateElement(ToDoElement toDoObject) {
         // Get the lock
@@ -257,7 +256,7 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     /**
      * This function will select count(*) of record(s) of table inside of database
      *
-     * @return resultCount. If there is no record, it will return -1
+     * @return resultCount. If there is no record, it will return -1.
      */
     public int selectCountToDoObjects() {
         // Get the lock
@@ -289,16 +288,14 @@ public class SQLiteConnection extends SQLiteOpenHelper {
     /**
      * This function will select all record(s) of table inside of database
      *
-     * @return A list of ToDoElement in the database
+     * @return resultSelect List<ToDoElement>. A list of ToDoElement in the database.
      */
     public List<ToDoElement> selectAllToDoObjects() {
         // Get the lock
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         // Select table columns
-        String[] columns = new String[]{
-                DatabaseConstants.KEY_TITLE, DatabaseConstants.KEY_DETAILS, DatabaseConstants.KEY_PRIORITY
-        };
+        String[] columns = new String[]{ DatabaseConstants.KEY_TITLE, DatabaseConstants.KEY_DETAILS, DatabaseConstants.KEY_PRIORITY };
 
         // Get the result through querying database
         Cursor cursor = sqLiteDatabase.query(DatabaseConstants.TABLE_TODOLIST, columns, null, null, null, null, null);

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -43,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
     private ListView toDoListObject;
     private TextView noItemsObject;
     private TextView appLogoObject;
+    private TextView authorBody1Object;
+    private TextView authorBody2Object;
+    private TextView authorBody3Object;
     private ImageView removeIconObject;
     private ImageView cancelIconObject;
     private ImageView saveIconObject;
@@ -81,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         toDoListObject = (ListView) findViewById(R.id.toDoList);
         noItemsObject = (TextView) findViewById(R.id.noItems);
         appLogoObject = (TextView) findViewById(R.id.appLogo);
+        authorBody1Object = (TextView) findViewById(R.id.authorBody1);
+        authorBody2Object = (TextView) findViewById(R.id.authorBody2);
+        authorBody3Object = (TextView) findViewById(R.id.authorBody3);
         removeIconObject = (ImageView) findViewById(R.id.removeIcon);
         cancelIconObject = (ImageView) findViewById(R.id.cancelIcon);
         saveIconObject = (ImageView) findViewById(R.id.saveIcon);
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
      * Set animation for author details
      */
     private void authorDetailsInit() {
-
+        // Animation from Left to Right
         final Animation slideToRight = AnimationUtils.loadAnimation(this, R.anim.slide_left_to_right);
         slideToRight.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -137,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Animation from Right to Left
         final Animation slideToLeft = AnimationUtils.loadAnimation(this, R.anim.slide_right_to_left);
         slideToLeft.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -160,6 +168,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (authorDetailsObject.getVisibility() == View.GONE) {
+                    // Set text (temperately)
+                    authorBody1Object.setText(Html.fromHtml(VariableConstants.AUTHOR_MAJOR));
+                    authorBody2Object.setText(Html.fromHtml(VariableConstants.AUTHOR_INTEREST));
+                    authorBody3Object.setText(Html.fromHtml(VariableConstants.AUTHOR_DESCRIBE));
+
+                    // Show up the authorDetails layout
                     authorDetailsObject.setVisibility(View.VISIBLE);
                     authorDetailsObject.startAnimation(slideToRight);
                 }
@@ -181,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
      * Function to check there is any record inside of list.
      */
     private void toDoElementListInit() {
-        // Check function
+        // Check the total number count function
         SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
         int resultCount = sqLiteConnection.selectCountToDoObjects();
         sqLiteConnection.close();
@@ -211,11 +225,14 @@ public class MainActivity extends AppCompatActivity {
             toDoListObject.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                    // Base on the CancelIcon is visible or not
                     if (cancelIconObject.getVisibility() == View.VISIBLE) {
+
                         // Remove zone
                         new AlertDialog.Builder(MainActivity.this)
                                 .setTitle(VariableConstants.REMOVE_MESSAGE_TITLE)
-                                .setMessage("Do you really want to remove " + toDoElementList.get(position).getTitle() + "?")
+                                .setMessage("Do you really want to remove [" + toDoElementList.get(position).getTitle() + "] ?")
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .setNegativeButton(android.R.string.no, null)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -223,14 +240,17 @@ public class MainActivity extends AppCompatActivity {
                                         ToDoElement element = new ToDoElement();
                                         element.setTitle(toDoElementList.get(position).getTitle());
 
+                                        // Remove element
                                         SQLiteConnection sqLiteConnection = new SQLiteConnection(MainActivity.this);
                                         int deleteFlag = sqLiteConnection.deleteElement(element);
                                         sqLiteConnection.close();
 
                                         if (deleteFlag > 0) {
+                                            // If it's removable
                                             Toast.makeText(MainActivity.this, VariableConstants.REMOVE_MESSAGE_SUCCESS + element.getTitle(), Toast.LENGTH_SHORT).show();
                                             onResume();
                                         } else {
+                                            // If there is error, show error message
                                             Toast.makeText(MainActivity.this, VariableConstants.REMOVE_MESSAGE_FAILED + element.getTitle(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
@@ -254,6 +274,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     removeIconObject.setVisibility(View.INVISIBLE);
                     cancelIconObject.setVisibility(View.VISIBLE);
+                    Toast.makeText(MainActivity.this, VariableConstants.REMOVE_MODE, Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -263,6 +284,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     removeIconObject.setVisibility(View.VISIBLE);
                     cancelIconObject.setVisibility(View.INVISIBLE);
+                    Toast.makeText(MainActivity.this, VariableConstants.EDIT_MODE, Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -310,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void link1OnClick(View view) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/TienVNguyen"));
+                Uri.parse(VariableConstants.GITHUB_URL));
         startActivity(browserIntent);
     }
 
@@ -321,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void link2OnClick(View view) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://vn.linkedin.com/in/tien-nguyen-88851710b"));
+                Uri.parse(VariableConstants.LINKEDIN_URL));
         startActivity(browserIntent);
     }
 

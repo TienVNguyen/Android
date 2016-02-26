@@ -23,7 +23,7 @@ import com.training.tiennguyen.todolist.R;
 import java.util.List;
 
 /**
- * This class is adapter's functionality.
+ * This class is adapter's functionality to set data to list.
  *
  * @author TienNguyen
  */
@@ -97,6 +97,8 @@ public class ToDoListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         // Init Holder
         final ToDoElementHolder toDoElementHolder;
+
+        // Check if Holder already existed
         if (convertView == null) {
             // Initial Holder
             toDoElementHolder = new ToDoElementHolder();
@@ -116,9 +118,10 @@ public class ToDoListAdapter extends BaseAdapter {
             toDoElementHolder = (ToDoElementHolder) convertView.getTag();
         }
 
-        // Set value
+        // Set title for Holder
         toDoElementHolder.getTitleElementHolder().setText(toDoElementsList.get(position).getTitle());
 
+        // Set details for Holder
         // If details are over 20 characters, it will be trimmed.
         String limitedDetails = toDoElementsList.get(position).getDetails();
         if (limitedDetails.length() > 20) {
@@ -128,8 +131,9 @@ public class ToDoListAdapter extends BaseAdapter {
         }
         toDoElementHolder.getDetailsElementHolder().setText(limitedDetails);
 
+        // Set priority for Holder
         // The priority will be print with color
-        // Temperately use the String directly
+        // TODO: Temperately use the String directly
         String priorityColor;
         String priorityText;
         switch (toDoElementsList.get(position).getPriority()) {

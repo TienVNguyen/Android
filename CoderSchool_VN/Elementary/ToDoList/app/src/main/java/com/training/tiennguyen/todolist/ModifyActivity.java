@@ -32,7 +32,7 @@ import com.training.tiennguyen.model.ToDoElement;
  * @author TienNguyen
  */
 public class ModifyActivity extends AppCompatActivity {
-    private int flags;
+    private int actionFlags;
     private TextView appLogoObject;
     private ImageView removeIconObject;
     private ImageView cancelIconObject;
@@ -80,52 +80,60 @@ public class ModifyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Check input
                 if (!inputCheck()) {
+                    Toast.makeText(ModifyActivity.this, VariableConstants.INPUT_CHECK_FAILED, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 // Set object toDoElement for modifying database
-                ToDoElement toDoElement = new ToDoElement();
-                toDoElement.setTitle(edtTitleObject.getText().toString());
-                toDoElement.setDetails(edtDetailsObject.getText().toString());
+                ToDoElement toDoElementTemp = new ToDoElement();
+                toDoElementTemp.setTitle(edtTitleObject.getText().toString());
+                toDoElementTemp.setDetails(edtDetailsObject.getText().toString());
                 if (rdbHighObject.isChecked()) {
-                    toDoElement.setPriority(0);
+                    toDoElementTemp.setPriority(0);
                 } else if (rdbMediumObject.isChecked()) {
-                    toDoElement.setPriority(1);
+                    toDoElementTemp.setPriority(1);
                 } else {
-                    toDoElement.setPriority(2);
+                    toDoElementTemp.setPriority(2);
                 }
 
                 SQLiteConnection sqLiteConnection = new SQLiteConnection(ModifyActivity.this);
-                if (flags == 1) {
+                if (actionFlags == 1) {
+                    // Insert zone
                     // Check existed before inserting more
-                    if (sqLiteConnection.checkElementExists(toDoElement)) {
+                    if (sqLiteConnection.checkElementExists(toDoElementTemp)) {
+                        // If it's already existed, show error message
                         failedAdd(VariableConstants.EXISTED_MESSAGE_TITLE, VariableConstants.EXISTED_MESSAGE);
                     } else {
-                        long insertFlag = sqLiteConnection.insertElement(toDoElement);
+                        // Insert action
+                        long insertFlag = sqLiteConnection.insertElement(toDoElementTemp);
                         sqLiteConnection.close();
 
-                        // Add case
                         if (insertFlag != -1) {
                             // If it inserts successfully, show message
-                            Toast.makeText(ModifyActivity.this, VariableConstants.REGISTER_MESSAGE_SUCCESS + toDoElement.getTitle(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ModifyActivity.this, VariableConstants.REGISTER_MESSAGE_SUCCESS + toDoElementTemp.getTitle(), Toast.LENGTH_SHORT).show();
 
                             // Move back to MainActivity
                             finish();
                         } else {
-                            // If there is error, the id will be -1, show error message
+                            // If there is error, show error message
                             failedAdd(VariableConstants.REGISTER_MESSAGE_FAILED_TITLE, VariableConstants.REGISTER_MESSAGE_FAILED);
                         }
                     }
                 } else {
-                    // Edit case
-                    sqLiteConnection.updateElement(toDoElement);
+                    // Edit zone
+                    int updateFlag = sqLiteConnection.updateElement(toDoElementTemp);
                     sqLiteConnection.close();
 
-                    // If it updates successfully, show message
-                    Toast.makeText(ModifyActivity.this, VariableConstants.UPDATE_MESSAGE_SUCCESS + toDoElement.getTitle(), Toast.LENGTH_SHORT).show();
+                    if (updateFlag != -1) {
+                        // If it updates successfully, show message
+                        Toast.makeText(ModifyActivity.this, VariableConstants.UPDATE_MESSAGE_SUCCESS + toDoElementTemp.getTitle(), Toast.LENGTH_SHORT).show();
 
-                    // Move back to MainActivity
-                    finish();
+                        // Move back to MainActivity
+                        finish();
+                    } else {
+                        // If there is error, show error message
+                        failedAdd(VariableConstants.UPDATE_MESSAGE_FAILED_TITLE, VariableConstants.UPDATE_MESSAGE_FAILED);
+                    }
                 }
             }
         });
@@ -137,7 +145,7 @@ public class ModifyActivity extends AppCompatActivity {
      * @return boolean result condition check
      */
     private boolean inputCheck() {
-        // Name must not empty
+        // Title must not empty or length over 15 characters
         Editable object = edtTitleObject.getText();
         if (object == null || object.toString().isEmpty()) {
             edtTitleObject.setError(VariableConstants.TITLE_ERROR_EMPTY);
@@ -149,6 +157,7 @@ public class ModifyActivity extends AppCompatActivity {
             return false;
         }
 
+        // Details must not empty or length over 200 characters
         object = edtDetailsObject.getText();
         if (object == null || object.toString().isEmpty()) {
             edtDetailsObject.setError(VariableConstants.DETAILS_ERROR_EMPTY);
@@ -188,16 +197,12 @@ public class ModifyActivity extends AppCompatActivity {
             }
         };
 
-        // Build message content
-        StringBuilder dialogMessage = new StringBuilder();
-        dialogMessage.append(messageContain);
-
         // Build dialog and show it
         AlertDialog.Builder builderDialog = new AlertDialog.Builder(ModifyActivity.this);
         builderDialog.setIcon(android.R.drawable.ic_dialog_alert);
         builderDialog.setTitle(messageTitle);
         builderDialog.setPositiveButton(VariableConstants.REGISTER_MESSAGE_AGAIN, onClickListener);
-        builderDialog.setMessage(dialogMessage.toString());
+        builderDialog.setMessage(messageContain);
         builderDialog.show();
 
         // Set focus to Title
@@ -228,9 +233,10 @@ public class ModifyActivity extends AppCompatActivity {
 
         // Get intent to verify the type of actions
         Intent intent = getIntent();
-        flags = intent.getFlags();
-        if (flags == 1) {
-            // Add case
+        actionFlags = intent.getFlags();
+        if (actionFlags == 1) {
+            // Add case, all the view will be default
+            edtTitleObject.setEnabled(true);
             edtTitleObject.setText("");
             edtDetailsObject.setText("");
             rdbHighObject.setChecked(true);
@@ -238,7 +244,7 @@ public class ModifyActivity extends AppCompatActivity {
             rdbLowObject.setChecked(false);
             appLogoObject.setText(R.string.add_element);
         } else {
-            // Edit case
+            // Edit case, all the view will get values which transfer from the list's element
             edtTitleObject.setEnabled(false);
             edtTitleObject.setText(intent.getStringExtra(VariableConstants.TITLE));
             edtDetailsObject.setText(intent.getStringExtra(VariableConstants.DETAILS));
@@ -265,6 +271,7 @@ public class ModifyActivity extends AppCompatActivity {
             appLogoObject.setText(R.string.edit_element);
         }
 
+        // Set icons' appearance
         removeIconObject.setVisibility(View.INVISIBLE);
         cancelIconObject.setVisibility(View.VISIBLE);
         saveIconObject.setVisibility(View.VISIBLE);

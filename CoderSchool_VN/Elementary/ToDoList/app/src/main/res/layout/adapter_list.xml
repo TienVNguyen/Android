@@ -38,7 +38,6 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <!-- Priority -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
@@ -46,6 +45,8 @@
         android:gravity="center"
         android:orientation="vertical"
         android:weightSum="1">
+
+        <!-- Priority -->
         <TextView
             android:id="@+id/txtPriorityElement"
             android:layout_width="match_parent"

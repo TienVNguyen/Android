@@ -11,7 +11,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorAuthorDetails"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:weightSum="1">
 
     <!-- Header -->
     <RelativeLayout
@@ -22,9 +23,8 @@
         <!-- Image -->
         <ImageView
             android:id="@+id/authorImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/author_image"
             android:src="@drawable/tien_nguyen" />
@@ -33,11 +33,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:text="@string/author_name"
             android:textColor="@color/colorAuthorDetailsName"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_centerInParent="true" />
 
         <!-- Close Icon -->
         <ImageView
@@ -55,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="link1OnClick"
+        android:padding="10dp"
         android:text="@string/author_link_github"
         android:textColor="@color/colorAuthorDetailsLink" />
 
@@ -62,6 +63,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="link2OnClick"
+        android:padding="10dp"
         android:text="@string/author_link_linkedin"
         android:textColor="@color/colorAuthorDetailsLink" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/authorBody1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/authorBody2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/authorBody3" />
 </LinearLayout>
