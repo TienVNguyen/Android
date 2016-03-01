@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.training.tiennguyen.adapter.ToDoListAdapter;
 import com.training.tiennguyen.constants.VariableConstants;
 import com.training.tiennguyen.database.SQLiteConnection;
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         authorBody3Object = (TextView) findViewById(R.id.authorBody3);
         removeEditIconObject = (ImageView) findViewById(R.id.removeEditIcon);
         closeIconObject = (ImageView) findViewById(R.id.closeIcon);
-        addSaveIconObject = (ImageView) findViewById(R.id.addSaveIcon);
+        addSaveIconObject = (ImageView) findViewById(R.id.addIcon);
         authorDetailsObject = (LinearLayout) findViewById(R.id.authorDetails);
 
         // Set default icon level
@@ -120,9 +122,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (addSaveIconLevel == 0) {
                     // Add zone
-                    Intent intent = new Intent(MainActivity.this, ModifyActivity.class);
+/*                    FragmentTransaction fragmentManager = getFragmentManager().beginTransaction();
+                    ModifyDialog modifyDialog = new ModifyDialog();
+                    modifyDialog.show(fragmentManager, ALARM_SERVICE);*/
+                    /*Intent intent = new Intent(MainActivity.this, ModifyDialogActivity.class);
                     intent.setFlags(VariableConstants.ADD_ELEMENT);
-                    startActivity(intent);
+                    startActivity(intent);*/
+
+                    new MaterialDialog.Builder(MainActivity.this)
+                            .title(R.string.edt_title_hint)
+                            .content(R.string.edt_title_hint)
+                            .inputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD)
+                            .input(R.string.edt_details_hint, R.string.edt_details_hint, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
+                                    // Do something
+                                }
+                            }).show();
                 }
             }
         });
@@ -350,5 +366,4 @@ public class MainActivity extends AppCompatActivity {
                 Uri.parse(VariableConstants.LINKEDIN_URL));
         startActivity(browserIntent);
     }
-
 }
