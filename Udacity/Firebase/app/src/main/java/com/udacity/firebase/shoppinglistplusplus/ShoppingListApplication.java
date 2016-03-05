@@ -11,7 +11,7 @@ public class ShoppingListApplication extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 
-        // Setup Firebase
+        /* Initialize Firebase */
         Firebase.setAndroidContext(this);
     }
 
