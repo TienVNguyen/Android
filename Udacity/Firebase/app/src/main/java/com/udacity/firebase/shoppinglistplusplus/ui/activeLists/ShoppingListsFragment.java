@@ -3,13 +3,21 @@ package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
+import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
+import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 
 /**
@@ -19,6 +27,8 @@ import com.udacity.firebase.shoppinglistplusplus.R;
  */
 public class ShoppingListsFragment extends Fragment {
     private ListView mListView;
+    private TextView mTextViewListName;
+    private TextView mTextViewOwnerName;
 
     public ShoppingListsFragment() {
         /* Required empty public constructor */
@@ -34,7 +44,6 @@ public class ShoppingListsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -55,10 +64,32 @@ public class ShoppingListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         /**
-         * Initalize UI elements
+         * Initialize UI elements
          */
         View rootView = inflater.inflate(R.layout.fragment_shopping_lists, container, false);
         initializeScreen(rootView);
+
+        /* Set listener for Firebase */
+        Firebase listNameRef = new Firebase(Constants.FIREBASE_URL).child(Constants.ACTIVELIST);
+        listNameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("ShoppingListsFragment", "Data Changed");
+
+                // String listName = (String) dataSnapshot.getValue();
+
+                // POJO: Plain Old Java Object
+                ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
+
+                mTextViewListName.setText(shoppingList != null? shoppingList.getListName() : "null");
+                mTextViewOwnerName.setText(shoppingList != null? shoppingList.getOwner() : "null");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         /**
          * Set interactive bits, such as click events and adapters
@@ -84,5 +115,7 @@ public class ShoppingListsFragment extends Fragment {
      */
     private void initializeScreen(View rootView) {
         mListView = (ListView) rootView.findViewById(R.id.list_view_active_lists);
+        mTextViewListName = (TextView) rootView.findViewById(R.id.text_view_list_name);
+        mTextViewOwnerName = (TextView) rootView.findViewById(R.id.text_view_created_by_user);
     }
 }

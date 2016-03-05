@@ -21,6 +21,8 @@ public final class Constants {
      */
     //public static final String FIREBASE_URL = BuildConfig.UNIQUE_FIREBASE_ROOT_URL;
     public static final String FIREBASE_URL = "https://shoplist-sample.firebaseio.com/";
+    public static final String LISTNAME = "listName";
+    public static final String ACTIVELIST = "activeList";
 
     /**
      * Constants for bundles, extras and shared preferences keys

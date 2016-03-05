@@ -1,0 +1,49 @@
+Firebase:
+- NoSQL
+- JSON object (data structure)
+- Flexible Schema
+- Hosted in the cloud
+- Real-time Collaboration
+- Synchronization
+- Authentication & Permissons
+
+1/ Install 
+- Sign in http://firebase.com/ and create App
+- Get the App url
+- Add dependencies : compile 'com.firebase:firebase-client-android:2.4.0'
+- Add permisson: <uses-permission android:name="android.permission.INTERNET" />
+- Initialize: Firebase.setAndroidContext(this);
+
+2/ Add
+- Create firebase object with the App url
+Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+- Data JSON => Key (child) :Value (value)
+	+ Value can be anything. But it should be an object for better enhancement
+firebase.child(Constants.LISTNAME).setValue(userEnteredName);
+
+
+******Insert multiple data*************
+- Not recommended: through Map
+- Recommened: POJO (Plain Old Java Object) with 3 rules:
+	+ Instance variables must match your children's key names and be of valid type (POJO supported)
+	+ At least empty constructor
+	+ Public getter for every variables
+
+firebase.child(Constants.ACTIVELIST).setValue(shoppingList);
+
+3/ Select
+- Still create firebase object with the App url
+- Through addValueEventListener, value will be get through dataSnapshot. Then it will be transfer to other ref too.
+Firebase listNameRef = new Firebase(Constants.FIREBASE_URL).child(Constants.LISTNAME);
+listNameRef.addValueEventListener(new ValueEventListener() {
+	@Override
+	public void onDataChange(DataSnapshot dataSnapshot) {
+		Log.e("ShoppingListsFragment", "Data Changed");
+		String listName = (String) dataSnapshot.getValue();
+		mTextViewListName.setText(listName);
+	}
+
+	@Override
+	public void onCancelled(FirebaseError firebaseError) { }
+});
+

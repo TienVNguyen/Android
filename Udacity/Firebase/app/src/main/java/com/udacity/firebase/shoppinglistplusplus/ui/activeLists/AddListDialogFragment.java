@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 import com.udacity.firebase.shoppinglistplusplus.R;
+import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 /**
@@ -91,9 +92,16 @@ public class AddListDialogFragment extends DialogFragment {
      * Add new active list
      */
     public void addShoppingList() {
+        // Get the reference to the root node in Firebase
         Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+
+        // POJO
         String userEnteredName = mEditTextListName.getText().toString();
-        firebase.child("listName").setValue(userEnteredName);
+        ShoppingList shoppingList = new ShoppingList(userEnteredName, "TienVNguyen");
+
+        // Go to the LISTNAME child node of the root node. Then set value for it
+        //firebase.child(Constants.LISTNAME).setValue(userEnteredName);
+        firebase.child(Constants.ACTIVELIST).setValue(shoppingList);
     }
 
 }
