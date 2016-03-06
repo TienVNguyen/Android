@@ -18,6 +18,9 @@ import com.firebase.client.ValueEventListener;
 import com.udacity.firebase.shoppinglistplusplus.R;
 import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
+import com.udacity.firebase.shoppinglistplusplus.utils.Utils;
+
+import java.util.Date;
 
 
 /**
@@ -29,6 +32,7 @@ public class ShoppingListsFragment extends Fragment {
     private ListView mListView;
     private TextView mTextViewListName;
     private TextView mTextViewOwnerName;
+    private TextView mTextViewEditTime;
 
     public ShoppingListsFragment() {
         /* Required empty public constructor */
@@ -70,7 +74,7 @@ public class ShoppingListsFragment extends Fragment {
         initializeScreen(rootView);
 
         /* Set listener for Firebase */
-        Firebase listNameRef = new Firebase(Constants.FIREBASE_URL).child(Constants.ACTIVELIST);
+        Firebase listNameRef = new Firebase(Constants.FIREBASE_URL).child(Constants.FIREBASE_PROPERTY_ACTIVELIST);
         listNameRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -81,8 +85,18 @@ public class ShoppingListsFragment extends Fragment {
                 // POJO: Plain Old Java Object
                 ShoppingList shoppingList = dataSnapshot.getValue(ShoppingList.class);
 
-                mTextViewListName.setText(shoppingList != null? shoppingList.getListName() : "null");
-                mTextViewOwnerName.setText(shoppingList != null? shoppingList.getOwner() : "null");
+                if (shoppingList != null) {
+                    mTextViewListName.setText(shoppingList.getListName());
+                    mTextViewOwnerName.setText(shoppingList.getOwner());
+                    if (shoppingList.getTimestampLastChanged() != null) {
+                        long time = (long) shoppingList.getTimestampLastChanged().get(Constants.FIREBASE_PROPERTY_TIMESTAMP);
+                        mTextViewEditTime.setText(Utils.SIMPLE_DATE_FORMAT.format(new Date(time)));
+                    }
+                } else {
+                    mTextViewListName.setText("");
+                    mTextViewOwnerName.setText("");
+                    mTextViewEditTime.setText("");
+                }
             }
 
             @Override
@@ -117,5 +131,6 @@ public class ShoppingListsFragment extends Fragment {
         mListView = (ListView) rootView.findViewById(R.id.list_view_active_lists);
         mTextViewListName = (TextView) rootView.findViewById(R.id.text_view_list_name);
         mTextViewOwnerName = (TextView) rootView.findViewById(R.id.text_view_created_by_user);
+        mTextViewEditTime = (TextView) rootView.findViewById(R.id.text_view_edit_time);
     }
 }

@@ -101,7 +101,7 @@ public class AddListDialogFragment extends DialogFragment {
 
         // Go to the LISTNAME child node of the root node. Then set value for it
         //firebase.child(Constants.LISTNAME).setValue(userEnteredName);
-        firebase.child(Constants.ACTIVELIST).setValue(shoppingList);
+        firebase.child(Constants.FIREBASE_PROPERTY_ACTIVELIST).setValue(shoppingList);
     }
 
 }

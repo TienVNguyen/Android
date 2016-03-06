@@ -7,14 +7,20 @@
 
 package com.udacity.firebase.shoppinglistplusplus.model;
 
+import com.firebase.client.ServerValue;
+import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
+
+import java.util.HashMap;
+
 /**
  * ShoppingList
- *
+ * <p/>
  * Created by TienVNguyen on 05/03/2016.
  */
 public class ShoppingList {
-    String listName;
-    String owner;
+    private String listName;
+    private String owner;
+    private HashMap<String, Object> timestampLastChanged;
 
     public ShoppingList() {
     }
@@ -22,6 +28,15 @@ public class ShoppingList {
     public ShoppingList(String listName, String owner) {
         this.listName = listName;
         this.owner = owner;
+        HashMap<String, Object> timestampLastChangedObj = new HashMap<String, Object>();
+        timestampLastChangedObj.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+        this.timestampLastChanged = timestampLastChangedObj;
+    }
+
+    public ShoppingList(String listName, String owner, HashMap<String, Object> timestampLastChanged) {
+        this.listName = listName;
+        this.owner = owner;
+        this.timestampLastChanged = timestampLastChanged;
     }
 
     public String getListName() {
@@ -38,5 +53,13 @@ public class ShoppingList {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public HashMap<String, Object> getTimestampLastChanged() {
+        return timestampLastChanged;
+    }
+
+    public void setTimestampLastChanged(HashMap<String, Object> timestampLastChanged) {
+        this.timestampLastChanged = timestampLastChanged;
     }
 }
