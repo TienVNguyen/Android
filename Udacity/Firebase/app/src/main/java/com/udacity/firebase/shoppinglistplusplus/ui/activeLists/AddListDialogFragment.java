@@ -97,7 +97,7 @@ public class AddListDialogFragment extends DialogFragment {
 
         // POJO
         String userEnteredName = mEditTextListName.getText().toString();
-        ShoppingList shoppingList = new ShoppingList(userEnteredName, "TienVNguyen");
+        ShoppingList shoppingList = new ShoppingList(userEnteredName, Constants.FIREBASE_LOCATION_ACTIVE_LIST);
 
         // Go to the LISTNAME child node of the root node. Then set value for it
         //firebase.child(Constants.LISTNAME).setValue(userEnteredName);
