@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+  -->
+
 <resources>
 
-    <style name="AppTheme" parent="AppTheme.Base">
-    </style>
+    <style name="AppTheme" parent="AppTheme.Base"></style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -19,14 +25,13 @@
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
-    <style name="CustomTheme.Dialog" parent="Theme.AppCompat.Light.Dialog">
-    </style>
+    <style name="CustomTheme.Dialog" parent="Theme.AppCompat.Light.Dialog"></style>
 
     <!--<style name="CustomTheme.Dialog.Old" parent="Theme.AppCompat.Light.Dialog">-->
-        <!--<item name="android:windowBackground">@android:color/transparent</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>-->
-        <!--<item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>-->
+    <!--<item name="android:windowBackground">@android:color/transparent</item>-->
+    <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--<item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>-->
+    <!--<item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>-->
     <!--</style>-->
 
     <style name="PrefScreenTheme">

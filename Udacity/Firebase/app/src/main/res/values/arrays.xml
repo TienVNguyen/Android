@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="pref_sortType_entries_lists">
-    </string-array>
+<!--
+  ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+  -->
 
-    <string-array name="pref_sortType_values_lists">
-    </string-array>
+<resources>
+    <string-array name="pref_sortType_entries_lists"></string-array>
+
+    <string-array name="pref_sortType_values_lists"></string-array>
 
 </resources>

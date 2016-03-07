@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+ */
+
 package com.udacity.firebase.shoppinglistplusplus.ui.activeLists;
 
 import android.app.Dialog;
@@ -20,6 +27,8 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 /**
  * Adds a new shopping list
+ *
+ * @author TienVNguyen
  */
 public class AddListDialogFragment extends DialogFragment {
     EditText mEditTextListName;
@@ -95,11 +104,14 @@ public class AddListDialogFragment extends DialogFragment {
         // Get the reference to the root node in Firebase
         Firebase firebase = new Firebase(Constants.FIREBASE_URL);
 
-        // POJO
+        // Get the string that the user entered into the EditText and make an object with it
+        // We'll use "Anonymous Owner" for the owner because we don't have user accounts yet
         String userEnteredName = mEditTextListName.getText().toString();
         ShoppingList shoppingList = new ShoppingList(userEnteredName, Constants.FIREBASE_LOCATION_ACTIVE_LIST);
 
         // Go to the LISTNAME child node of the root node. Then set value for it
+        // This will create the node for you if it doesn't already exist.
+        // Then using the setValue menu it will serialize the ShoppingList POJO
         //firebase.child(Constants.LISTNAME).setValue(userEnteredName);
         firebase.child(Constants.FIREBASE_PROPERTY_ACTIVELIST).setValue(shoppingList);
     }

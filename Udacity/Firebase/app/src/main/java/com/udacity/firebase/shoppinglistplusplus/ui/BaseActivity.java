@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+ */
+
 package com.udacity.firebase.shoppinglistplusplus.ui;
 
 import android.content.res.Configuration;
@@ -17,6 +24,8 @@ import com.udacity.firebase.shoppinglistplusplus.R;
  * BaseActivity class is used as a base class for all activities in the app
  * It implements GoogleApiClient callbacks to enable "Logout" in all activities
  * and defines variables that are being shared across all activities
+ *
+ * @author TienVNguyen
  */
 public abstract class BaseActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener {

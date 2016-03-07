@@ -1,5 +1,11 @@
-package com.udacity.firebase.shoppinglistplusplus.ui.meals;
+/*
+ * Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+ */
 
+package com.udacity.firebase.shoppinglistplusplus.ui.meals;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,14 +17,19 @@ import android.widget.ListView;
 
 import com.udacity.firebase.shoppinglistplusplus.R;
 
-
 /**
  * A simple {@link Fragment} subclass which shows all of the meals in the Firebase database
  * Use the {@link MealsFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
+ * @author TienVNguyen
  */
 public class MealsFragment extends Fragment {
     private ListView mListView;
+
+    public MealsFragment() {
+        /* Required empty public constructor*/
+    }
 
     /**
      * Create fragment and pass bundle with data as its' arguments
@@ -28,10 +39,6 @@ public class MealsFragment extends Fragment {
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public MealsFragment() {
-        /* Required empty public constructor*/
     }
 
     @Override

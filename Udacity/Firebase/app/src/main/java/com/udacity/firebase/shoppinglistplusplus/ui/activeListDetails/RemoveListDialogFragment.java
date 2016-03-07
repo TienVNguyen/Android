@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+ */
+
 package com.udacity.firebase.shoppinglistplusplus.ui.activeListDetails;
 
 import android.app.Dialog;
@@ -11,6 +18,8 @@ import com.udacity.firebase.shoppinglistplusplus.model.ShoppingList;
 
 /**
  * Lets the user remove active shopping list
+ *
+ * @author TienVNguyen
  */
 public class RemoveListDialogFragment extends DialogFragment {
     final static String LOG_TAG = RemoveListDialogFragment.class.getSimpleName();

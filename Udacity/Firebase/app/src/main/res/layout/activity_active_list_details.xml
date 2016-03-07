@@ -1,3 +1,10 @@
+<!--
+  ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
+  ~ Unauthorized copying of this file, via any medium is strictly prohibited
+  ~ Proprietary and confidential
+  ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,8 +44,7 @@
                 android:id="@+id/button_shopping"
                 style="@style/ShoppingButton"
                 android:layout_gravity="end"
-                android:onClick="toggleShopping"
-                />
+                android:onClick="toggleShopping" />
         </LinearLayout>
 
         <ListView
@@ -58,10 +64,10 @@
         android:layout_toStartOf="@+id/fab_detail_add_item"
         android:onClick="addMeal"
         android:src="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:visibility="gone"
         app:borderWidth="0dp"
         app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:visibility="gone"/>
+        app:pressedTranslationZ="12dp" />
 
     <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab_detail_add_item"

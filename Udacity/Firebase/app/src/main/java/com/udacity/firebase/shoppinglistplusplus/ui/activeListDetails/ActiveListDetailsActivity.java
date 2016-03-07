@@ -28,6 +28,8 @@ import com.udacity.firebase.shoppinglistplusplus.utils.Constants;
 
 /**
  * Represents the details screen for the selected shopping list
+ *
+ * @author TienVNguyen
  */
 public class ActiveListDetailsActivity extends BaseActivity {
     private static final String LOG_TAG = ActiveListDetailsActivity.class.getSimpleName();
