@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseListAdapter;
 import com.firebase.ui.auth.core.AuthProviderType;
@@ -57,8 +58,8 @@ public class MainActivity extends FirebaseLoginBaseActivity {
                 android.R.layout.two_line_list_item, mFirebaseRef) {
             @Override
             protected void populateView(View v, ChatMessage model, int position) {
-                ((TextView)v.findViewById(android.R.id.text1)).setText(model.getName());
-                ((TextView)v.findViewById(android.R.id.text2)).setText(model.getText());
+                ((TextView) v.findViewById(android.R.id.text1)).setText(model.getName());
+                ((TextView) v.findViewById(android.R.id.text2)).setText(model.getText());
             }
         };
         listView.setAdapter(mListAdapter);
@@ -74,8 +75,19 @@ public class MainActivity extends FirebaseLoginBaseActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        setEnabledAuthProvider(AuthProviderType.PASSWORD);
+    }
+
+    @Override
+    public void onFirebaseLoggedOut() {
+
+    }
+
+    @Override
     protected Firebase getFirebaseRef() {
-        return null;
+        return mFirebaseRef;
     }
 
     @Override
@@ -89,9 +101,8 @@ public class MainActivity extends FirebaseLoginBaseActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setEnabledAuthProvider(AuthProviderType.PASSWORD);
+    public void onFirebaseLoggedIn(AuthData authData) {
+
     }
 
     @Override
