@@ -78,6 +78,8 @@ public class MainActivity extends FirebaseLoginBaseActivity {
     protected void onStart() {
         super.onStart();
         setEnabledAuthProvider(AuthProviderType.PASSWORD);
+
+        showFirebaseLoginPrompt();
     }
 
     @Override

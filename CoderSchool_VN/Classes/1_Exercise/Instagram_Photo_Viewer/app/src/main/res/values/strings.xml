@@ -6,5 +6,9 @@
   -->
 
 <resources>
-    <string name="app_name">Instagram_Photo_Viewer</string>
+    <string name="app_name">Popular Photos</string>
+  <string name="user_avatar">Avatar</string>
+  <string name="user_actions">Actions</string>
+  <string name="picture">Picture</string>
+  <string name="user_name">TienVNguyen</string>
 </resources>
