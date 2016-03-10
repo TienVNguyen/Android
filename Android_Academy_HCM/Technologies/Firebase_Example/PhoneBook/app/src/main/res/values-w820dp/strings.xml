@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -6,17 +6,6 @@
   -->
 
 <resources>
-    <string name="app_name">Phone Book</string>
-    <string name="pager_title_phone">Phone</string>
-    <string name="pager_title_author">Author</string>
-    <string name="hint_edit_text_name">Fill in name</string>
-    <string name="hint_edit_text_phone">Fill in phone</string>
-    <string name="positive_button_create">Create</string>
-
-    <string name="facebook_app_id">ERGBUMNHG</string>
-    <string name="twitter_app_key">MNBGFCDD</string>
-    <string name="twitter_app_secret">CVBN</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="user_avatar">Avatar</string>
     <string name="author_name">Name</string>
     <string name="author_phone">Phone</string>

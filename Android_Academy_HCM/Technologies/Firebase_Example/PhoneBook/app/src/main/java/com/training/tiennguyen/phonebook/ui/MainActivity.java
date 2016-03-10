@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPaper);
     }
 
-    public void showAddListDialog(View view){
+    public void showAddListDialog(View view) {
          /* Create an instance of the dialog fragment and show it */
         DialogFragment dialogFragment = AddPhoneDialogFragment.newInstance();
         dialogFragment.show(MainActivity.this.getFragmentManager(), "AddPhoneDialogFragment");
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
          */
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
+            Fragment fragment;
 
             switch (position) {
                 case 0:
@@ -186,11 +186,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Phone";
+                    return getString(R.string.pager_title_phone);
                 case 1:
-                    return "Author";
+                    return getString(R.string.pager_title_author);
                 default:
-                    return "Phone";
+                    return getString(R.string.pager_title_phone);
             }
         }
     }

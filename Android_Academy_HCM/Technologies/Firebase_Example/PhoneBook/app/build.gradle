@@ -48,4 +48,7 @@ dependencies {
     /* Firebase libraries */
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.firebaseui:firebase-ui:0.3.1'
+
+    /* Image Picaso */
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

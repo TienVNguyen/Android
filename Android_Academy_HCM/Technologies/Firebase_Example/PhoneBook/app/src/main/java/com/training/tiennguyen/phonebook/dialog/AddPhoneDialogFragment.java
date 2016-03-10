@@ -21,24 +21,28 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.ServerValue;
 import com.training.tiennguyen.phonebook.R;
 import com.training.tiennguyen.phonebook.model.PhoneBook;
 import com.training.tiennguyen.phonebook.utils.Constants;
+
+import java.util.HashMap;
 
 /**
  * @author Created by TienVNguyen on 09/03/2016.
  */
 public class AddPhoneDialogFragment extends DialogFragment {
     private EditText mEditTextName;
+    private EditText mEditTextPhone;
 
     public static DialogFragment newInstance() {
         /* Arguments*/
         Bundle args = new Bundle();
 
         /* Fragment */
-        DialogFragment dialogFragment = new DialogFragment();
-        dialogFragment.setArguments(args);
-        return dialogFragment;
+        AddPhoneDialogFragment addPhoneDialogFragment = new AddPhoneDialogFragment();
+        addPhoneDialogFragment.setArguments(args);
+        return addPhoneDialogFragment;
     }
 
     @Override
@@ -66,6 +70,7 @@ public class AddPhoneDialogFragment extends DialogFragment {
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View rootView = layoutInflater.inflate(R.layout.dialog_add_phone_list, null);
         mEditTextName = (EditText) rootView.findViewById(R.id.edit_text_name);
+        mEditTextPhone = (EditText) rootView.findViewById(R.id.edit_text_phone);
 
         /**
          * Call addPhoneList() when user taps "Done" keyboard action
@@ -73,8 +78,22 @@ public class AddPhoneDialogFragment extends DialogFragment {
         mEditTextName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN) {
-                    addPhoneList();
+                if (!mEditTextName.getText().toString().isEmpty() && !mEditTextPhone.getText().toString().isEmpty()) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN) {
+                        addPhoneList();
+                    }
+                }
+                return true;
+            }
+        });
+
+        mEditTextPhone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (!mEditTextName.getText().toString().isEmpty() && !mEditTextPhone.getText().toString().isEmpty()) {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN) {
+                        addPhoneList();
+                    }
                 }
                 return true;
             }
@@ -93,26 +112,41 @@ public class AddPhoneDialogFragment extends DialogFragment {
                     }
                 });
 
-        return super.onCreateDialog(savedInstanceState);
+        return builder.create();
     }
 
     /**
      * Add new phone list
      */
     public void addPhoneList() {
-        // Get the reference to the root node in Firebase
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
-
         // Get the string that the user entered into the EditText and make an object with it
-        // We'll use "Anonymous Owner" for the owner because we don't have user accounts yet
         String name = mEditTextName.getText().toString();
-        String phone = "";
-        PhoneBook phoneBook = new PhoneBook(name, phone);
+        String phone = mEditTextPhone.getText().toString();
 
+        // If EditText input is not empty
+        if (!name.isEmpty() && !phone.isEmpty()) {
 
-        // Go to the LISTNAME child node of the root node. Then set value for it
-        // This will create the node for you if it doesn't already exist.
-        // Then using the setValue menu it will serialize the ShoppingList POJO
-        firebase.child(Constants.FIREBASE_PROPERTY_PHONE_BOOK).setValue(phoneBook);
+            // Get the reference to the root node in Firebase
+            Firebase firebase = new Firebase(Constants.FIREBASE_URL_ACTIVE_LISTS);
+            Firebase newListRef = firebase.push();
+
+            /* Save listsRef.push() to maintain same random Id */
+            final String listId = newListRef.getKey();
+
+            /**
+             * Set raw version of date to the ServerValue.TIMESTAMP value and save into timestampCreatedMap
+             */
+            HashMap<String, Object> timestampCreated = new HashMap<>();
+            timestampCreated.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+
+            /* Build the phone list */
+            PhoneBook newShoppingList = new PhoneBook(name, phone, timestampCreated);
+
+            /* Add the phone list */
+            newListRef.setValue(newShoppingList);
+
+            /* Close the dialog fragment */
+            AddPhoneDialogFragment.this.getDialog().cancel();
+        }
     }
 }

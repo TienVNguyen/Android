@@ -7,6 +7,7 @@
 
 package com.training.tiennguyen.phonebook.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ServerValue;
 import com.training.tiennguyen.phonebook.utils.Constants;
 
@@ -21,22 +22,18 @@ public class PhoneBook {
     private String name;
     private String phone;
     private HashMap<String, Object> timestampLastChanged;
+    private HashMap<String, Object> timestampCreated;
 
     public PhoneBook() {
     }
 
-    public PhoneBook(String name, String phone) {
+    public PhoneBook(String name, String phone, HashMap<String, Object> timestampCreated) {
         this.name = name;
         this.phone = phone;
-        HashMap<String, Object> timestampLastChangedObj = new HashMap<>();
-        timestampLastChangedObj.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
-        this.timestampLastChanged = timestampLastChangedObj;
-    }
-
-    public PhoneBook(String name, String phone, HashMap<String, Object> timestampLastChanged) {
-        this.name = name;
-        this.phone = phone;
-        this.timestampLastChanged = timestampLastChanged;
+        this.timestampCreated = timestampCreated;
+        HashMap<String, Object> timestampNowObject = new HashMap<String, Object>();
+        timestampNowObject.put(Constants.FIREBASE_PROPERTY_TIMESTAMP, ServerValue.TIMESTAMP);
+        this.timestampLastChanged = timestampNowObject;
     }
 
     public String getName() {
@@ -62,4 +59,24 @@ public class PhoneBook {
     public void setTimestampLastChanged(HashMap<String, Object> timestampLastChanged) {
         this.timestampLastChanged = timestampLastChanged;
     }
+
+    public HashMap<String, Object> getTimestampCreated() {
+        return timestampCreated;
+    }
+
+    public void setTimestampCreated(HashMap<String, Object> timestampCreated) {
+        this.timestampCreated = timestampCreated;
+    }
+
+    @JsonIgnore
+    public long getTimestampLastChangedLong() {
+
+        return (long) timestampLastChanged.get(Constants.FIREBASE_PROPERTY_TIMESTAMP);
+    }
+
+    @JsonIgnore
+    public long getTimestampCreatedLong() {
+        return (long) timestampLastChanged.get(Constants.FIREBASE_PROPERTY_TIMESTAMP);
+    }
+
 }

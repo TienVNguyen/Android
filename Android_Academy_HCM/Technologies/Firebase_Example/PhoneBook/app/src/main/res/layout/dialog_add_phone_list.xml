@@ -5,10 +5,11 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
@@ -24,4 +25,15 @@
         android:inputType="textCapWords"
         android:textColor="@color/black"
         android:textColorHint="@color/dark_grey" />
-</RelativeLayout>
+
+    <EditText
+        android:id="@+id/edit_text_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_edit_text_phone"
+        android:imeOptions="actionDone|flagNoExtractUi"
+        android:inputType="phone"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_grey" />
+</LinearLayout>
