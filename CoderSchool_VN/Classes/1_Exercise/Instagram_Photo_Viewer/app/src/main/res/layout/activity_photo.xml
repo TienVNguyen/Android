@@ -5,23 +5,29 @@
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    tools:context=".PhotoActivity">
+    android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/lv_photos"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_centerInParent="true"
-        android:divider="@color/colorHorizontal"
-        android:dividerHeight="2dip" />
-</RelativeLayout>
+        android:gravity="center"
+        tools:context=".PhotoActivity">
+
+        <ListView
+            android:id="@+id/lv_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_centerInParent="true"
+            android:divider="@color/colorHorizontal"
+            android:dividerHeight="2dip" />
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

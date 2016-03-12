@@ -8,6 +8,7 @@
 package com.training.tiennguyen.instagram_photo_viewer.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 
@@ -27,6 +31,8 @@ import java.util.List;
  * @author Created by TienVNguyen on 10/03/2016.
  */
 public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
+
+
     /**
      * Constructor
      *
@@ -56,13 +62,28 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         TextView txtCaptionObject = (TextView) convertView.findViewById(R.id.txtCaption);
         TextView txtNameObject = (TextView) convertView.findViewById(R.id.user_name);
         ImageView imgPhotoObject = (ImageView) convertView.findViewById(R.id.user_photo);
+        RoundedImageView roundedImageViewUserAvatar = (RoundedImageView) convertView.findViewById(R.id.user_avatar);
 
         txtCaptionObject.setText(photoObject.getCaption());
         txtNameObject.setText(photoObject.getName());
 
         imgPhotoObject.setImageResource(0);
-        Picasso.with(getContext()).load(
-                photoObject.getImageUrl()).into(imgPhotoObject);
+        Picasso.with(getContext())
+                .load(photoObject.getImageUrl())
+                .fit()
+                .into(imgPhotoObject);
+
+        Transformation transformation = new RoundedTransformationBuilder()
+                .borderColor(Color.BLACK)
+                .borderWidthDp(3)
+                .cornerRadiusDp(30)
+                .oval(false)
+                .build();
+        Picasso.with(getContext())
+                .load(photoObject.getAvatar())
+                .fit()
+                .transform(transformation)
+                .into(roundedImageViewUserAvatar);
 
         return convertView;
     }

@@ -8,6 +8,7 @@
 package com.training.tiennguyen.instagram_photo_viewer;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.ListView;
@@ -22,17 +23,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class PhotoActivity extends AppCompatActivity {
     private static final String clientId = "e05c462ebd86446ea48a5af73769b602";
     private ArrayList<PhotoObject> photoObjects;
     private PhotoAdapter photoAdapter;
+    @Bind(R.id.swipe_container)
+    protected SwipeRefreshLayout swipeContainer;
+    @Bind(R.id.lv_photos)
+    protected ListView lvPhotos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+
+        ButterKnife.bind(this);
 
         // Initialize
         photoObjects = new ArrayList<>();
@@ -41,11 +50,31 @@ public class PhotoActivity extends AppCompatActivity {
         photoAdapter = new PhotoAdapter(this, photoObjects);
 
         // Find the listView from input
-        ListView lvPhotos = (ListView) findViewById(R.id.lv_photos);
+        //lvPhotos = (ListView) findViewById(R.id.lv_photos); // TODO: This was replace by Butterknife
         lvPhotos.setAdapter(photoAdapter);
 
         // Steam data
         fetchPopularPhotos();
+
+        // Lookup the swipe container view
+        //swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipe_container); // TODO: This was replace by Butterknife
+
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchTimelineAsync();
+            }
+        });
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
     }
 
     /**
@@ -71,7 +100,7 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // Iterate each photos into item
-                JSONArray photoJsonArray = null;
+                JSONArray photoJsonArray;
                 try {
                     photoJsonArray = response.getJSONArray("data");
 
@@ -87,6 +116,7 @@ public class PhotoActivity extends AppCompatActivity {
                         photoObject.setImageUrl(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
                         photoObject.setImageHeight(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
                         photoObject.setLikeCount(jsonObject.getJSONObject("likes").getInt("count"));
+                        photoObject.setAvatar(jsonObject.getJSONObject("user").getString("profile_picture"));
 
                         // Add new object
                         photoObjects.add(photoObject);
@@ -111,6 +141,40 @@ public class PhotoActivity extends AppCompatActivity {
                 super.onFailure(statusCode, headers, responseString, throwable);
             }
         });
+    }
+
+    /**
+     * Refresh items
+     */
+    public void fetchTimelineAsync() {
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+        /* TODO: At the moment, client is not support
+        client.getHomeTimeline(0, new JsonHttpResponseHandler() {
+            public void onSuccess(JSONArray json) {
+                // Remember to CLEAR OUT old items before appending in the new ones
+                photoAdapter.clear();
+
+                // ...the data has come back, add new items to your adapter...
+                //photoAdapter.addAll(...);
+                fetchPopularPhotos();
+
+                // Now we call setRefreshing(false) to signal refresh has finished
+                swipeContainer.setRefreshing(false);
+            }
+            public void onFailure(Throwable e) {
+                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+            }
+        });*/
+
+        // Remember to CLEAR OUT old items before appending in the new ones
+        photoAdapter.clear();
+
+        // ...the data has come back, add new items to your adapter...
+        fetchPopularPhotos();
+
+        // Now we call setRefreshing(false) to signal refresh has finished
+        swipeContainer.setRefreshing(false);
     }
 
     /**

@@ -18,16 +18,18 @@ public class PhotoObject {
     private String imageUrl;
     private int imageHeight;
     private int likeCount;
+    private String avatar;
 
     public PhotoObject() {
     }
 
-    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount) {
+    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar) {
         this.name = name;
         this.caption = caption;
         this.imageUrl = imageUrl;
         this.imageHeight = imageHeight;
         this.likeCount = likeCount;
+        this.avatar = avatar;
     }
 
     public String getName() {
@@ -68,5 +70,13 @@ public class PhotoObject {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
