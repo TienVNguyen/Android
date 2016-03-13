@@ -92,8 +92,8 @@ public class PhotoActivity extends AppCompatActivity {
 
         // Trigger the GET request
         httpClient.get(url, null, new JsonHttpResponseHandler() {
-            // Work
 
+            // Work
             /**
              * Returns when request succeeds
              *
@@ -117,7 +117,13 @@ public class PhotoActivity extends AppCompatActivity {
                         PhotoObject photoObject = new PhotoObject();
                         photoObject.setName(jsonObject.getJSONObject("user").getString("username"));
                         if (jsonObject.optJSONObject("caption") != null) {
+                            Log.e("caption",jsonObject.getJSONObject("caption").getString("text"));
                             photoObject.setCaption(jsonObject.getJSONObject("caption").getString("text"));
+
+                            CommentObject commentObject = new CommentObject();
+                            commentObject.setAvatar(jsonObject.optJSONObject("caption").getString("text"));
+                            ArrayList captions = photoObject.getCaptions();
+                            captions.add(commentObject);
                         } else {
                             photoObject.setCaption("");
                         }

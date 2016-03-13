@@ -70,6 +70,8 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.photo_adapter, parent, false);
         }
+
+        // Initial view
         TextView txtCaption1Object = (TextView) convertView.findViewById(R.id.user_caption);
         TextView txtNameObject = (TextView) convertView.findViewById(R.id.user_name);
         TextView likeCount = (TextView) convertView.findViewById(R.id.user_total_likes);
@@ -78,6 +80,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         final ProgressBar roundedImageViewUserProgress = (ProgressBar) convertView.findViewById(R.id.user_avatar_progressBar);
         final ProgressBar imgPhotoProgress = (ProgressBar) convertView.findViewById(R.id.user_photo_progressBar);
 
+        // Set data to view
         txtCaption1Object.setText(photoObject.getCaption());
         txtNameObject.setText(photoObject.getName());
         likeCount.setText(String.valueOf(photoObject.getLikeCount()));
@@ -97,7 +100,6 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
                 .into(roundedImageViewUserAvatar, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e("Error", "Avatar Successfully");
                         roundedImageViewUserProgress.setVisibility(View.GONE);
                     }
 
@@ -118,10 +120,9 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
                 .load(photoObject.getImageUrl())
                 .error(R.mipmap.ic_launcher)
                 .fit()
-                .into(roundedImageViewUserAvatar, new com.squareup.picasso.Callback() {
+                .into(imgPhotoObject, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.e("Error", "Image Successfully");
                         imgPhotoProgress.setVisibility(View.GONE);
                     }
 
