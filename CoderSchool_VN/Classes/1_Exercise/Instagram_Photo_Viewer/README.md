@@ -1,7 +1,10 @@
 # Instagram_Photo_Viewer
 An small demo app to complete the homework for week 1. See the Tutorial on our cliffnotes for a step-by-step tutorial.
 
-Time spent: 12 hours implementation in total
+Time spent: 18 hours implementation (included searching) in total
+ - 12/3: 3 hours
+ - 13/3: 7 hours
+ - 14/3: 8 hours
 
 Implement link: https://github.com/TienVNguyen/Android/tree/master/CoderSchool_VN/Classes/1_Exercise/Instagram_Photo_Viewer
 
@@ -10,9 +13,9 @@ App link: https://github.com/TienVNguyen/Android/tree/master/CoderSchool_VN/Clas
 Completed these requirements:
 
  * [x] User can scroll through current popular photos from Instagram (5 points)
- * [x] For each photo displayed, user can see the following details:
+       For each photo displayed, user can see the following details:
  * [x] Graphic, Caption, Username (2 points)
- * [x] (Optional) relative timestamp, like count, user profile image (3 points)
+ * [x] Optional - relative timestamp, like count, user profile image (3 points)
 
 The following advanced user stories are optional but recommended:
  * [x] Advanced: Add pull-to-refresh for popular stream with SwipeRefreshLayout (1 point)
