@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
@@ -8,7 +7,10 @@
 
 <resources>
     <string name="user_avatar">Avatar</string>
-  <string name="user_actions">Actions</string>
-  <string name="picture">Picture</string>
-  <string name="user_name">TienVNguyen</string>
+    <string name="user_actions">Actions</string>
+    <string name="picture">Picture</string>
+    <string name="user_name">TienVNguyen</string>
+    <string name="user_like">Like</string>
+    <string name="user_total_likes">Likes</string>
+    <string name="user_comments">Comments</string>
 </resources>

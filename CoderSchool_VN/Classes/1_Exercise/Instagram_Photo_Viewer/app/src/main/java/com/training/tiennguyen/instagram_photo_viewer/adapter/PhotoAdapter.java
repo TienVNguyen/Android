@@ -7,13 +7,16 @@
 
 package com.training.tiennguyen.instagram_photo_viewer.adapter;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -21,6 +24,7 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
+import com.training.tiennguyen.instagram_photo_viewer.dialog.CommentsDialogFragment;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 
 import java.util.List;
@@ -32,6 +36,13 @@ import java.util.List;
  */
 public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getCount() {
+        return super.getCount();
+    }
 
     /**
      * Constructor
@@ -59,20 +70,19 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.photo_adapter, parent, false);
         }
-        TextView txtCaptionObject = (TextView) convertView.findViewById(R.id.txtCaption);
+        TextView txtCaption1Object = (TextView) convertView.findViewById(R.id.user_caption);
         TextView txtNameObject = (TextView) convertView.findViewById(R.id.user_name);
-        ImageView imgPhotoObject = (ImageView) convertView.findViewById(R.id.user_photo);
+        TextView likeCount = (TextView) convertView.findViewById(R.id.user_total_likes);
         RoundedImageView roundedImageViewUserAvatar = (RoundedImageView) convertView.findViewById(R.id.user_avatar);
+        ImageView imgPhotoObject = (ImageView) convertView.findViewById(R.id.user_photo);
+        final ProgressBar roundedImageViewUserProgress = (ProgressBar) convertView.findViewById(R.id.user_avatar_progressBar);
+        final ProgressBar imgPhotoProgress = (ProgressBar) convertView.findViewById(R.id.user_photo_progressBar);
 
-        txtCaptionObject.setText(photoObject.getCaption());
+        txtCaption1Object.setText(photoObject.getCaption());
         txtNameObject.setText(photoObject.getName());
+        likeCount.setText(String.valueOf(photoObject.getLikeCount()));
 
-        imgPhotoObject.setImageResource(0);
-        Picasso.with(getContext())
-                .load(photoObject.getImageUrl())
-                .fit()
-                .into(imgPhotoObject);
-
+        roundedImageViewUserProgress.setVisibility(View.VISIBLE);
         Transformation transformation = new RoundedTransformationBuilder()
                 .borderColor(Color.BLACK)
                 .borderWidthDp(3)
@@ -81,9 +91,71 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
                 .build();
         Picasso.with(getContext())
                 .load(photoObject.getAvatar())
+                .error(R.mipmap.ic_launcher)
                 .fit()
                 .transform(transformation)
-                .into(roundedImageViewUserAvatar);
+                .into(roundedImageViewUserAvatar, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e("Error", "Avatar Successfully");
+                        roundedImageViewUserProgress.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e("Error", "Avatar Failed");
+                    }
+                });
+        roundedImageViewUserAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add/Remove 1 like of current user
+            }
+        });
+
+        imgPhotoProgress.setVisibility(View.VISIBLE);
+        Picasso.with(getContext())
+                .load(photoObject.getImageUrl())
+                .error(R.mipmap.ic_launcher)
+                .fit()
+                .into(roundedImageViewUserAvatar, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.e("Error", "Image Successfully");
+                        imgPhotoProgress.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.e("Error", "Image Failed");
+                    }
+                });
+        imgPhotoObject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Go to user's information page
+            }
+        });
+
+        ImageView userComments = (ImageView) convertView.findViewById(R.id.user_comments);
+        userComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /* TODO: Create an instance of the dialog fragment and show it */
+                DialogFragment dialogFragment = CommentsDialogFragment.newInstance();
+                /*FragmentManager manager = getContext().getFragmentManager();
+                dialogFragment.show(manager, "CommentsDialogFragment");*/
+            }
+        });
+
+        ImageView userLike = (ImageView) convertView.findViewById(R.id.user_like);
+        userLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Add/Remove 1 like of current user
+
+            }
+        });
 
         return convertView;
     }

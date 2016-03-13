@@ -5,17 +5,20 @@
  * Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
  */
 
-package com.training.tiennguyen.instagram_photo_viewer;
+package com.training.tiennguyen.instagram_photo_viewer.ui;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.adapter.PhotoAdapter;
+import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 
 import org.json.JSONArray;
@@ -48,6 +51,7 @@ public class PhotoActivity extends AppCompatActivity {
 
         // Create adapter linking to the source.
         photoAdapter = new PhotoAdapter(this, photoObjects);
+        Log.e("InstagramData", photoAdapter.toString());
 
         // Find the listView from input
         //lvPhotos = (ListView) findViewById(R.id.lv_photos); // TODO: This was replace by Butterknife
@@ -112,7 +116,31 @@ public class PhotoActivity extends AppCompatActivity {
                         // Decode attributes into data model
                         PhotoObject photoObject = new PhotoObject();
                         photoObject.setName(jsonObject.getJSONObject("user").getString("username"));
-                        photoObject.setCaption(jsonObject.getJSONObject("caption").getString("text"));
+                        if (jsonObject.optJSONObject("caption") != null) {
+                            photoObject.setCaption(jsonObject.getJSONObject("caption").getString("text"));
+                        } else {
+                            photoObject.setCaption("");
+                        }
+                        JSONArray jsonArray = jsonObject.optJSONArray("caption");
+                        if (jsonArray != null) {
+                            for (int j = 0; j < jsonArray.length(); j++) {
+                                JSONObject jsonCommentObject;
+                                try {
+                                    jsonCommentObject = jsonArray.getJSONObject(i);
+                                    CommentObject commentObject = new CommentObject();
+                                    commentObject.setAvatar(jsonCommentObject.getJSONObject("text").getString("text"));
+                                    commentObject.setUser(jsonCommentObject.getJSONObject("caption").getString("text"));
+                                    commentObject.setText(jsonCommentObject.getJSONObject("caption").getString("text"));
+                                    ArrayList captions = photoObject.getCaptions();
+                                    captions.add(commentObject);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    break;
+                                }
+                            }
+                        } else {
+
+                        }
                         photoObject.setImageUrl(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
                         photoObject.setImageHeight(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
                         photoObject.setLikeCount(jsonObject.getJSONObject("likes").getInt("count"));

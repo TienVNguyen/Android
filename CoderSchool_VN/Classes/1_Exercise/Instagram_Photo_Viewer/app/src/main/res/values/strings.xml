@@ -7,8 +7,11 @@
 
 <resources>
     <string name="app_name">Popular Photos</string>
-  <string name="user_avatar">Avatar</string>
-  <string name="user_actions">Actions</string>
-  <string name="picture">Picture</string>
-  <string name="user_name">TienVNguyen</string>
+    <string name="user_avatar">Avatar</string>
+    <string name="user_actions">Actions</string>
+    <string name="picture">Picture</string>
+    <string name="user_name">TienVNguyen</string>
+    <string name="user_like">Like</string>
+    <string name="user_total_likes">Likes</string>
+    <string name="user_comments">Comments</string>
 </resources>

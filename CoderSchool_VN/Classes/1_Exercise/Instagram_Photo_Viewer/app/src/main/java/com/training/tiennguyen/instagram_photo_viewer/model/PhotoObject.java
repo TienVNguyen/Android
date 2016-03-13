@@ -7,6 +7,8 @@
 
 package com.training.tiennguyen.instagram_photo_viewer.model;
 
+import java.util.ArrayList;
+
 /**
  * PhotoObject
  *
@@ -19,17 +21,19 @@ public class PhotoObject {
     private int imageHeight;
     private int likeCount;
     private String avatar;
+    private ArrayList captions = new ArrayList();
 
     public PhotoObject() {
     }
 
-    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar) {
+    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar, ArrayList captions) {
         this.name = name;
         this.caption = caption;
         this.imageUrl = imageUrl;
         this.imageHeight = imageHeight;
         this.likeCount = likeCount;
         this.avatar = avatar;
+        this.captions = captions;
     }
 
     public String getName() {
@@ -78,5 +82,13 @@ public class PhotoObject {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public ArrayList getCaptions() {
+        return captions;
+    }
+
+    public void setCaptions(ArrayList captions) {
+        this.captions = captions;
     }
 }
