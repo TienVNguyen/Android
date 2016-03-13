@@ -8,23 +8,30 @@
 package com.training.tiennguyen.instagram_photo_viewer.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 
 import java.util.List;
 
 /**
- * PhotoCommentAdapter
+ * CommentAdapter
  *
  * @author Created by TienVNguyen on 13/03/2016.
  */
-public class PhotoCommentAdapter extends ArrayAdapter<CommentObject> {
+public class CommentAdapter extends ArrayAdapter<CommentObject> {
     public int maxCommentCount = 2;
 
     /**
@@ -33,14 +40,14 @@ public class PhotoCommentAdapter extends ArrayAdapter<CommentObject> {
      * @param context The current context.
      * @param objects The objects to represent in the ListView.
      */
-    public PhotoCommentAdapter(Context context, List<CommentObject> objects) {
+    public CommentAdapter(Context context, List<CommentObject> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
+    /*@Override
     public int getCount() {
         int i = super.getCount();
         if (i > maxCommentCount) {
@@ -48,7 +55,7 @@ public class PhotoCommentAdapter extends ArrayAdapter<CommentObject> {
         } else {
             return i;
         }
-    }
+    }*/
 
     /**
      * {@inheritDoc}
@@ -68,10 +75,45 @@ public class PhotoCommentAdapter extends ArrayAdapter<CommentObject> {
         }
 
         // Initial view
-        TextView txtName = (TextView) convertView.findViewById(R.id.photo_comment_user_adapter);
-        TextView txtComment = (TextView) convertView.findViewById(R.id.photo_comment_comment_adapter);
+        TextView txtName = (TextView) convertView.findViewById(R.id.comment_name);
+        TextView txtComment = (TextView) convertView.findViewById(R.id.comment_text);
+        RoundedImageView roundedImageCommentAvatar = (RoundedImageView) convertView.findViewById(R.id.comment_avatar);
+        final ProgressBar roundedImageViewProgress = (ProgressBar) convertView.findViewById(R.id.comment_progressBar);
+
 
         // Set data to view
+        if (roundedImageCommentAvatar != null) {
+            roundedImageViewProgress.setVisibility(View.VISIBLE);
+            Transformation transformation = new RoundedTransformationBuilder()
+                    .borderColor(Color.BLACK)
+                    .borderWidthDp(3)
+                    .cornerRadiusDp(30)
+                    .oval(false)
+                    .build();
+            Picasso.with(getContext())
+                    .load(commentObject.getAvatar())
+                    .error(R.mipmap.ic_launcher)
+                    .fit()
+                    .transform(transformation)
+                    .into(roundedImageCommentAvatar, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            roundedImageViewProgress.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            Log.e("Error", "Avatar Failed");
+                        }
+                    });
+            roundedImageCommentAvatar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: Add/Remove 1 like of current user
+                }
+            });
+        }
+
         txtName.setText(commentObject.getUser());
         txtName.setOnClickListener(new View.OnClickListener() {
             @Override

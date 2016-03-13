@@ -7,8 +7,6 @@
 
 package com.training.tiennguyen.instagram_photo_viewer.model;
 
-import java.util.ArrayList;
-
 /**
  * PhotoObject
  *
@@ -17,23 +15,35 @@ import java.util.ArrayList;
 public class PhotoObject {
     private String name;
     private String caption;
+    private String type;
+    private String videoUrl;
+    private int videoHeight;
     private String imageUrl;
     private int imageHeight;
     private int likeCount;
     private String avatar;
-    private ArrayList<CommentObject> comments = new ArrayList<>();
+    private String comment1;
+    private String comment2;
+    private int commentsCount;
+    private String id;
 
     public PhotoObject() {
     }
 
-    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar, ArrayList<CommentObject> comments) {
+    public PhotoObject(String name, String caption, String type, String videoUrl, int videoHeight, String imageUrl, int imageHeight, int likeCount, String avatar, String comment1, String comment2, int commentsCount, String id) {
         this.name = name;
         this.caption = caption;
+        this.type = type;
+        this.videoUrl = videoUrl;
+        this.videoHeight = videoHeight;
         this.imageUrl = imageUrl;
         this.imageHeight = imageHeight;
         this.likeCount = likeCount;
         this.avatar = avatar;
-        this.comments = comments;
+        this.comment1 = comment1;
+        this.comment2 = comment2;
+        this.commentsCount = commentsCount;
+        this.id = id;
     }
 
     public String getName() {
@@ -50,6 +60,30 @@ public class PhotoObject {
 
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public int getVideoHeight() {
+        return videoHeight;
+    }
+
+    public void setVideoHeight(int videoHeight) {
+        this.videoHeight = videoHeight;
     }
 
     public String getImageUrl() {
@@ -84,11 +118,35 @@ public class PhotoObject {
         this.avatar = avatar;
     }
 
-    public ArrayList<CommentObject> getComments() {
-        return comments;
+    public String getComment1() {
+        return comment1;
     }
 
-    public void setComments(ArrayList<CommentObject> comments) {
-        this.comments = comments;
+    public void setComment1(String comment1) {
+        this.comment1 = comment1;
+    }
+
+    public String getComment2() {
+        return comment2;
+    }
+
+    public void setComment2(String comment2) {
+        this.comment2 = comment2;
+    }
+
+    public int getCommentsCount() {
+        return commentsCount;
+    }
+
+    public void setCommentsCount(int commentsCount) {
+        this.commentsCount = commentsCount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

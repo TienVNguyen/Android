@@ -66,7 +66,8 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/user_actions"
             android:scaleType="center"
-            android:src="@android:drawable/btn_star" />
+            android:src="@android:drawable/btn_star"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -84,7 +85,7 @@
         <ImageView
             android:id="@+id/user_photo"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/picture"
@@ -92,6 +93,15 @@
             android:minWidth="200dp"
             android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
+
+        <VideoView
+            android:id="@+id/user_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:minHeight="200dp"
+            android:minWidth="200dp"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -107,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/user_like"
-            android:src="@drawable/like_dislike_icons" />
+            android:src="@drawable/like_dislike_icons"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/user_comments"
@@ -163,19 +174,38 @@
             android:maxLines="3"
             android:paddingTop="5dp"
             android:text="New Text" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
-
-        <ListView
-            android:id="@+id/user_comments_list"
+        <TextView
+            android:id="@+id/user_comment1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_caption"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingTop="5dp"
+            android:text="New Text" />
+
+        <TextView
+            android:id="@+id/user_comment2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_comment1"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:paddingTop="5dp"
+            android:text="New Text" />
+
+        <TextView
+            android:id="@+id/user_comment_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_comment2"
+            android:autoText="false"
+            android:enabled="false"
+            android:maxLines="3"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="New Text"
+            android:textColor="#dcdcdc" />
     </RelativeLayout>
 </LinearLayout>

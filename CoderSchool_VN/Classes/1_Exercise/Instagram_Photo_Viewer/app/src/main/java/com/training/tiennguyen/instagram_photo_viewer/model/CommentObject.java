@@ -15,13 +15,15 @@ package com.training.tiennguyen.instagram_photo_viewer.model;
 public class CommentObject {
     private String user;
     private String text;
+    private String avatar;
 
     public CommentObject() {
     }
 
-    public CommentObject(String user, String text) {
+    public CommentObject(String user, String text, String avatar) {
         this.user = user;
         this.text = text;
+        this.avatar = avatar;
     }
 
     public String getUser() {
@@ -38,5 +40,13 @@ public class CommentObject {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

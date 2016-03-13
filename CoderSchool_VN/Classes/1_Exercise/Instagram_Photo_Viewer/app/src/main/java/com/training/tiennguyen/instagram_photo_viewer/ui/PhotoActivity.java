@@ -17,8 +17,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.adapter.PhotoAdapter;
-import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
+import com.training.tiennguyen.instagram_photo_viewer.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +30,6 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class PhotoActivity extends AppCompatActivity {
-    private static final String clientId = "e05c462ebd86446ea48a5af73769b602";
     @Bind(R.id.swipe_container)
     protected SwipeRefreshLayout swipeContainer;
     @Bind(R.id.lv_photos)
@@ -83,7 +82,7 @@ public class PhotoActivity extends AppCompatActivity {
      * Send out requirement
      */
     private void fetchPopularPhotos() {
-        String url = "https://api.instagram.com/v1/media/popular?client_id=" + clientId;
+        String url = "https://api.instagram.com/v1/media/popular?client_id=" + Constants.clientId;
 
         // Create the network client
         AsyncHttpClient httpClient = new AsyncHttpClient();
@@ -118,29 +117,50 @@ public class PhotoActivity extends AppCompatActivity {
                         JSONObject caption = jsonObject.optJSONObject("caption");
                         if (caption != null) {
                             photoObject.setCaption(caption.optString("text"));
-                        } else {
-                            photoObject.setCaption("");
                         }
-                        JSONArray jsonArray = jsonObject.getJSONObject("comments").getJSONArray("data");
-                        if (jsonArray != null) {
-                            for (int j = 0; j < jsonArray.length(); j++) {
-                                JSONObject jsonCommentObject;
-                                try {
-                                    jsonCommentObject = jsonArray.getJSONObject(j);
-                                    CommentObject commentObject = new CommentObject();
-                                    commentObject.setUser(jsonCommentObject.getJSONObject("from").optString("username"));
-                                    commentObject.setText(jsonCommentObject.optString("text"));
-                                    photoObject.getComments().add(commentObject);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    break;
+                        JSONObject comments = jsonObject.optJSONObject("comments");
+                        if (comments != null) {
+                            JSONArray jsonArray = comments.getJSONArray("data");
+                            if (jsonArray != null) {
+                                photoObject.setCommentsCount(jsonArray.length());
+                                for (int j = 0; j < 2; j++) {
+                                    JSONObject jsonCommentObject;
+                                    try {
+                                        jsonCommentObject = jsonArray.getJSONObject(j);
+                                        if (j == 0)
+                                            photoObject.setComment1(jsonCommentObject.getJSONObject("from").optString("username") + " " + jsonCommentObject.optString("text"));
+                                        if (j == 1)
+                                            photoObject.setComment2(jsonCommentObject.getJSONObject("from").optString("username") + " " + jsonCommentObject.optString("text"));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        break;
+                                    }
                                 }
                             }
                         }
-                        photoObject.setImageUrl(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
-                        photoObject.setImageHeight(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
-                        photoObject.setLikeCount(jsonObject.getJSONObject("likes").getInt("count"));
-                        photoObject.setAvatar(jsonObject.getJSONObject("user").getString("profile_picture"));
+                        String type = jsonObject.optString("type");
+                        if (type != null && !type.isEmpty()) {
+                            photoObject.setType(type);
+                            JSONObject standardResolution = jsonObject.getJSONObject(type + "s").optJSONObject("standard_resolution");
+                            if (standardResolution != null) {
+                                if (type.equalsIgnoreCase("image")) {
+                                    photoObject.setImageUrl(standardResolution.optString("url"));
+                                    photoObject.setImageHeight(standardResolution.optInt("height"));
+                                } else if (type.equalsIgnoreCase("video")) {
+                                    photoObject.setVideoUrl(standardResolution.optString("url"));
+                                    photoObject.setVideoHeight(standardResolution.optInt("height"));
+                                }
+                            }
+                        }
+                        JSONObject likes = jsonObject.optJSONObject("likes");
+                        if (likes != null) {
+                            photoObject.setLikeCount(likes.optInt("count"));
+                        }
+                        JSONObject user = jsonObject.optJSONObject("user");
+                        if (user != null) {
+                            photoObject.setAvatar(user.optString("profile_picture"));
+                        }
+                        photoObject.setId(jsonObject.optString("id"));
 
                         // Add new object
                         photoObjects.add(photoObject);
@@ -259,4 +279,18 @@ public class PhotoActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }*/
+
+    /**
+     * Dispatch onResume() to fragments.  Note that for better inter-operation
+     * with older versions of the platform, at the point of this call the
+     * fragments attached to the activity are <em>not</em> resumed.  This means
+     * that in some cases the previous state may still be saved, not allowing
+     * fragment transactions that modify the state.  To correctly interact
+     * with fragments in their proper state, you should instead override
+     * {@link #onResumeFragments()}.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }
