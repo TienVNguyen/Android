@@ -2,9 +2,9 @@
 An small demo app to complete the homework for week 1. See the Tutorial on our cliffnotes for a step-by-step tutorial.
 
 Time spent: 18 hours implementation (included searching) in total
- - 12/3: 3 hours
- - 13/3: 7 hours
- - 14/3: 8 hours
+ - 12/3: 5 hours
+ - 13/3: 10 hours
+ - 14/3: 3 hours
 
 Implement link: https://github.com/TienVNguyen/Android/tree/master/CoderSchool_VN/Classes/1_Exercise/Instagram_Photo_Viewer
 
