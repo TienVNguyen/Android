@@ -10,7 +10,6 @@ package com.training.tiennguyen.instagram_photo_viewer.ui;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ListView;
 
@@ -32,12 +31,12 @@ import cz.msebera.android.httpclient.Header;
 
 public class PhotoActivity extends AppCompatActivity {
     private static final String clientId = "e05c462ebd86446ea48a5af73769b602";
-    private ArrayList<PhotoObject> photoObjects;
-    private PhotoAdapter photoAdapter;
     @Bind(R.id.swipe_container)
     protected SwipeRefreshLayout swipeContainer;
     @Bind(R.id.lv_photos)
     protected ListView lvPhotos;
+    private ArrayList<PhotoObject> photoObjects;
+    private PhotoAdapter photoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,6 @@ public class PhotoActivity extends AppCompatActivity {
 
         // Create adapter linking to the source.
         photoAdapter = new PhotoAdapter(this, photoObjects);
-        Log.e("InstagramData", photoAdapter.toString());
 
         // Find the listView from input
         //lvPhotos = (ListView) findViewById(R.id.lv_photos); // TODO: This was replace by Butterknife
@@ -94,6 +92,7 @@ public class PhotoActivity extends AppCompatActivity {
         httpClient.get(url, null, new JsonHttpResponseHandler() {
 
             // Work
+
             /**
              * Returns when request succeeds
              *
@@ -116,36 +115,27 @@ public class PhotoActivity extends AppCompatActivity {
                         // Decode attributes into data model
                         PhotoObject photoObject = new PhotoObject();
                         photoObject.setName(jsonObject.getJSONObject("user").getString("username"));
-                        if (jsonObject.optJSONObject("caption") != null) {
-                            Log.e("caption",jsonObject.getJSONObject("caption").getString("text"));
-                            photoObject.setCaption(jsonObject.getJSONObject("caption").getString("text"));
-
-                            CommentObject commentObject = new CommentObject();
-                            commentObject.setAvatar(jsonObject.optJSONObject("caption").getString("text"));
-                            ArrayList captions = photoObject.getCaptions();
-                            captions.add(commentObject);
+                        JSONObject caption = jsonObject.optJSONObject("caption");
+                        if (caption != null) {
+                            photoObject.setCaption(caption.optString("text"));
                         } else {
                             photoObject.setCaption("");
                         }
-                        JSONArray jsonArray = jsonObject.optJSONArray("caption");
+                        JSONArray jsonArray = jsonObject.getJSONObject("comments").getJSONArray("data");
                         if (jsonArray != null) {
                             for (int j = 0; j < jsonArray.length(); j++) {
                                 JSONObject jsonCommentObject;
                                 try {
-                                    jsonCommentObject = jsonArray.getJSONObject(i);
+                                    jsonCommentObject = jsonArray.getJSONObject(j);
                                     CommentObject commentObject = new CommentObject();
-                                    commentObject.setAvatar(jsonCommentObject.getJSONObject("text").getString("text"));
-                                    commentObject.setUser(jsonCommentObject.getJSONObject("caption").getString("text"));
-                                    commentObject.setText(jsonCommentObject.getJSONObject("caption").getString("text"));
-                                    ArrayList captions = photoObject.getCaptions();
-                                    captions.add(commentObject);
+                                    commentObject.setUser(jsonCommentObject.getJSONObject("from").optString("username"));
+                                    commentObject.setText(jsonCommentObject.optString("text"));
+                                    photoObject.getComments().add(commentObject);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     break;
                                 }
                             }
-                        } else {
-
                         }
                         photoObject.setImageUrl(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
                         photoObject.setImageHeight(jsonObject.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));

@@ -8,28 +8,20 @@
 package com.training.tiennguyen.instagram_photo_viewer.model;
 
 /**
+ * CommentObject
+ *
  * @author Created by TienVNguyen on 13/03/2016.
  */
 public class CommentObject {
-    private String avatar;
     private String user;
     private String text;
 
     public CommentObject() {
     }
 
-    public CommentObject(String avatar, String user, String text) {
-        this.avatar = avatar;
+    public CommentObject(String user, String text) {
         this.user = user;
         this.text = text;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getUser() {

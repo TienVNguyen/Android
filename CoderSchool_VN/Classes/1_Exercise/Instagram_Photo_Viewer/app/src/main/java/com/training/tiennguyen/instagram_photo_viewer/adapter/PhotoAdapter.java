@@ -12,10 +12,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,8 +27,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.dialog.CommentsDialogFragment;
+import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,14 +39,6 @@ import java.util.List;
  * @author Created by TienVNguyen on 10/03/2016.
  */
 public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getCount() {
-        return super.getCount();
-    }
 
     /**
      * Constructor
@@ -75,13 +71,21 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         TextView txtCaption1Object = (TextView) convertView.findViewById(R.id.user_caption);
         TextView txtNameObject = (TextView) convertView.findViewById(R.id.user_name);
         TextView likeCount = (TextView) convertView.findViewById(R.id.user_total_likes);
+        ImageView userComments = (ImageView) convertView.findViewById(R.id.user_comments);
+        ListView userCommentsList = (ListView) convertView.findViewById(R.id.user_comments_list);
         RoundedImageView roundedImageViewUserAvatar = (RoundedImageView) convertView.findViewById(R.id.user_avatar);
         ImageView imgPhotoObject = (ImageView) convertView.findViewById(R.id.user_photo);
         final ProgressBar roundedImageViewUserProgress = (ProgressBar) convertView.findViewById(R.id.user_avatar_progressBar);
         final ProgressBar imgPhotoProgress = (ProgressBar) convertView.findViewById(R.id.user_photo_progressBar);
+        final ImageView userLikeDislike = (ImageView) convertView.findViewById(R.id.user_like_dislike);
 
         // Set data to view
-        txtCaption1Object.setText(photoObject.getCaption());
+        if (!photoObject.getCaption().isEmpty()) {
+            txtCaption1Object.setText(photoObject.getCaption());
+            txtCaption1Object.setVisibility(View.VISIBLE);
+        } else {
+            txtCaption1Object.setVisibility(View.GONE);
+        }
         txtNameObject.setText(photoObject.getName());
         likeCount.setText(String.valueOf(photoObject.getLikeCount()));
 
@@ -135,10 +139,14 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             @Override
             public void onClick(View v) {
                 // TODO: Go to user's information page
+                if (1 == 0) {
+                    userLikeDislike.setImageLevel(0);
+                } else {
+                    userLikeDislike.setImageLevel(0);
+                }
             }
         });
 
-        ImageView userComments = (ImageView) convertView.findViewById(R.id.user_comments);
         userComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,14 +157,35 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             }
         });
 
-        ImageView userLike = (ImageView) convertView.findViewById(R.id.user_like);
-        userLike.setOnClickListener(new View.OnClickListener() {
+        userLikeDislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: Add/Remove 1 like of current user
-
+                if (1 == 0) {
+                    userLikeDislike.setImageLevel(0);
+                } else {
+                    userLikeDislike.setImageLevel(0);
+                }
             }
         });
+
+        ArrayList<CommentObject> commentObjects = photoObject.getComments();
+        if (commentObjects != null && commentObjects.size() > 0) {
+            // Create adapter linking to the source.
+            PhotoCommentAdapter photoCommentAdapter = new PhotoCommentAdapter(getContext(), commentObjects);
+
+            // Find the listView from input
+            userCommentsList.setAdapter(photoCommentAdapter);
+            userCommentsList.setVisibility(View.VISIBLE);
+            userCommentsList.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+                    return (event.getAction() == MotionEvent.ACTION_MOVE);
+                }
+            });
+        } else {
+            userCommentsList.setVisibility(View.GONE);
+        }
 
         return convertView;
     }

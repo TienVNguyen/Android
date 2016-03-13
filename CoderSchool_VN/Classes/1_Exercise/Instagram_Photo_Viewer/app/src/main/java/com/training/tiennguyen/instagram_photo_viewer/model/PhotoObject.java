@@ -21,19 +21,19 @@ public class PhotoObject {
     private int imageHeight;
     private int likeCount;
     private String avatar;
-    private ArrayList captions = new ArrayList();
+    private ArrayList<CommentObject> comments = new ArrayList<>();
 
     public PhotoObject() {
     }
 
-    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar, ArrayList captions) {
+    public PhotoObject(String name, String caption, String imageUrl, int imageHeight, int likeCount, String avatar, ArrayList<CommentObject> comments) {
         this.name = name;
         this.caption = caption;
         this.imageUrl = imageUrl;
         this.imageHeight = imageHeight;
         this.likeCount = likeCount;
         this.avatar = avatar;
-        this.captions = captions;
+        this.comments = comments;
     }
 
     public String getName() {
@@ -84,11 +84,11 @@ public class PhotoObject {
         this.avatar = avatar;
     }
 
-    public ArrayList getCaptions() {
-        return captions;
+    public ArrayList<CommentObject> getComments() {
+        return comments;
     }
 
-    public void setCaptions(ArrayList captions) {
-        this.captions = captions;
+    public void setComments(ArrayList<CommentObject> comments) {
+        this.comments = comments;
     }
 }

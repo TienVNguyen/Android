@@ -71,14 +71,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="wrap_content">
 
         <ProgressBar
             android:id="@+id/user_photo_progressBar"
             style="?android:attr/progressBarStyleLarge"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="visible" />
 
@@ -86,9 +85,11 @@
             android:id="@+id/user_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:adjustViewBounds="true"
             android:contentDescription="@string/picture"
             android:minHeight="200dp"
+            android:minWidth="200dp"
             android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
     </RelativeLayout>
@@ -102,17 +103,17 @@
         android:paddingTop="5dp">
 
         <ImageView
-            android:id="@+id/user_like"
+            android:id="@+id/user_like_dislike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/user_like"
-            android:src="@drawable/heart" />
+            android:src="@drawable/like_dislike_icons" />
 
         <ImageView
             android:id="@+id/user_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/user_like"
+            android:layout_toRightOf="@+id/user_like_dislike"
             android:contentDescription="@string/user_comments"
             android:onClick="showCommentsDialog"
             android:paddingLeft="5dp"
@@ -129,8 +130,8 @@
 
         <ImageView
             android:id="@+id/user_total_like_icon"
-            android:layout_width="9dp"
-            android:layout_height="9dp"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:contentDescription="@string/user_like"
             android:src="@drawable/heart" />
 
@@ -155,22 +156,26 @@
 
         <TextView
             android:id="@+id/user_caption"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_total_like_icon"
             android:ellipsize="end"
-            android:maxLines="7"
+            android:maxLines="3"
             android:paddingTop="5dp"
             android:text="New Text" />
+    </RelativeLayout>
 
-        <LinearLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <ListView
+            android:id="@+id/user_comments_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ListView
-                android:id="@+id/user_captions"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
     </RelativeLayout>
 </LinearLayout>

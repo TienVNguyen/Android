@@ -1,18 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016. Self Training Systems, Inc - All Rights Reserved
   ~ Unauthorized copying of this file, via any medium is strictly prohibited
   ~ Proprietary and confidential
   ~ Written by TienNguyen <tien.workinfo@gmail.com - tien.workinfo@icloud.com>, October 2015
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <TextView
+        android:id="@+id/photo_comment_user_adapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="fill_vertical"
+        android:maxLines="2"
+        android:paddingRight="5dp"
+        android:text="@string/user_name"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/photo_comment_comment_adapter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textViewComment" />
-</LinearLayout>
+        android:layout_toRightOf="@+id/photo_comment_user_adapter"
+        android:ellipsize="end"
+        android:gravity="fill_vertical"
+        android:maxLines="2"
+        android:text="@string/user_comments" />
+</RelativeLayout>
