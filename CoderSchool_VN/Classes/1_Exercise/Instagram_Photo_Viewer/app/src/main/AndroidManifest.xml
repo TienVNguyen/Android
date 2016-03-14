@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.CommentsActivity" />
-        <activity android:name=".ui.VideoActivity"></activity>
+        <activity android:name=".ui.VideoActivity" />
     </application>
 
 </manifest>
