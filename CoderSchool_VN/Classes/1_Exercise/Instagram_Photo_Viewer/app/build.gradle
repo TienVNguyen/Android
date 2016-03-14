@@ -39,6 +39,10 @@ dependencies {
     /* Picasso for remote image loading */
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    /* Manager to run the video player */
+    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
+    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
+
     /* Android Async Http for sending async network requests */
     compile 'com.loopj.android:android-async-http:1.4.9'
 

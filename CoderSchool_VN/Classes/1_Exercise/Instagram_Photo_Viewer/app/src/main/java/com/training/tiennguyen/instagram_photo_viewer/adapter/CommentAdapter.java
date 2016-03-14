@@ -8,7 +8,6 @@
 package com.training.tiennguyen.instagram_photo_viewer.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
-import com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView;
 
 import java.util.List;
 
@@ -33,7 +29,6 @@ import java.util.List;
  * @author Created by TienVNguyen on 13/03/2016.
  */
 public class CommentAdapter extends ArrayAdapter<CommentObject> {
-    public int maxCommentCount = 2;
 
     /**
      * Constructor
@@ -45,18 +40,12 @@ public class CommentAdapter extends ArrayAdapter<CommentObject> {
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    /*@Override
-    public int getCount() {
-        int i = super.getCount();
-        if (i > maxCommentCount) {
-            return maxCommentCount;
-        } else {
-            return i;
-        }
-    }*/
+    private static class CommentHolder {
+        private TextView txtName;
+        private TextView txtComment;
+        private RoundedImageView roundedImageCommentAvatar;
+        private ProgressBar roundedImageViewProgress;
+    }
 
     /**
      * {@inheritDoc}
@@ -67,39 +56,33 @@ public class CommentAdapter extends ArrayAdapter<CommentObject> {
      */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get data item with the position
         CommentObject commentObject = getItem(position);
+        CommentHolder commentHolder = new CommentHolder();
 
         // If recycled view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.comment_adapter, parent, false);
+            commentHolder.txtName = (TextView) convertView.findViewById(R.id.comment_name);
+            commentHolder.txtComment = (TextView) convertView.findViewById(R.id.comment_text);
+            commentHolder.roundedImageCommentAvatar = (RoundedImageView) convertView.findViewById(R.id.comment_avatar);
+            commentHolder.roundedImageViewProgress = (ProgressBar) convertView.findViewById(R.id.comment_progressBar);
+            convertView.setTag(commentHolder);
+        } else {
+            commentHolder = (CommentHolder) convertView.getTag();
         }
 
-        // Initial view
-        TextView txtName = (TextView) convertView.findViewById(R.id.comment_name);
-        TextView txtComment = (TextView) convertView.findViewById(R.id.comment_text);
-        RoundedImageView roundedImageCommentAvatar = (RoundedImageView) convertView.findViewById(R.id.comment_avatar);
-        final ProgressBar roundedImageViewProgress = (ProgressBar) convertView.findViewById(R.id.comment_progressBar);
-
-
         // Set data to view
-        if (roundedImageCommentAvatar != null) {
-            roundedImageViewProgress.setVisibility(View.VISIBLE);
-            Transformation transformation = new RoundedTransformationBuilder()
-                    .borderColor(Color.BLACK)
-                    .borderWidthDp(3)
-                    .cornerRadiusDp(30)
-                    .oval(false)
-                    .build();
+        if (commentHolder.roundedImageCommentAvatar != null) {
+            commentHolder.roundedImageViewProgress.setVisibility(View.VISIBLE);
+            final CommentHolder finalCommentHolder = commentHolder;
             Picasso.with(getContext())
                     .load(commentObject.getAvatar())
                     .error(R.mipmap.ic_launcher)
                     .fit()
-                    .transform(transformation)
-                    .into(roundedImageCommentAvatar, new com.squareup.picasso.Callback() {
+                    .into(commentHolder.roundedImageCommentAvatar, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            roundedImageViewProgress.setVisibility(View.GONE);
+                            finalCommentHolder.roundedImageViewProgress.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -107,24 +90,22 @@ public class CommentAdapter extends ArrayAdapter<CommentObject> {
                             Log.e("Error", "Avatar Failed");
                         }
                     });
-            roundedImageCommentAvatar.setOnClickListener(new View.OnClickListener() {
+            commentHolder.roundedImageCommentAvatar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO: Add/Remove 1 like of current user
                 }
             });
         }
-
-        txtName.setText(commentObject.getUser());
-        txtName.setOnClickListener(new View.OnClickListener() {
+        commentHolder.txtName.setText(commentObject.getUser());
+        commentHolder.txtName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: go to user's page
             }
         });
-
-        txtComment.setText(commentObject.getText());
-        txtComment.setOnClickListener(new View.OnClickListener() {
+        commentHolder.txtComment.setText(commentObject.getText());
+        commentHolder.txtComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO: go to comments page and move to this comment

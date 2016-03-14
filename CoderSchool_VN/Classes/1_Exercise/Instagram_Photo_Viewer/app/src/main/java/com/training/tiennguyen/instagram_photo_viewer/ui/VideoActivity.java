@@ -7,8 +7,12 @@
 
 package com.training.tiennguyen.instagram_photo_viewer.ui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,23 +28,54 @@ public class VideoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("URL");
-        int height = intent.getIntExtra("HEIGHT", 200);
+        if (isNetworkConnected()) {
+            /* Get data */
+            Intent intent = getIntent();
+            String url = intent.getStringExtra("URL");
+            int height = intent.getIntExtra("HEIGHT", 200);
 
-        final VideoView mVideoView = (VideoView) findViewById(R.id.user_video_full);
-        mVideoView.setVideoPath(url);
-        MediaController mediaController = new MediaController(this);
-        mediaController.setAnchorView(mVideoView);
-        mVideoView.setMediaController(mediaController);
-        mVideoView.setVideoURI(Uri.parse(url));
-        mVideoView.requestFocus();
-        mVideoView.setMinimumHeight(height);
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() { // TODO: At the moment still not run
-            // Close the progress bar and play the video
-            public void onPrepared(MediaPlayer mp) {
-                mVideoView.start();
-            }
-        });
+            /* Populate to run the video */
+            final VideoView mVideoView = (VideoView) findViewById(R.id.user_video_full);
+            mVideoView.setVideoPath(url);
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(mVideoView);
+            mVideoView.setMediaController(mediaController);
+            mVideoView.setVideoURI(Uri.parse(url));
+            mVideoView.requestFocus();
+            mVideoView.setMinimumHeight(height);
+            mVideoView.start();
+        }
     }
+
+
+    /**
+     * isNetworkConnected
+     */
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+
+        if (netInfo != null && netInfo.isAvailable() && netInfo.isConnectedOrConnecting() && !netInfo.isFailover()) {
+            return true;
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Network Failures")
+                    .setMessage("Your connection failed to load! Please close the app and connect again!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Do noting
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+            return false;
+        }
+    }
+
 }

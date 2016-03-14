@@ -25,16 +25,6 @@
             android:layout_height="40dp"
             android:visibility="gone" />
 
-        <!-- Replace by RoundedImageView
-        <ImageView
-            android:id="@+id/user_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/user_avatar"
-            android:scaleType="center"
-            android:src="@android:drawable/alert_light_frame" />-->
         <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/user_avatar"
             android:layout_width="40dp"
@@ -74,14 +64,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
-            android:id="@+id/user_photo_progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="visible" />
-
         <ImageView
             android:id="@+id/user_photo"
             android:layout_width="match_parent"
@@ -91,8 +73,17 @@
             android:contentDescription="@string/picture"
             android:minHeight="200dp"
             android:minWidth="200dp"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:scaleType="center"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="invisible" />
+
+        <ProgressBar
+            android:id="@+id/user_photo_progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
 
         <VideoView
             android:id="@+id/user_video"
@@ -101,7 +92,8 @@
             android:layout_centerInParent="true"
             android:minHeight="200dp"
             android:minWidth="200dp"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
