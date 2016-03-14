@@ -7,7 +7,6 @@
 
 package com.training.tiennguyen.instagram_photo_viewer.adapter;
 
-import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,12 +14,14 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -28,12 +29,13 @@ import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
-import com.training.tiennguyen.instagram_photo_viewer.dialog.CommentsDialogFragment;
+import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 import com.training.tiennguyen.instagram_photo_viewer.ui.CommentsActivity;
 import com.training.tiennguyen.instagram_photo_viewer.ui.PhotoActivity;
 import com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,14 +107,15 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             userComments2.setVisibility(View.GONE);
         }
         if (photoObject.getCommentsCount() > 2) {
-            userCommentsAll.setText("View all " + photoObject.getCommentsCount() + " comments");
+            userCommentsAll.setText("There are " + photoObject.getCommentsCount() + " comments");
             userCommentsAll.setVisibility(View.VISIBLE);
-            userCommentsAll.setOnClickListener(new View.OnClickListener() {
+
+            // TODO: not support at the moment
+            userCommentsAll.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), CommentsActivity.class);
-                    intent.putExtra("ID", photoObject.getId());
-                    getContext().startActivity(intent);
+                public boolean onTouch(View v, MotionEvent event) {
+                    commentsPage(photoObject.getId(), photoObject.getComments());
+                    return true;
                 }
             });
         } else {
@@ -206,6 +209,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             imgPhotoProgress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(getContext(), "Video temperately not support!!! =)", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), PhotoActivity.class);
                     intent.putExtra("URL", photoObject.getVideoUrl());
                     intent.putExtra("TYPE", "video");
@@ -215,6 +219,7 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             mVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Toast.makeText(getContext(), "Video temperately not support!!! =)", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), PhotoActivity.class);
                     intent.putExtra("URL", photoObject.getVideoUrl());
                     intent.putExtra("TYPE", "video");
@@ -231,13 +236,10 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             @Override
             public void onClick(View v) {
                 /* TODO: Create an instance of the dialog fragment and show it */
-                DialogFragment dialogFragment = CommentsDialogFragment.newInstance();
-                /*FragmentManager manager = getContext().getFragmentManager();
+                /*DialogFragment dialogFragment = CommentsDialogFragment.newInstance();
+                FragmentManager manager = getContext().getFragmentManager();
                 dialogFragment.show(manager, "CommentsDialogFragment");*/
-
-                Intent intent = new Intent(getContext(), CommentsActivity.class);
-                intent.putExtra("ID", photoObject.getId());
-                getContext().startActivity(intent);
+                commentsPage(photoObject.getId(), photoObject.getComments());
             }
         });
 
@@ -254,5 +256,30 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         });
 
         return convertView;
+    }
+
+    /**
+     * Internal Event
+     *
+     * @param id id
+     */
+    private void commentsPage(String id, ArrayList<CommentObject> commentObjects) {
+        Intent intent = new Intent(getContext(), CommentsActivity.class);
+        intent.putExtra("ID", id);
+        if (commentObjects != null && commentObjects.size() > 0) {
+            ArrayList<String> username = new ArrayList<>();
+            ArrayList<String> avatar = new ArrayList<>();
+            ArrayList<String> text = new ArrayList<>();
+            for (CommentObject commentObject : commentObjects) {
+                username.add(commentObject.getUser());
+                avatar.add(commentObject.getAvatar());
+                text.add(commentObject.getText());
+            }
+            intent.putStringArrayListExtra("COMMENTS_USERNAME", username);
+            intent.putStringArrayListExtra("COMMENTS_AVATAR", avatar);
+            intent.putStringArrayListExtra("COMMENTS_TEXT", text);
+
+            getContext().startActivity(intent);
+        }
     }
 }

@@ -17,6 +17,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.adapter.PhotoAdapter;
+import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 import com.training.tiennguyen.instagram_photo_viewer.utils.Constants;
 
@@ -125,12 +126,21 @@ public class PhotoActivity extends AppCompatActivity {
                                 photoObject.setCommentsCount(jsonArray.length());
                                 for (int j = 0; j < 2; j++) {
                                     JSONObject jsonCommentObject;
+                                    CommentObject commentObject = new CommentObject();
                                     try {
                                         jsonCommentObject = jsonArray.getJSONObject(j);
                                         if (j == 0)
-                                            photoObject.setComment1(jsonCommentObject.getJSONObject("from").optString("username") + " " + jsonCommentObject.optString("text"));
+                                            photoObject.setComment1(jsonCommentObject.getJSONObject("from")
+                                                    .optString("username") + " " + jsonCommentObject.optString("text"));
+
                                         if (j == 1)
-                                            photoObject.setComment2(jsonCommentObject.getJSONObject("from").optString("username") + " " + jsonCommentObject.optString("text"));
+                                            photoObject.setComment2(jsonCommentObject.getJSONObject("from")
+                                                    .optString("username") + " " + jsonCommentObject.optString("text"));
+
+                                        commentObject.setUser(jsonCommentObject.getJSONObject("from").optString("username"));
+                                        commentObject.setAvatar(jsonCommentObject.getJSONObject("from").optString("profile_picture"));
+                                        commentObject.setText(jsonCommentObject.optString("text"));
+                                        photoObject.getComments().add(commentObject);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         break;
@@ -141,7 +151,8 @@ public class PhotoActivity extends AppCompatActivity {
                         String type = jsonObject.optString("type");
                         if (type != null && !type.isEmpty()) {
                             photoObject.setType(type);
-                            JSONObject standardResolution = jsonObject.getJSONObject(type + "s").optJSONObject("standard_resolution");
+                            JSONObject standardResolution = jsonObject.getJSONObject(type + "s")
+                                    .optJSONObject("standard_resolution");
                             if (standardResolution != null) {
                                 if (type.equalsIgnoreCase("image")) {
                                     photoObject.setImageUrl(standardResolution.optString("url"));

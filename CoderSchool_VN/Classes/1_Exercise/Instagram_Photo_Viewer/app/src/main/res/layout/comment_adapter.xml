@@ -8,29 +8,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:baselineAligned="false">
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:weightSum="1"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:weightSum="1">
 
         <ProgressBar
             android:id="@+id/comment_progressBar"
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:visibility="gone"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
         <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/comment_avatar"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:src="@android:drawable/alert_light_frame"
             app:riv_border_color="#333333"
@@ -38,26 +39,25 @@
             app:riv_corner_radius="15dip"
             app:riv_mutate_background="true"
             app:riv_oval="true"
-            app:riv_tile_mode="repeat"
-            android:layout_gravity="center" />
+            app:riv_tile_mode="repeat" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="5"
-        android:weightSum="2"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="5"
         android:orientation="vertical"
-        android:layout_gravity="center">
+        android:weightSum="2">
 
-        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
+        <TextView
             android:id="@+id/comment_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/user_name"
             android:textStyle="bold" />
 
-        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
+        <TextView
             android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

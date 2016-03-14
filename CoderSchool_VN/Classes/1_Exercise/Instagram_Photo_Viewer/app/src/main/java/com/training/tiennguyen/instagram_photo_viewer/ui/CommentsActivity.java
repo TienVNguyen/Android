@@ -46,11 +46,21 @@ public class CommentsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String id = intent.getStringExtra("ID");
+        ArrayList<String> username = intent.getStringArrayListExtra("COMMENTS_USERNAME");
+        ArrayList<String> avatar = intent.getStringArrayListExtra("COMMENTS_AVATAR");
+        ArrayList<String> text = intent.getStringArrayListExtra("COMMENTS_TEXT");
 
         ButterKnife.bind(this);
 
         // Initialize
         commentObjects = new ArrayList<>();
+        for (int i = 0; i < username.size(); i++) {
+            CommentObject commentObject = new CommentObject();
+            commentObject.setUser(username.get(i));
+            commentObject.setAvatar(avatar.get(i));
+            commentObject.setText(text.get(i));
+            commentObjects.add(commentObject);
+        }
 
         // Create adapter linking to the source.
         commentAdapter = new CommentAdapter(this, commentObjects);
@@ -60,7 +70,7 @@ public class CommentsActivity extends AppCompatActivity {
         listCommentView.setAdapter(commentAdapter);
 
         // Steam data
-        fetchPopularComments(id);
+        // fetchPopularComments(id); // TODO: not support at the moment
     }
 
     private void fetchPopularComments(String id) {

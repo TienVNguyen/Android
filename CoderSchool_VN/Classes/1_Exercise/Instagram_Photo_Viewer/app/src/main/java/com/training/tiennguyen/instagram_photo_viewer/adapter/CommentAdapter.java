@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -71,12 +72,12 @@ public class CommentAdapter extends ArrayAdapter<CommentObject> {
 
         // If recycled view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.photo_comment_adapter, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.comment_adapter, parent, false);
         }
 
         // Initial view
-        ExpandableTextView txtName = (ExpandableTextView) convertView.findViewById(R.id.comment_name);
-        ExpandableTextView txtComment = (ExpandableTextView) convertView.findViewById(R.id.comment_text);
+        TextView txtName = (TextView) convertView.findViewById(R.id.comment_name);
+        TextView txtComment = (TextView) convertView.findViewById(R.id.comment_text);
         RoundedImageView roundedImageCommentAvatar = (RoundedImageView) convertView.findViewById(R.id.comment_avatar);
         final ProgressBar roundedImageViewProgress = (ProgressBar) convertView.findViewById(R.id.comment_progressBar);
 
