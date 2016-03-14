@@ -48,7 +48,7 @@
             app:riv_oval="true"
             app:riv_tile_mode="repeat" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/user_like"
             android:src="@drawable/like_dislike_icons"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/user_comments"
@@ -146,7 +146,7 @@
             android:contentDescription="@string/user_like"
             android:src="@drawable/heart" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_total_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -158,14 +158,14 @@
             android:text="@string/user_total_likes"
             android:textStyle="bold" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/user_total_likes"
             android:text="@string/user_total_likes"
             android:textStyle="bold" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_caption"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -175,27 +175,27 @@
             android:paddingTop="5dp"
             android:text="New Text" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_comment1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_caption"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="2"
             android:paddingTop="5dp"
             android:text="New Text" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_comment2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_comment1"
             android:ellipsize="end"
-            android:maxLines="3"
+            android:maxLines="2"
             android:paddingTop="5dp"
             android:text="New Text" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/user_comment_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -206,6 +206,6 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="New Text"
-            android:textColor="#dcdcdc" />
+            android:textColor="@color/colorLink" />
     </RelativeLayout>
 </LinearLayout>

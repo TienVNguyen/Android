@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
@@ -23,6 +22,7 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
+import com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView;
 
 import java.util.List;
 
@@ -75,8 +75,8 @@ public class CommentAdapter extends ArrayAdapter<CommentObject> {
         }
 
         // Initial view
-        TextView txtName = (TextView) convertView.findViewById(R.id.comment_name);
-        TextView txtComment = (TextView) convertView.findViewById(R.id.comment_text);
+        ExpandableTextView txtName = (ExpandableTextView) convertView.findViewById(R.id.comment_name);
+        ExpandableTextView txtComment = (ExpandableTextView) convertView.findViewById(R.id.comment_text);
         RoundedImageView roundedImageCommentAvatar = (RoundedImageView) convertView.findViewById(R.id.comment_avatar);
         final ProgressBar roundedImageViewProgress = (ProgressBar) convertView.findViewById(R.id.comment_progressBar);
 

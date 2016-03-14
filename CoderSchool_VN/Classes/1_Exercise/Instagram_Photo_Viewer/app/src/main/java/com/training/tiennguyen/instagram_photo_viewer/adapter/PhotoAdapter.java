@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -33,6 +32,7 @@ import com.training.tiennguyen.instagram_photo_viewer.dialog.CommentsDialogFragm
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 import com.training.tiennguyen.instagram_photo_viewer.ui.CommentsActivity;
 import com.training.tiennguyen.instagram_photo_viewer.ui.PhotoActivity;
+import com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView;
 
 import java.util.List;
 
@@ -71,13 +71,13 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
         }
 
         // Initial view
-        TextView txtCaption1Object = (TextView) convertView.findViewById(R.id.user_caption);
-        TextView txtNameObject = (TextView) convertView.findViewById(R.id.user_name);
-        TextView likeCount = (TextView) convertView.findViewById(R.id.user_total_likes);
+        ExpandableTextView txtCaption1Object = (ExpandableTextView) convertView.findViewById(R.id.user_caption);
+        ExpandableTextView txtNameObject = (ExpandableTextView) convertView.findViewById(R.id.user_name);
+        ExpandableTextView likeCount = (ExpandableTextView) convertView.findViewById(R.id.user_total_likes);
         ImageView userComments = (ImageView) convertView.findViewById(R.id.user_comments);
-        TextView userComments1 = (TextView) convertView.findViewById(R.id.user_comment1);
-        TextView userComments2 = (TextView) convertView.findViewById(R.id.user_comment2);
-        TextView userCommentsAll = (TextView) convertView.findViewById(R.id.user_comment_all);
+        ExpandableTextView userComments1 = (ExpandableTextView) convertView.findViewById(R.id.user_comment1);
+        ExpandableTextView userComments2 = (ExpandableTextView) convertView.findViewById(R.id.user_comment2);
+        ExpandableTextView userCommentsAll = (ExpandableTextView) convertView.findViewById(R.id.user_comment_all);
         RoundedImageView roundedImageViewUserAvatar = (RoundedImageView) convertView.findViewById(R.id.user_avatar);
         final ImageView imgPhotoObject = (ImageView) convertView.findViewById(R.id.user_photo);
         final VideoView mVideoView = (VideoView) convertView.findViewById(R.id.user_video);

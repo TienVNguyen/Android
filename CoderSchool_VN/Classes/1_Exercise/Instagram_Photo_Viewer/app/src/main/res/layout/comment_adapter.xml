@@ -50,14 +50,14 @@
         android:orientation="vertical"
         android:layout_gravity="center">
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/comment_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/user_name"
             android:textStyle="bold" />
 
-        <TextView
+        <com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView
             android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
