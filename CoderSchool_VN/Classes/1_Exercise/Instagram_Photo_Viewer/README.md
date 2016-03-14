@@ -24,7 +24,7 @@ The following advanced user stories are optional but recommended:
  * [x] Advanced: Display a nice default placeholder graphic for each image during loading (read more about Picasso) (1 point)
  * [x] Advanced: Improve the user interface through styling and coloring (1 to 5 points depending on the difficulty of UI improvements)
  * [x] Bonus: Allow user to view all comments for an image within a separate activity or dialog fragment (3 points)
- * [ ] Bonus: Allow video posts to be played in full-screen using the VideoView (2 points)
+ * [x] Bonus: Allow video posts to be played in full-screen using the VideoView (2 points)
  * [x] Bonus: Apply the popular Butterknife annotation library to reduce view boilerplate. (1 point)
 
  

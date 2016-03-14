@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".ui.CommentsActivity" />
         <activity android:name=".ui.WebActivity" />
+        <activity android:name=".ui.VideoActivity"></activity>
     </application>
 
 </manifest>

@@ -21,7 +21,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -32,7 +31,7 @@ import com.training.tiennguyen.instagram_photo_viewer.R;
 import com.training.tiennguyen.instagram_photo_viewer.model.CommentObject;
 import com.training.tiennguyen.instagram_photo_viewer.model.PhotoObject;
 import com.training.tiennguyen.instagram_photo_viewer.ui.CommentsActivity;
-import com.training.tiennguyen.instagram_photo_viewer.ui.PhotoActivity;
+import com.training.tiennguyen.instagram_photo_viewer.ui.VideoActivity;
 import com.training.tiennguyen.instagram_photo_viewer.utils.ExpandableTextView;
 
 import java.util.ArrayList;
@@ -209,20 +208,20 @@ public class PhotoAdapter extends ArrayAdapter<PhotoObject> {
             imgPhotoProgress.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Video temperately not support!!! =)", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getContext(), PhotoActivity.class);
+                    Intent intent = new Intent(getContext(), VideoActivity.class);
                     intent.putExtra("URL", photoObject.getVideoUrl());
                     intent.putExtra("TYPE", "video");
+                    intent.putExtra("HEIGHT", photoObject.getVideoHeight());
                     getContext().startActivity(intent);
                 }
             });
             mVideoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getContext(), "Video temperately not support!!! =)", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getContext(), PhotoActivity.class);
+                    Intent intent = new Intent(getContext(), VideoActivity.class);
                     intent.putExtra("URL", photoObject.getVideoUrl());
                     intent.putExtra("TYPE", "video");
+                    intent.putExtra("HEIGHT", photoObject.getVideoHeight());
                     getContext().startActivity(intent);
                 }
             });
