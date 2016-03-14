@@ -124,7 +124,7 @@ public class PhotoActivity extends AppCompatActivity {
                             JSONArray jsonArray = comments.getJSONArray("data");
                             if (jsonArray != null) {
                                 photoObject.setCommentsCount(jsonArray.length());
-                                for (int j = 0; j < 2; j++) {
+                                for (int j = 0; j < jsonArray.length(); j++) {
                                     JSONObject jsonCommentObject;
                                     CommentObject commentObject = new CommentObject();
                                     try {
