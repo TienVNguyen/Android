@@ -16,4 +16,8 @@ public class Constants {
     public static final String API_KEY = "api-key";
     public static final String PAGE = "page";
     public static final String QUERY = "q";
+    public static final String HEADLINE_MAIN = "HEADLINE_MAIN";
+    public static final String MULTIMEDIA = "MULTIMEDIA";
+    public static final String WEB_URL = "WEB_URL";
+    public static final String ARTICLES_DETAILS = "ARTICLES_DETAILS";
 }

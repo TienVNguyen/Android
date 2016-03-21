@@ -26,15 +26,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * ArticlesAdapterWithRecyclerView
+ * ArticlesAdapter
  *
  * @author Created by TienVNguyen on 20/03/2016.
  */
-public class ArticlesAdapterWithRecyclerView extends RecyclerView.Adapter<ArticlesAdapterWithRecyclerView.ArticlesHolder> {
+public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticlesHolder> {
     private ArrayList<ArticlesObject> responses;
     private Context context;
 
-    public ArticlesAdapterWithRecyclerView(ArrayList<ArticlesObject> responses, Context context) {
+    public ArticlesAdapter(ArrayList<ArticlesObject> responses, Context context) {
         this.responses = responses;
         this.context = context;
     }
@@ -59,8 +59,8 @@ public class ArticlesAdapterWithRecyclerView extends RecyclerView.Adapter<Articl
 
         View contactView = inflater.inflate(R.layout.holder_articles_list, parent, false);
 
-        ArticlesHolder viewHolder = new ArticlesHolder(contactView);
-        return viewHolder;
+        ArticlesHolder articlesHolder = new ArticlesHolder(contactView);
+        return articlesHolder;
     }
 
     /**
@@ -90,7 +90,12 @@ public class ArticlesAdapterWithRecyclerView extends RecyclerView.Adapter<Articl
         ImageView imgView = holder.imgImage;
         TextView textView = holder.txtName;
 
-        Glide.with(context).load(object.getMultimedia().get(0).getUrl()).into(imgView);
+        if (object.getMultimedia() != null && object.getMultimedia().size() > 0) {
+            Glide.with(context).load("http://www.nytimes.com/" + object.getMultimedia().get(0).getUrl()).into(imgView);
+            imgView.setVisibility(View.VISIBLE);
+        } else {
+            imgView.setVisibility(View.GONE);
+        }
         textView.setText(object.getHeadline().get("main").toString());
     }
 
@@ -118,5 +123,15 @@ public class ArticlesAdapterWithRecyclerView extends RecyclerView.Adapter<Articl
 
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void clear() {
+        responses.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<ArticlesObject> articlesObjects) {
+        responses.addAll(articlesObjects);
+        notifyDataSetChanged();
     }
 }

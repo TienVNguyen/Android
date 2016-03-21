@@ -30,4 +30,12 @@
     <string name="author_link_github">Github</string>
     <string name="author_link_linkedin">Linkedin</string>
     <string name="submit_link">Submit</string>
+    <string name="begin_date">Begin Date</string>
+    <string name="news_desk">News desk values</string>
+    <string name="btn_arts">Arts</string>
+    <string name="btn_fashion_style">Fashion Style</string>
+    <string name="btn_sports">Sports</string>
+    <string name="short_order">Sort order</string>
+    <string name="btn_oldest">Oldest</string>
+    <string name="btn_newest">Newest</string>
 </resources>

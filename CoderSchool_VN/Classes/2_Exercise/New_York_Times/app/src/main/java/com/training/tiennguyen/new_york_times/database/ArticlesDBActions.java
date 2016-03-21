@@ -26,6 +26,7 @@ import cz.msebera.android.httpclient.Header;
  * ArticlesDBActions
  *
  * @author Created by TienVNguyen on 19/03/2016.
+ * @deprecated Temperately not used
  */
 public class ArticlesDBActions {
     /**
