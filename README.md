@@ -1,2 +1,3 @@
 # Android
-Tutorials to develop Android apps from many resources (Tutorialspoint, Udemy, Udacity, etc)
+Knowledge, Sample Projects / Tests
+Certificates: https://github.com/TienVNguyen/Jobs_Resources/tree/master/Hard_Skills/Android
